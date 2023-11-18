@@ -1,12 +1,35 @@
 package main
 
 import (
-	"regexp"
 	"strings"
+	"unicode"
 )
 
-var spaceRe = regexp.MustCompile(`\s+`)
-
 func normalizeSpace(text string) string {
-	return spaceRe.ReplaceAllString(strings.TrimSpace(text), " ")
+	if text == "" {
+		return ""
+	}
+	text = strings.TrimSpace(text)
+	var buf strings.Builder
+	var space int
+	for _, r := range text {
+		switch {
+		case unicode.IsSpace(r):
+			space++
+		default:
+			if space > 1 {
+				buf.WriteRune(' ')
+				buf.WriteRune(r)
+				space = 0
+			} else if space == 1 {
+				buf.WriteRune(' ')
+				buf.WriteRune(r)
+				space = 0
+			} else {
+				buf.WriteRune(r)
+			}
+		}
+	}
+
+	return buf.String()
 }

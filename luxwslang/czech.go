@@ -1,7 +1,7 @@
 package luxwslang
 
 import (
-	"regexp"
+	"strings"
 )
 
 // Czech language terminology.
@@ -20,9 +20,11 @@ var Czech = &Terminology{
 	NavErrorMemory:  "Chybová paměť",
 	NavSwitchOffs:   "Odepnutí",
 
-	NavOpHours:      "Provozní hodiny",
-	HoursImpulsesRe: regexp.MustCompile(`^Počet startů\s`),
+	NavOpHours: "Provozní hodiny",
 
+	HoursImpulsesFn: func(s string) bool {
+		return strings.HasPrefix(s, "počet startů") || strings.HasPrefix(s, "Počet startů")
+	},
 	NavSystemStatus:       "Status zařízení",
 	StatusType:            "Typ TČ",
 	StatusSoftwareVersion: "Softwarová verze",

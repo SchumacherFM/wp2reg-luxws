@@ -3,26 +3,18 @@ package luxwsclient
 import (
 	"context"
 	"encoding/xml"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"testing"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/google/go-cmp/cmp"
 	"github.com/gorilla/websocket"
-	"github.com/hansmi/wp2reg-luxws/luxws"
 )
-
-func TestResponseUnmarshalIgnore(t *testing.T) {
-	msg := struct {
-		XMLName xml.Name
-	}{}
-
-	if err := responseUnmarshal([]byte("<valid></valid>"), &msg, "name"); err != luxws.ErrIgnore {
-		t.Errorf("Valid XML wasn't ignored: %v", err)
-	}
-}
 
 func newTestClient(t *testing.T, handleRoundTrip func(string) (string, error)) *Client {
 	var upgrader websocket.Upgrader
@@ -65,8 +57,8 @@ func newTestClient(t *testing.T, handleRoundTrip func(string) (string, error)) *
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	t.Cleanup(cancel)
-
-	c, err := Dial(ctx, serverURL.Host, WithLogFunc(t.Logf))
+	zl, _ := zap.NewDevelopment()
+	c, err := Dial(ctx, serverURL.Host, WithLogFunc(zl))
 	if err != nil {
 		t.Fatalf("Dial(%q) failed: %v", serverURL.Host, err)
 	}
@@ -119,7 +111,9 @@ func TestLogin(t *testing.T) {
 			c := newTestClient(t, tc.handleRoundTrip)
 
 			if got, err := c.Login(ctx, "1234"); tc.wantErr != nil {
-				if diff := cmp.Diff(tc.wantErr, err); diff != "" {
+				xmlErr := new(xml.SyntaxError)
+				errors.As(err, &xmlErr)
+				if diff := cmp.Diff(tc.wantErr, xmlErr); diff != "" {
 					t.Errorf("Login() error difference (-want +got):\n%s", diff)
 				}
 			} else if err != nil {
@@ -196,11 +190,11 @@ func TestGet(t *testing.T) {
 			},
 			want: &ContentRoot{
 				XMLName: xml.Name{Local: "Content"},
-				Items: []ContentItem{
+				Items: []*ContentItem{
 					{
 						ID:   "0x41c14bc4",
 						Name: "Temperaturen",
-						Items: []ContentItem{
+						Items: []*ContentItem{
 							{
 								ID:    "0x41c18d14",
 								Name:  "Min. Rückl.Solltemp.",
@@ -217,7 +211,7 @@ func TestGet(t *testing.T) {
 					{
 						ID:   "0x41c15184",
 						Name: "Einstellungen",
-						Items: []ContentItem{
+						Items: []*ContentItem{
 							{
 								ID:    "0x41c17844",
 								Name:  "Warmw. Nachh. max",
@@ -237,7 +231,7 @@ func TestGet(t *testing.T) {
 							{
 								ID:   "0x41c19a84",
 								Name: "Regelung MK1",
-								Options: []ContentItemOption{
+								Options: []*ContentItemOption{
 									{Value: "0", Name: "schnell"},
 									{Value: "1", Name: "mittel"},
 									{Value: "2", Name: "langsam"},
@@ -273,7 +267,9 @@ func TestGet(t *testing.T) {
 			c := newTestClient(t, tc.handleRoundTrip)
 
 			if got, err := c.Get(ctx, "0x1234"); tc.wantErr != nil {
-				if diff := cmp.Diff(tc.wantErr, err); diff != "" {
+				xmlErr := new(xml.SyntaxError)
+				errors.As(err, &xmlErr)
+				if diff := cmp.Diff(tc.wantErr, xmlErr); diff != "" {
 					t.Errorf("Get() error difference (-want +got):\n%s", diff)
 				}
 			} else if err != nil {

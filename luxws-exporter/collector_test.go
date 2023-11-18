@@ -11,6 +11,8 @@ import (
 	"testing"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/hansmi/wp2reg-luxws/luxwsclient"
@@ -79,7 +81,7 @@ func TestCollectWebSocketParts(t *testing.T) {
 			name: "info empty",
 			fn:   c.collectInfo,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Anlagenstatus",
 					},
@@ -101,10 +103,10 @@ luxws_heat_quantity{unit=""} 0
 			name: "info full",
 			fn:   c.collectInfo,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Anlagenstatus",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "Wärmepumpen Typ", Value: luxwsclient.String("typeA")},
 							{Name: "Softwarestand", Value: luxwsclient.String("v1.2.3")},
 							{Name: "Betriebszustand", Value: luxwsclient.String("running")},
@@ -131,10 +133,10 @@ luxws_heat_quantity{unit="kWh"} 999
 			name: "info L2A model",
 			fn:   c.collectInfo,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Anlagenstatus",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "Wärmepumpen Typ", Value: luxwsclient.String("l2a")},
 							{Name: "Softwarestand", Value: luxwsclient.String("v1.86.2")},
 							{Name: "Betriebszustand", Value: luxwsclient.String("----")},
@@ -161,7 +163,7 @@ luxws_heat_quantity{unit=""} 0
 			name: "temperatures empty",
 			fn:   c.collectTemperatures,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Temperaturen",
 					},
@@ -177,10 +179,10 @@ luxws_temperature{name="",unit=""} 0
 			name: "temperatures full",
 			fn:   c.collectTemperatures,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Temperaturen",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "Wasser", Value: luxwsclient.String("10°C")},
 							{Name: "Aussen", Value: luxwsclient.String("100°C")},
 							{Name: "Etwas", Value: luxwsclient.String("1 K")},
@@ -200,7 +202,7 @@ luxws_temperature{name="Wasser",unit="degC"} 10
 			name: "op duration empty",
 			fn:   c.collectOperatingDuration,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Betriebsstunden",
 					},
@@ -216,10 +218,10 @@ luxws_operating_duration_seconds{name=""} 0
 			name: "op duration full",
 			fn:   c.collectOperatingDuration,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Betriebsstunden",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "On\tspace", Value: luxwsclient.String("1h")},
 							{Name: "Heat", Value: luxwsclient.String("1:2:3")},
 							{Name: "Impulse xyz", Value: luxwsclient.String("")},
@@ -238,7 +240,7 @@ luxws_operating_duration_seconds{name="On space"} 3600
 			name: "op elapsed empty",
 			fn:   c.collectElapsedTime,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Ablaufzeiten",
 					},
@@ -254,10 +256,10 @@ luxws_elapsed_duration_seconds{name=""} 0
 			name: "op elapsed full",
 			fn:   c.collectElapsedTime,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Ablaufzeiten",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "a", Value: luxwsclient.String("1h")},
 							{Name: "b", Value: luxwsclient.String("1:2")},
 						},
@@ -275,7 +277,7 @@ luxws_elapsed_duration_seconds{name="b"} 3720
 			name: "inputs empty",
 			fn:   c.collectInputs,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Eingänge",
 					},
@@ -291,10 +293,10 @@ luxws_input{name="",unit=""} 0
 			name: "inputs full",
 			fn:   c.collectInputs,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Eingänge",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "temp a", Value: luxwsclient.String("20 °C")},
 							{Name: "pressure", Value: luxwsclient.String("3 bar")},
 						},
@@ -312,7 +314,7 @@ luxws_input{name="pressure",unit="bar"} 3
 			name: "outputs empty",
 			fn:   c.collectOutputs,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Ausgänge",
 					},
@@ -328,10 +330,10 @@ luxws_output{name="",unit=""} 0
 			name: "outputs full",
 			fn:   c.collectOutputs,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Ausgänge",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "rot", Value: luxwsclient.String("200 RPM")},
 							{Name: "pwm", Value: luxwsclient.String("33 %")},
 						},
@@ -349,7 +351,7 @@ luxws_output{name="rot",unit="rpm"} 200
 			name: "supplied heat empty",
 			fn:   c.collectSuppliedHeat,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Wärmemenge",
 					},
@@ -365,10 +367,10 @@ luxws_supplied_heat{name="",unit=""} 0
 			name: "supplied heat full",
 			fn:   c.collectSuppliedHeat,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Wärmemenge",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "water", Value: luxwsclient.String("200 kW")},
 							{Name: "ice", Value: luxwsclient.String("100 kW")},
 						},
@@ -386,7 +388,7 @@ luxws_supplied_heat{name="water",unit="kW"} 200
 			name: "latest error empty",
 			fn:   c.collectLatestError,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Fehlerspeicher",
 					},
@@ -402,10 +404,10 @@ luxws_latest_error{reason=""} 0
 			name: "latest error",
 			fn:   c.collectLatestError,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Fehlerspeicher",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "02.02.11 08:00:00", Value: luxwsclient.String("aaa")},
 							{Name: "03.04.14 23:00:00", Value: luxwsclient.String("bbb")},
 							{Name: "01.01.10 09:00:11", Value: luxwsclient.String("aaa")},
@@ -424,10 +426,10 @@ luxws_latest_error{reason="bbb"} 1396566000
 			name: "latest error with empty rows",
 			fn:   c.collectLatestError,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Fehlerspeicher",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "----", Value: luxwsclient.String("placeholder")},
 							{Name: "08.11.21 21:40:09", Value: luxwsclient.String("text")},
 							{Name: "----", Value: luxwsclient.String("----")},
@@ -445,7 +447,7 @@ luxws_latest_error{reason="text"} 1636407609
 			name: "latest switch-off empty",
 			fn:   c.collectLatestSwitchOff,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Abschaltungen",
 					},
@@ -461,10 +463,10 @@ luxws_latest_switchoff{reason=""} 0
 			name: "latest switch-off",
 			fn:   c.collectLatestSwitchOff,
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{
 						Name: "Abschaltungen",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "02.02.19 08:00:00", Value: luxwsclient.String("aaa")},
 							{Name: "03.04.20 23:00:00", Value: luxwsclient.String("bbb")},
 							{Name: "01.01.20 09:00:11", Value: luxwsclient.String("aaa")},
@@ -490,7 +492,7 @@ luxws_latest_switchoff{reason="bbb"} 1585954800
 			a.collectAndCompare(t, tc.want, tc.wantErr)
 
 			if diff := cmp.Diff(tc.wantQuirks, tc.quirks, cmp.AllowUnexported(quirks{})); diff != "" {
-				t.Errorf("Quirks diff (-want +got):\n%s", diff)
+				t.Errorf("%s failed: Quirks diff (-want +got):\n%s", tc.name, diff)
 			}
 		})
 	}
@@ -512,7 +514,7 @@ func TestCollectAll(t *testing.T) {
 		{
 			name: "complete content",
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{Name: "elapsed times"},
 					{Name: "error memory"},
 					{Name: "heat quantity"},
@@ -568,7 +570,7 @@ luxws_temperature{name="",unit=""} 0
 			// https://github.com/hansmi/wp2reg-luxws/issues/11
 			name: "L2A type",
 			input: &luxwsclient.ContentRoot{
-				Items: []luxwsclient.ContentItem{
+				Items: luxwsclient.ContentItems{
 					{Name: "elapsed times"},
 					{Name: "error memory"},
 					{Name: "heat quantity"},
@@ -579,7 +581,7 @@ luxws_temperature{name="",unit=""} 0
 					{Name: "switch offs"},
 					{
 						Name: "system status",
-						Items: []luxwsclient.ContentItem{
+						Items: luxwsclient.ContentItems{
 							{Name: "type of heat pump", Value: luxwsclient.String("aaa")},
 							{Name: "type of heat pump", Value: luxwsclient.String("l2a")},
 						},
@@ -678,11 +680,12 @@ func TestCollect(t *testing.T) {
 		http.Error(w, "", http.StatusServiceUnavailable)
 	}))
 	t.Cleanup(server.Close)
-
+	zl, _ := zap.NewDevelopment()
 	c := newCollector(collectorOpts{
 		terms:   luxwslang.English,
 		loc:     time.Local,
 		timeout: time.Minute,
+		log:     zl,
 	})
 
 	if serverURL, err := url.Parse(server.URL); err != nil {

@@ -2,18 +2,16 @@ module github.com/hansmi/wp2reg-luxws
 
 go 1.21
 
-toolchain go1.21.5
-
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
-	github.com/go-kit/log v0.2.1
 	github.com/google/go-cmp v0.6.0
 	github.com/gorilla/websocket v1.5.1
+	github.com/hashicorp/go-cleanhttp v0.5.2
 	github.com/prometheus/client_golang v1.19.0
-	github.com/prometheus/exporter-toolkit v0.11.0
+	github.com/prometheus/exporter-toolkit v0.10.0
 	go.uber.org/multierr v1.11.0
-	golang.org/x/net v0.24.0
-	golang.org/x/sync v0.7.0
+	go.uber.org/zap v1.26.0
+	golang.org/x/sync v0.6.0
 )
 
 require (
@@ -22,6 +20,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
@@ -33,8 +32,12 @@ require (
 	golang.org/x/crypto v0.22.0 // indirect
 	golang.org/x/oauth2 v0.18.0 // indirect
 	golang.org/x/sys v0.19.0 // indirect
+	golang.org/x/crypto v0.15.0 // indirect
+	golang.org/x/net v0.18.0 // indirect
+	golang.org/x/oauth2 v0.14.0 // indirect
+	golang.org/x/sys v0.14.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

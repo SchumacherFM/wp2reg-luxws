@@ -2,6 +2,10 @@ package luxwsclient
 
 import (
 	"encoding/xml"
+	"fmt"
+	"strings"
+
+	"github.com/hansmi/wp2reg-luxws/luxws"
 )
 
 func findNavItemByName(name string, items []NavItem) *NavItem {
@@ -16,6 +20,17 @@ func findNavItemByName(name string, items []NavItem) *NavItem {
 	}
 
 	return nil
+}
+
+func NewNavRoot(rawXML []byte, wantLocalName string) (*NavRoot, error) {
+	var cr NavRoot
+	if err := xmlUnmarshal(rawXML, &cr); err != nil {
+		return nil, fmt.Errorf("failed to decode ContentRoot: %w", err)
+	}
+	if strings.ToLower(cr.XMLName.Local) == wantLocalName {
+		return &cr, nil
+	}
+	return nil, luxws.ErrIgnore
 }
 
 // NavRoot represents the navigation structure of a LuxWS server.

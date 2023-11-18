@@ -4,18 +4,18 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"net/url"
-	"regexp"
 	"sort"
 	"strings"
 	"time"
 
 	"github.com/hansmi/wp2reg-luxws/luxwsclient"
 	"github.com/hansmi/wp2reg-luxws/luxwslang"
+	"github.com/hashicorp/go-cleanhttp"
 	"github.com/prometheus/client_golang/prometheus"
 	"go.uber.org/multierr"
+	"go.uber.org/zap"
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/sync/semaphore"
 )
@@ -32,9 +32,12 @@ func findContentItem(r *luxwsclient.ContentRoot, name string) (*luxwsclient.Cont
 type contentCollectFunc func(chan<- prometheus.Metric, *luxwsclient.ContentRoot, *quirks) error
 
 type collector struct {
+	log                   *zap.Logger
+	httpDo                func(req *http.Request) (*http.Response, error)
 	sem                   *semaphore.Weighted
 	timeout               time.Duration
 	address               string
+	password              string
 	clientOpts            []luxwsclient.Option
 	httpAddress           string
 	loc                   *time.Location
@@ -55,30 +58,30 @@ type collector struct {
 }
 
 type collectorOpts struct {
-	verbose       bool
 	maxConcurrent int64
 	timeout       time.Duration
 	address       string
+	password      string
 	httpAddress   string
 	loc           *time.Location
 	terms         *luxwslang.Terminology
+	log           *zap.Logger
 }
 
 func newCollector(opts collectorOpts) *collector {
-	var clientOpts []luxwsclient.Option
-
-	if opts.verbose {
-		clientOpts = append(clientOpts, luxwsclient.WithLogFunc(log.Printf))
-	}
+	clientOpts := []luxwsclient.Option{luxwsclient.WithLogFunc(opts.log)}
 
 	if opts.maxConcurrent < 1 {
 		opts.maxConcurrent = 1
 	}
 
 	return &collector{
+		log:                   opts.log,
+		httpDo:                cleanhttp.DefaultClient().Do,
 		sem:                   semaphore.NewWeighted(opts.maxConcurrent),
 		timeout:               opts.timeout,
 		address:               opts.address,
+		password:              opts.password,
 		clientOpts:            clientOpts,
 		httpAddress:           opts.httpAddress,
 		loc:                   opts.loc,
@@ -129,7 +132,11 @@ func (c *collector) parseValue(text string) (float64, string, error) {
 	return c.terms.ParseMeasurement(text)
 }
 
-func (c *collector) collectInfo(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, q *quirks) error {
+func (c *collector) collectInfo(
+	ch chan<- prometheus.Metric,
+	content *luxwsclient.ContentRoot,
+	q *quirks,
+) error {
 	var swVersion, opMode, heatOutputUnit string
 	var heatOutputValue float64
 	var hpType []string
@@ -139,11 +146,7 @@ func (c *collector) collectInfo(ch chan<- prometheus.Metric, content *luxwsclien
 		return err
 	}
 
-	for _, item := range group.Items {
-		if item.Value == nil {
-			continue
-		}
-
+	group.EachNonNil(func(item *luxwsclient.ContentItem) {
 		switch item.Name {
 		case c.terms.StatusType:
 			name := normalizeSpace(*item.Value)
@@ -159,10 +162,10 @@ func (c *collector) collectInfo(ch chan<- prometheus.Metric, content *luxwsclien
 			opMode = normalizeSpace(*item.Value)
 		case c.terms.StatusPowerOutput:
 			if heatOutputValue, heatOutputUnit, err = c.parseValue(*item.Value); err != nil {
-				return fmt.Errorf("parsing heat output failed: %w", err)
+				c.log.Error("parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
 			}
 		}
-	}
+	})
 
 	sort.Strings(hpType)
 
@@ -178,29 +181,30 @@ func (c *collector) collectInfo(ch chan<- prometheus.Metric, content *luxwsclien
 	return nil
 }
 
-func (c *collector) collectMeasurements(ch chan<- prometheus.Metric, desc *prometheus.Desc, content *luxwsclient.ContentRoot, groupName string) error {
+func (c *collector) collectMeasurements(
+	ch chan<- prometheus.Metric,
+	desc *prometheus.Desc,
+	content *luxwsclient.ContentRoot,
+	groupName string,
+) error {
 	group, err := findContentItem(content, groupName)
 	if err != nil {
 		return err
 	}
 
 	var found bool
-
-	for _, item := range group.Items {
-		if item.Value == nil {
-			continue
-		}
-
+	group.EachNonNil(func(item *luxwsclient.ContentItem) {
 		value, unit, err := c.parseValue(*item.Value)
 		if err != nil {
-			return err
+			c.log.Error("parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
+			return
 		}
 
 		ch <- prometheus.MustNewConstMetric(desc, prometheus.GaugeValue,
 			value, normalizeSpace(item.Name), unit)
 
 		found = true
-	}
+	})
 
 	if !found {
 		ch <- prometheus.MustNewConstMetric(desc, prometheus.GaugeValue,
@@ -210,7 +214,13 @@ func (c *collector) collectMeasurements(ch chan<- prometheus.Metric, desc *prome
 	return nil
 }
 
-func (c *collector) collectDurations(ch chan<- prometheus.Metric, desc *prometheus.Desc, content *luxwsclient.ContentRoot, groupName string, ignoreRe *regexp.Regexp) error {
+func (c *collector) collectDurations(
+	ch chan<- prometheus.Metric,
+	desc *prometheus.Desc,
+	content *luxwsclient.ContentRoot,
+	groupName string,
+	ignoreFn func(string) bool,
+) error {
 	group, err := findContentItem(content, groupName)
 	if err != nil {
 		return err
@@ -219,7 +229,7 @@ func (c *collector) collectDurations(ch chan<- prometheus.Metric, desc *promethe
 	var found bool
 
 	for _, item := range group.Items {
-		if item.Value == nil || (ignoreRe != nil && ignoreRe.MatchString(item.Name)) {
+		if item.Value == nil || (ignoreFn != nil && ignoreFn(item.Name)) {
 			continue
 		}
 
@@ -286,7 +296,7 @@ func (c *collector) collectTemperatures(ch chan<- prometheus.Metric, content *lu
 }
 
 func (c *collector) collectOperatingDuration(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectDurations(ch, c.operatingDurationDesc, content, c.terms.NavOpHours, c.terms.HoursImpulsesRe)
+	return c.collectDurations(ch, c.operatingDurationDesc, content, c.terms.NavOpHours, c.terms.HoursImpulsesFn)
 }
 
 func (c *collector) collectElapsedTime(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
@@ -346,7 +356,7 @@ func (c *collector) collectWebSocket(ctx context.Context, ch chan<- prometheus.M
 
 	defer cl.Close()
 
-	nav, err := cl.Login(ctx, "")
+	nav, err := cl.Login(ctx, c.password)
 	if err != nil {
 		return err
 	}
@@ -376,8 +386,7 @@ func (c *collector) collectHTTP(ctx context.Context, ch chan<- prometheus.Metric
 		return err
 	}
 
-	resp, err := http.DefaultClient.Do(req)
-
+	resp, err := c.httpDo(req)
 	if err != nil {
 		return err
 	}
@@ -390,11 +399,9 @@ func (c *collector) collectHTTP(ctx context.Context, ch chan<- prometheus.Metric
 
 		ch <- prometheus.MustNewConstMetric(c.nodeTimeDesc, prometheus.GaugeValue,
 			float64(ts.Unix()))
-	} else {
-		return errors.New("HTTP header missing server time")
+		return nil
 	}
-
-	return nil
+	return errors.New("HTTP header missing server time")
 }
 
 func (c *collector) collect(ctx context.Context, ch chan<- prometheus.Metric) error {
@@ -435,7 +442,7 @@ func (c *collector) Collect(ch chan<- prometheus.Metric) {
 	if err := c.collect(ctx, ch); err == nil {
 		ch <- prometheus.MustNewConstMetric(c.upDesc, prometheus.GaugeValue, 1, "")
 	} else {
-		log.Printf("Scrape failed: %v", err)
+		c.log.Error("Scrape failed", zap.Error(err))
 		ch <- prometheus.MustNewConstMetric(c.upDesc, prometheus.GaugeValue, 0, err.Error())
 	}
 }

@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"go.uber.org/zap"
 )
 
 // ErrClosed is the error returned by an I/O call on a network connection that
@@ -28,14 +29,11 @@ var ErrBusy = errors.New("connection is busy")
 // Option is the type of options for transports.
 type Option func(*transport)
 
-// LogFunc describes a logging function (e.g. log.Printf).
-type LogFunc func(format string, v ...any)
-
 // WithLogFunc supplies a logging function to the transport. Received and sent
 // messages are written as log messages.
-func WithLogFunc(logf LogFunc) Option {
+func WithLogFunc(log *zap.Logger) Option {
 	return func(t *transport) {
-		t.logf = logf
+		t.log = log
 	}
 }
 
@@ -58,7 +56,7 @@ type Transport struct {
 }
 
 type transport struct {
-	logf LogFunc
+	log *zap.Logger
 
 	mu       sync.Mutex
 	ws       websocketConn
@@ -71,7 +69,6 @@ func newTransport(ws websocketConn, opts []Option) *Transport {
 	t := &transport{
 		ws:       ws,
 		recvDone: make(chan struct{}),
-		logf:     func(string, ...any) {},
 	}
 
 	for _, opt := range opts {
@@ -103,7 +100,7 @@ func Dial(ctx context.Context, address string, opts ...Option) (*Transport, erro
 		Host:   address,
 	}
 
-	dialer := websocket.Dialer(*websocket.DefaultDialer)
+	dialer := *websocket.DefaultDialer
 	dialer.HandshakeTimeout = 30 * time.Second
 	dialer.Subprotocols = append(dialer.Subprotocols, "Lux_WS")
 
@@ -171,8 +168,13 @@ func (t *transport) receiverLoop() error {
 			return err
 		}
 
-		t.logf("Received message of type %v: %q", messageType, payload)
-
+		if t.log != nil && t.log.Level() == zap.DebugLevel {
+			t.log.Debug(
+				"Received message",
+				zap.Int("type", messageType),
+				zap.ByteString("payload", payload),
+			)
+		}
 		if messageType == websocket.TextMessage && len(payload) > 0 {
 			t.mu.Lock()
 			handler := t.handler
@@ -196,7 +198,13 @@ func (t *transport) writeMessage(ctx context.Context, cmd string) error {
 		defer t.ws.SetWriteDeadline(time.Time{})
 	}
 
-	t.logf("Sending message of type %v: %q", messageType, cmd)
+	if t.log != nil && t.log.Level() == zap.DebugLevel {
+		t.log.Debug(
+			"Sending message",
+			zap.Int("type", messageType),
+			zap.String("command", cmd),
+		)
+	}
 
 	if err := t.ws.WriteMessage(messageType, []byte(cmd)); err != nil {
 		return err

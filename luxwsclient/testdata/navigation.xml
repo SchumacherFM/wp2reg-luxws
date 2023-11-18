@@ -1,0 +1,43 @@
+<Navigation id='0x424041b8'>
+    <item id='0x42402360'>
+        <name>information</name>
+        <item id='0x424026c8'>
+            <name>temperatures</name>
+        </item>
+        <item id='0x42402cf8'>
+            <name>inputs</name>
+        </item>
+        <item id='0x42402e60'>
+            <name>outputs</name>
+        </item>
+        <item id='0x42402cb0'>
+            <name>elapsed times</name>
+        </item>
+        <item id='0x424047a0'>
+            <name>operating hours</name>
+        </item>
+        <item id='0x42404890'>
+            <name>error memory</name>
+        </item>
+        <item id='0x42402c78'>
+            <name>switch offs</name>
+        </item>
+        <item id='0x42402e28'>
+            <name>system status</name>
+        </item>
+        <item id='0x42402d78'>
+            <name>energy monitor</name>
+            <item id='0x42405058'>
+                <name>heat quantity</name>
+            </item>
+            <item id='0x42404fd0'>
+                <name>energy input</name>
+            </item>
+        </item>
+        <item id='0x42404908'>
+            <name>BMS</name>
+        </item>
+    </item>
+</Navigation>
+
+

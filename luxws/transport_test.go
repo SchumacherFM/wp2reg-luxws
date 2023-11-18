@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"go.uber.org/zap"
 )
 
 type cannedMessage struct {
@@ -101,10 +102,10 @@ func (c *fakeConn) Close() error {
 
 func newFakeTransport(t *testing.T) (*fakeConn, *Transport) {
 	t.Helper()
-
+	zl, _ := zap.NewDevelopment()
 	fc := newFakeConn(t)
 	tr := newTransport(fc, []Option{
-		WithLogFunc(t.Logf),
+		WithLogFunc(zl),
 	})
 
 	t.Cleanup(func() {
