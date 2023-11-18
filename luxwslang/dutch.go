@@ -1,6 +1,8 @@
 package luxwslang
 
-import "regexp"
+import (
+	"strings"
+)
 
 // Dutch language terminology.
 var Dutch = &Terminology{
@@ -18,8 +20,10 @@ var Dutch = &Terminology{
 	NavErrorMemory:  "Storingsbuffer",
 	NavSwitchOffs:   "Afschakelingen",
 
-	NavOpHours:      "Bedrijfsuren",
-	HoursImpulsesRe: regexp.MustCompile(`^impulse\s`),
+	NavOpHours: "Bedrijfsuren",
+	HoursImpulsesFn: func(s string) bool {
+		return strings.HasPrefix(s, "impulse") || strings.HasPrefix(s, "Impulse")
+	},
 
 	NavSystemStatus:       "Installatiestatus",
 	StatusType:            "Warmtepomp Type",

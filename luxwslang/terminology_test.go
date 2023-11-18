@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"regexp"
 	"testing"
 	"time"
 
@@ -32,7 +31,7 @@ func TestComplete(t *testing.T) {
 					if val == "" {
 						err = errors.New("empty string")
 					}
-				case *regexp.Regexp:
+				case func(string) bool:
 					if val == nil {
 						err = errors.New("nil regexp")
 					}

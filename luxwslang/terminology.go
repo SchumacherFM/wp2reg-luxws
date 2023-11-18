@@ -3,7 +3,6 @@ package luxwslang
 import (
 	"fmt"
 	"math"
-	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -33,7 +32,7 @@ type Terminology struct {
 	NavSwitchOffs   string
 
 	NavOpHours      string
-	HoursImpulsesRe *regexp.Regexp
+	HoursImpulsesFn func(string) bool
 
 	NavSystemStatus       string
 	StatusType            string

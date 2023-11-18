@@ -1,6 +1,6 @@
 package luxwslang
 
-import "regexp"
+import "strings"
 
 // English language terminology.
 var English = &Terminology{
@@ -18,8 +18,10 @@ var English = &Terminology{
 	NavErrorMemory:  "error memory",
 	NavSwitchOffs:   "switch offs",
 
-	NavOpHours:      "operating hours",
-	HoursImpulsesRe: regexp.MustCompile(`^impulse\s`),
+	NavOpHours: "operating hours",
+	HoursImpulsesFn: func(s string) bool {
+		return strings.HasPrefix(s, "impulse") || strings.HasPrefix(s, "Impulse")
+	},
 
 	NavSystemStatus:       "system status",
 	StatusType:            "type of heat pump",
