@@ -17,6 +17,7 @@ var Dutch = &Terminology{
 	NavInputs:       "Ingangen",
 	NavOutputs:      "Uitgangen",
 	NavHeatQuantity: "Energie",
+	NavEnergyInput:  "energy input", // todo Cyrill
 	NavErrorMemory:  "Storingsbuffer",
 	NavSwitchOffs:   "Afschakelingen",
 

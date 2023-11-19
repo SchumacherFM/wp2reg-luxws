@@ -15,6 +15,7 @@ var English = &Terminology{
 	NavInputs:       "inputs",
 	NavOutputs:      "outputs",
 	NavHeatQuantity: "heat quantity",
+	NavEnergyInput:  "energy input",
 	NavErrorMemory:  "error memory",
 	NavSwitchOffs:   "switch offs",
 
