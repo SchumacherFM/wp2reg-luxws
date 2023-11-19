@@ -385,6 +385,29 @@ luxws_supplied_heat{name="water",unit="kW"} 200
 `,
 		},
 		{
+			name: "energy input full",
+			fn:   c.collectEnergyInput,
+			input: &luxwsclient.ContentRoot{
+				Items: luxwsclient.ContentItems{
+					{
+						Name: "Eingesetzte Energie",
+						Items: luxwsclient.ContentItems{
+							{Name: "heating", Value: luxwsclient.String("738.2 kWh")},
+							{Name: "domestic hot water", Value: luxwsclient.String("238.2 kWh")},
+							{Name: "total", Value: luxwsclient.String("976.4 kWh")},
+						},
+					},
+				},
+			},
+			want: `
+# HELP luxws_energy_input Energy Input
+# TYPE luxws_energy_input gauge
+luxws_energy_input{name="heating",unit="kWh"} 738.2
+luxws_energy_input{name="domestic hot water",unit="kWh"} 238.2
+luxws_energy_input{name="total",unit="kWh"} 976.4
+`,
+		},
+		{
 			name: "latest error empty",
 			fn:   c.collectLatestError,
 			input: &luxwsclient.ContentRoot{
@@ -518,6 +541,7 @@ func TestCollectAll(t *testing.T) {
 					{Name: "elapsed times"},
 					{Name: "error memory"},
 					{Name: "heat quantity"},
+					{Name: "energy input"},
 					{Name: "information"},
 					{Name: "inputs"},
 					{Name: "operating hours"},
@@ -531,6 +555,9 @@ func TestCollectAll(t *testing.T) {
 # HELP luxws_elapsed_duration_seconds Elapsed time
 # TYPE luxws_elapsed_duration_seconds gauge
 luxws_elapsed_duration_seconds{name=""} 0
+# HELP luxws_energy_input Energy Input
+# TYPE luxws_energy_input gauge
+luxws_energy_input{name="",unit=""} 0
 # HELP luxws_heat_quantity Heat quantity
 # TYPE luxws_heat_quantity gauge
 luxws_heat_quantity{unit=""} 0
@@ -574,6 +601,7 @@ luxws_temperature{name="",unit=""} 0
 					{Name: "elapsed times"},
 					{Name: "error memory"},
 					{Name: "heat quantity"},
+					{Name: "energy input"},
 					{Name: "information"},
 					{Name: "inputs"},
 					{Name: "operating hours"},
@@ -596,6 +624,9 @@ luxws_elapsed_duration_seconds{name=""} 0
 # HELP luxws_heat_quantity Heat quantity
 # TYPE luxws_heat_quantity gauge
 luxws_heat_quantity{unit=""} 0
+# HELP luxws_energy_input Energy Input
+# TYPE luxws_energy_input gauge
+luxws_energy_input{name="",unit=""} 0
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="aaa, l2a",swversion=""} 1

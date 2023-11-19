@@ -17,6 +17,7 @@ var Czech = &Terminology{
 	NavInputs:       "Vstupy",
 	NavOutputs:      "Výstupy",
 	NavHeatQuantity: "Teplo",
+	NavEnergyInput:  "energy input", // todo Cyrill
 	NavErrorMemory:  "Chybová paměť",
 	NavSwitchOffs:   "Odepnutí",
 

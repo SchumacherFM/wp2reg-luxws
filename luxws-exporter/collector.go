@@ -52,6 +52,7 @@ type collector struct {
 	opModeDesc            *prometheus.Desc
 	heatQuantityDesc      *prometheus.Desc
 	suppliedHeatDesc      *prometheus.Desc
+	energyInputDesc       *prometheus.Desc
 	latestErrorDesc       *prometheus.Desc
 	switchOffDesc         *prometheus.Desc
 	nodeTimeDesc          *prometheus.Desc
@@ -95,6 +96,7 @@ func newCollector(opts collectorOpts) *collector {
 		infoDesc:              prometheus.NewDesc("luxws_info", "Controller information", []string{"swversion", "hptype"}, nil),
 		opModeDesc:            prometheus.NewDesc("luxws_operational_mode", "Operational mode", []string{"mode"}, nil),
 		heatQuantityDesc:      prometheus.NewDesc("luxws_heat_quantity", "Heat quantity", []string{"unit"}, nil),
+		energyInputDesc:       prometheus.NewDesc("luxws_energy_input", "Energy Input", []string{"name", "unit"}, nil),
 		suppliedHeatDesc:      prometheus.NewDesc("luxws_supplied_heat", "Supplied heat", []string{"name", "unit"}, nil),
 		latestErrorDesc:       prometheus.NewDesc("luxws_latest_error", "Latest error", []string{"reason"}, nil),
 		switchOffDesc:         prometheus.NewDesc("luxws_latest_switchoff", "Latest switch-off", []string{"reason"}, nil),
@@ -112,6 +114,7 @@ func (c *collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.outputDesc
 	ch <- c.opModeDesc
 	ch <- c.heatQuantityDesc
+	ch <- c.energyInputDesc
 	ch <- c.suppliedHeatDesc
 	ch <- c.latestErrorDesc
 	ch <- c.switchOffDesc
@@ -315,8 +318,11 @@ func (c *collector) collectSuppliedHeat(ch chan<- prometheus.Metric, content *lu
 	if q.missingSuppliedHeat {
 		return nil
 	}
-
 	return c.collectMeasurements(ch, c.suppliedHeatDesc, content, c.terms.NavHeatQuantity)
+}
+
+func (c *collector) collectEnergyInput(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
+	return c.collectMeasurements(ch, c.energyInputDesc, content, c.terms.NavEnergyInput)
 }
 
 func (c *collector) collectLatestError(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
@@ -339,6 +345,7 @@ func (c *collector) collectAll(ch chan<- prometheus.Metric, content *luxwsclient
 		c.collectInputs,
 		c.collectOutputs,
 		c.collectSuppliedHeat,
+		c.collectEnergyInput,
 		c.collectLatestError,
 		c.collectLatestSwitchOff,
 	} {

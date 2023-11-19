@@ -15,6 +15,7 @@ var German = &Terminology{
 	NavInputs:       "Eingänge",
 	NavOutputs:      "Ausgänge",
 	NavHeatQuantity: "Wärmemenge",
+	NavEnergyInput:  "Eingesetzte Energie",
 	NavErrorMemory:  "Fehlerspeicher",
 	NavSwitchOffs:   "Abschaltungen",
 
