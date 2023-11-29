@@ -189,6 +189,7 @@ func (c *collector) collectMeasurements(
 	desc *prometheus.Desc,
 	content *luxwsclient.ContentRoot,
 	groupName string,
+	vt prometheus.ValueType, // gauge or counter or ...
 ) error {
 	group, err := findContentItem(content, groupName)
 	if err != nil {
@@ -203,14 +204,14 @@ func (c *collector) collectMeasurements(
 			return
 		}
 
-		ch <- prometheus.MustNewConstMetric(desc, prometheus.GaugeValue,
+		ch <- prometheus.MustNewConstMetric(desc, vt,
 			value, normalizeSpace(item.Name), unit)
 
 		found = true
 	})
 
 	if !found {
-		ch <- prometheus.MustNewConstMetric(desc, prometheus.GaugeValue,
+		ch <- prometheus.MustNewConstMetric(desc, vt,
 			0, "", "")
 	}
 
@@ -295,7 +296,7 @@ func (c *collector) collectTimetable(ch chan<- prometheus.Metric, desc *promethe
 }
 
 func (c *collector) collectTemperatures(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.temperatureDesc, content, c.terms.NavTemperatures)
+	return c.collectMeasurements(ch, c.temperatureDesc, content, c.terms.NavTemperatures, prometheus.GaugeValue)
 }
 
 func (c *collector) collectOperatingDuration(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
@@ -307,22 +308,22 @@ func (c *collector) collectElapsedTime(ch chan<- prometheus.Metric, content *lux
 }
 
 func (c *collector) collectInputs(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.inputDesc, content, c.terms.NavInputs)
+	return c.collectMeasurements(ch, c.inputDesc, content, c.terms.NavInputs, prometheus.GaugeValue)
 }
 
 func (c *collector) collectOutputs(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.outputDesc, content, c.terms.NavOutputs)
+	return c.collectMeasurements(ch, c.outputDesc, content, c.terms.NavOutputs, prometheus.GaugeValue)
 }
 
 func (c *collector) collectSuppliedHeat(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, q *quirks) error {
 	if q.missingSuppliedHeat {
 		return nil
 	}
-	return c.collectMeasurements(ch, c.suppliedHeatDesc, content, c.terms.NavHeatQuantity)
+	return c.collectMeasurements(ch, c.suppliedHeatDesc, content, c.terms.NavHeatQuantity, prometheus.CounterValue)
 }
 
 func (c *collector) collectEnergyInput(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.energyInputDesc, content, c.terms.NavEnergyInput)
+	return c.collectMeasurements(ch, c.energyInputDesc, content, c.terms.NavEnergyInput, prometheus.CounterValue)
 }
 
 func (c *collector) collectLatestError(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
