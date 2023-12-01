@@ -51,11 +51,13 @@ type collector struct {
 	outputDesc            *prometheus.Desc
 	opModeDesc            *prometheus.Desc
 	heatQuantityDesc      *prometheus.Desc
+	heatCapacityDesc      *prometheus.Desc
 	suppliedHeatDesc      *prometheus.Desc
 	energyInputDesc       *prometheus.Desc
 	latestErrorDesc       *prometheus.Desc
 	switchOffDesc         *prometheus.Desc
 	nodeTimeDesc          *prometheus.Desc
+	impulsesDesc          *prometheus.Desc
 }
 
 type collectorOpts struct {
@@ -96,11 +98,13 @@ func newCollector(opts collectorOpts) *collector {
 		infoDesc:              prometheus.NewDesc("luxws_info", "Controller information", []string{"swversion", "hptype"}, nil),
 		opModeDesc:            prometheus.NewDesc("luxws_operational_mode", "Operational mode", []string{"mode"}, nil),
 		heatQuantityDesc:      prometheus.NewDesc("luxws_heat_quantity", "Heat quantity", []string{"unit"}, nil),
+		heatCapacityDesc:      prometheus.NewDesc("luxws_heat_capacity", "Heat Capacity", []string{"unit"}, nil),
 		energyInputDesc:       prometheus.NewDesc("luxws_energy_input", "Energy Input", []string{"name", "unit"}, nil),
 		suppliedHeatDesc:      prometheus.NewDesc("luxws_supplied_heat", "Supplied heat", []string{"name", "unit"}, nil),
 		latestErrorDesc:       prometheus.NewDesc("luxws_latest_error", "Latest error", []string{"reason"}, nil),
 		switchOffDesc:         prometheus.NewDesc("luxws_latest_switchoff", "Latest switch-off", []string{"reason"}, nil),
 		nodeTimeDesc:          prometheus.NewDesc("luxws_node_time_seconds", "System time in seconds since epoch (1970)", nil, nil),
+		impulsesDesc:          prometheus.NewDesc("luxws_impulses", "Impulses via operating hours", []string{"name", "unit"}, nil),
 	}
 }
 
@@ -114,11 +118,13 @@ func (c *collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.outputDesc
 	ch <- c.opModeDesc
 	ch <- c.heatQuantityDesc
+	ch <- c.heatCapacityDesc
 	ch <- c.energyInputDesc
 	ch <- c.suppliedHeatDesc
 	ch <- c.latestErrorDesc
 	ch <- c.switchOffDesc
 	ch <- c.nodeTimeDesc
+	ch <- c.impulsesDesc
 }
 
 func (c *collector) parseValue(text string) (float64, string, error) {
@@ -140,8 +146,8 @@ func (c *collector) collectInfo(
 	content *luxwsclient.ContentRoot,
 	q *quirks,
 ) error {
-	var swVersion, opMode, heatOutputUnit string
-	var heatOutputValue float64
+	var swVersion, opMode, heatOutputUnit, heatCapUnit string
+	var heatOutputValue, heatCapValue float64
 	var hpType []string
 
 	group, err := findContentItem(content, c.terms.NavSystemStatus)
@@ -163,9 +169,16 @@ func (c *collector) collectInfo(
 			swVersion = normalizeSpace(*item.Value)
 		case c.terms.StatusOperationMode:
 			opMode = normalizeSpace(*item.Value)
+
+		case c.terms.StatusHeatingCapacity:
+			opMode = normalizeSpace(*item.Value)
+			if heatCapValue, heatCapUnit, err = c.parseValue(*item.Value); err != nil {
+				c.log.Error("StatusHeatingCapacity parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
+			}
+
 		case c.terms.StatusPowerOutput:
 			if heatOutputValue, heatOutputUnit, err = c.parseValue(*item.Value); err != nil {
-				c.log.Error("parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
+				c.log.Error("StatusPowerOutput parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
 			}
 		}
 	})
@@ -181,6 +194,9 @@ func (c *collector) collectInfo(
 	ch <- prometheus.MustNewConstMetric(c.heatQuantityDesc, prometheus.GaugeValue,
 		heatOutputValue, heatOutputUnit)
 
+	ch <- prometheus.MustNewConstMetric(c.heatCapacityDesc, prometheus.GaugeValue,
+		heatCapValue, heatCapUnit)
+
 	return nil
 }
 
@@ -190,6 +206,7 @@ func (c *collector) collectMeasurements(
 	content *luxwsclient.ContentRoot,
 	groupName string,
 	vt prometheus.ValueType, // gauge or counter or ...
+	optionalIsAllowed func(s string) bool,
 ) error {
 	group, err := findContentItem(content, groupName)
 	if err != nil {
@@ -198,6 +215,10 @@ func (c *collector) collectMeasurements(
 
 	var found bool
 	group.EachNonNil(func(item *luxwsclient.ContentItem) {
+		if optionalIsAllowed != nil && !optionalIsAllowed(item.Name) {
+			return
+		}
+
 		value, unit, err := c.parseValue(*item.Value)
 		if err != nil {
 			c.log.Error("parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
@@ -296,7 +317,7 @@ func (c *collector) collectTimetable(ch chan<- prometheus.Metric, desc *promethe
 }
 
 func (c *collector) collectTemperatures(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.temperatureDesc, content, c.terms.NavTemperatures, prometheus.GaugeValue)
+	return c.collectMeasurements(ch, c.temperatureDesc, content, c.terms.NavTemperatures, prometheus.GaugeValue, nil)
 }
 
 func (c *collector) collectOperatingDuration(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
@@ -308,22 +329,27 @@ func (c *collector) collectElapsedTime(ch chan<- prometheus.Metric, content *lux
 }
 
 func (c *collector) collectInputs(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.inputDesc, content, c.terms.NavInputs, prometheus.GaugeValue)
+	return c.collectMeasurements(ch, c.inputDesc, content, c.terms.NavInputs, prometheus.GaugeValue, nil)
 }
 
 func (c *collector) collectOutputs(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.outputDesc, content, c.terms.NavOutputs, prometheus.GaugeValue)
+	return c.collectMeasurements(ch, c.outputDesc, content, c.terms.NavOutputs, prometheus.GaugeValue, nil)
+}
+
+func (c *collector) collectImpulses(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
+	return c.collectMeasurements(ch, c.impulsesDesc, content, c.terms.NavOpHours, prometheus.CounterValue, c.terms.HoursImpulsesFn)
 }
 
 func (c *collector) collectSuppliedHeat(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, q *quirks) error {
 	if q.missingSuppliedHeat {
 		return nil
 	}
-	return c.collectMeasurements(ch, c.suppliedHeatDesc, content, c.terms.NavHeatQuantity, prometheus.CounterValue)
+	// not a counter because during defrost the heat amount goes down
+	return c.collectMeasurements(ch, c.suppliedHeatDesc, content, c.terms.NavHeatQuantity, prometheus.GaugeValue, nil)
 }
 
 func (c *collector) collectEnergyInput(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.energyInputDesc, content, c.terms.NavEnergyInput, prometheus.CounterValue)
+	return c.collectMeasurements(ch, c.energyInputDesc, content, c.terms.NavEnergyInput, prometheus.CounterValue, nil)
 }
 
 func (c *collector) collectLatestError(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
@@ -349,6 +375,7 @@ func (c *collector) collectAll(ch chan<- prometheus.Metric, content *luxwsclient
 		c.collectEnergyInput,
 		c.collectLatestError,
 		c.collectLatestSwitchOff,
+		c.collectImpulses,
 	} {
 		multierr.AppendInto(&err, fn(ch, content, &q))
 	}

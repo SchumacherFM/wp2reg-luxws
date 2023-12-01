@@ -40,6 +40,7 @@ type Terminology struct {
 	StatusSoftwareVersion string
 	StatusOperationMode   string
 	StatusPowerOutput     string
+	StatusHeatingCapacity string
 
 	BoolFalse string
 	BoolTrue  string

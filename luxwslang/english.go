@@ -28,7 +28,8 @@ var English = &Terminology{
 	StatusType:            "type of heat pump",
 	StatusSoftwareVersion: "software version",
 	StatusOperationMode:   "operation mode",
-	StatusPowerOutput:     "actual capacity",
+	StatusPowerOutput:     "actual capacity",  // might be the same as "Heating capacity"
+	StatusHeatingCapacity: "Heating capacity", // might be the same as "actual capacity"
 
 	BoolFalse: "off",
 	BoolTrue:  "on",

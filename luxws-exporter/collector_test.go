@@ -401,7 +401,7 @@ luxws_supplied_heat{name="water",unit="kW"} 200
 			},
 			want: `
 # HELP luxws_energy_input Energy Input
-# TYPE luxws_energy_input gauge
+# TYPE luxws_energy_input counter
 luxws_energy_input{name="heating",unit="kWh"} 738.2
 luxws_energy_input{name="domestic hot water",unit="kWh"} 238.2
 luxws_energy_input{name="total",unit="kWh"} 976.4
@@ -556,11 +556,14 @@ func TestCollectAll(t *testing.T) {
 # TYPE luxws_elapsed_duration_seconds gauge
 luxws_elapsed_duration_seconds{name=""} 0
 # HELP luxws_energy_input Energy Input
-# TYPE luxws_energy_input gauge
+# TYPE luxws_energy_input counter
 luxws_energy_input{name="",unit=""} 0
 # HELP luxws_heat_quantity Heat quantity
 # TYPE luxws_heat_quantity gauge
 luxws_heat_quantity{unit=""} 0
+# HELP luxws_impulses Impulses via operating hours
+# TYPE luxws_impulses counter
+luxws_impulses{name="",unit=""} 0
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="",swversion=""} 1
@@ -625,8 +628,11 @@ luxws_elapsed_duration_seconds{name=""} 0
 # TYPE luxws_heat_quantity gauge
 luxws_heat_quantity{unit=""} 0
 # HELP luxws_energy_input Energy Input
-# TYPE luxws_energy_input gauge
+# TYPE luxws_energy_input counter
 luxws_energy_input{name="",unit=""} 0
+# HELP luxws_impulses Impulses via operating hours
+# TYPE luxws_impulses counter
+luxws_impulses{name="",unit=""} 0
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="aaa, l2a",swversion=""} 1
