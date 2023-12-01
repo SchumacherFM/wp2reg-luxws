@@ -171,7 +171,6 @@ func (c *collector) collectInfo(
 			opMode = normalizeSpace(*item.Value)
 
 		case c.terms.StatusHeatingCapacity:
-			opMode = normalizeSpace(*item.Value)
 			if heatCapValue, heatCapUnit, err = c.parseValue(*item.Value); err != nil {
 				c.log.Error("StatusHeatingCapacity parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
 			}
