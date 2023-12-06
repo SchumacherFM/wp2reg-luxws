@@ -169,6 +169,9 @@ func (c *collector) collectInfo(
 			swVersion = normalizeSpace(*item.Value)
 		case c.terms.StatusOperationMode:
 			opMode = normalizeSpace(*item.Value)
+			if opMode == "" {
+				opMode = "off"
+			}
 
 		case c.terms.StatusHeatingCapacity:
 			if heatCapValue, heatCapUnit, err = c.parseValue(*item.Value); err != nil {
