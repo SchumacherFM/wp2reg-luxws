@@ -20,7 +20,8 @@ type Terminology struct {
 	ID   string
 	Name string
 
-	timestampFormat string
+	timestampFormat      string
+	timestampShortFormat string
 
 	NavInformation  string
 	NavTemperatures string
@@ -41,6 +42,8 @@ type Terminology struct {
 	StatusOperationMode   string
 	StatusPowerOutput     string
 	StatusHeatingCapacity string
+	StatusDefrostDemand   string
+	StatusLastDefrost     string
 
 	BoolFalse string
 	BoolTrue  string
@@ -50,6 +53,10 @@ type Terminology struct {
 // represents in the given location.
 func (t *Terminology) ParseTimestamp(v string, loc *time.Location) (time.Time, error) {
 	return time.ParseInLocation(t.timestampFormat, v, loc)
+}
+
+func (t *Terminology) ParseTimestampShort(v string, loc *time.Location) (time.Time, error) {
+	return time.ParseInLocation(t.timestampShortFormat, v, loc)
 }
 
 // ParseDuration parses a duration string, e.g. "12:34:56" or "1h".

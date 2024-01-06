@@ -9,7 +9,8 @@ var Dutch = &Terminology{
 	ID:   "nl",
 	Name: "Nederlands",
 
-	timestampFormat: "02.01.06 15:04:05",
+	timestampFormat:      "02.01.06 15:04:05",
+	timestampShortFormat: "02.01.06 15:04",
 
 	NavInformation:  "Informatie",
 	NavTemperatures: "Temperaturen",
