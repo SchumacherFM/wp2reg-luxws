@@ -7,7 +7,8 @@ var German = &Terminology{
 	ID:   "de",
 	Name: "Deutsch",
 
-	timestampFormat: "02.01.06 15:04:05",
+	timestampFormat:      "02.01.06 15:04:05",
+	timestampShortFormat: "02.01.06 15:04",
 
 	NavInformation:  "Informationen",
 	NavTemperatures: "Temperaturen",

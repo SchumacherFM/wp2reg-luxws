@@ -58,6 +58,7 @@ type collector struct {
 	switchOffDesc         *prometheus.Desc
 	nodeTimeDesc          *prometheus.Desc
 	impulsesDesc          *prometheus.Desc
+	defrostDesc           *prometheus.Desc
 }
 
 type collectorOpts struct {
@@ -105,6 +106,7 @@ func newCollector(opts collectorOpts) *collector {
 		switchOffDesc:         prometheus.NewDesc("luxws_latest_switchoff", "Latest switch-off", []string{"reason"}, nil),
 		nodeTimeDesc:          prometheus.NewDesc("luxws_node_time_seconds", "System time in seconds since epoch (1970)", nil, nil),
 		impulsesDesc:          prometheus.NewDesc("luxws_impulses", "Impulses via operating hours", []string{"name", "unit"}, nil),
+		defrostDesc:           prometheus.NewDesc("luxws_defrost", "Defrost demand in % and last defrost time", []string{"name", "unit"}, nil),
 	}
 }
 
@@ -125,6 +127,7 @@ func (c *collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.switchOffDesc
 	ch <- c.nodeTimeDesc
 	ch <- c.impulsesDesc
+	ch <- c.defrostDesc
 }
 
 func (c *collector) parseValue(text string) (float64, string, error) {
@@ -146,9 +149,10 @@ func (c *collector) collectInfo(
 	content *luxwsclient.ContentRoot,
 	q *quirks,
 ) error {
-	var swVersion, opMode, heatOutputUnit, heatCapUnit string
-	var heatOutputValue, heatCapValue float64
+	var swVersion, opMode, heatOutputUnit, heatCapUnit, defrostDemandUnit string
+	var heatOutputValue, heatCapValue, defrostDemandValue float64
 	var hpType []string
+	var lastDefrost time.Time
 
 	group, err := findContentItem(content, c.terms.NavSystemStatus)
 	if err != nil {
@@ -172,16 +176,23 @@ func (c *collector) collectInfo(
 			if opMode == "" {
 				opMode = "off"
 			}
-
 		case c.terms.StatusHeatingCapacity:
 			if heatCapValue, heatCapUnit, err = c.parseValue(*item.Value); err != nil {
 				c.log.Error("StatusHeatingCapacity parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
 			}
-
 		case c.terms.StatusPowerOutput:
 			if heatOutputValue, heatOutputUnit, err = c.parseValue(*item.Value); err != nil {
 				c.log.Error("StatusPowerOutput parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
 			}
+		case c.terms.StatusDefrostDemand:
+			if defrostDemandValue, defrostDemandUnit, err = c.parseValue(*item.Value); err != nil {
+				c.log.Error("StatusDefrostDemand parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
+			}
+		case c.terms.StatusLastDefrost:
+			if lastDefrost, err = c.terms.ParseTimestampShort(*item.Value, c.loc); err != nil {
+				c.log.Error("StatusLastDefrost parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
+			}
+
 		}
 	})
 
@@ -198,6 +209,12 @@ func (c *collector) collectInfo(
 
 	ch <- prometheus.MustNewConstMetric(c.heatCapacityDesc, prometheus.GaugeValue,
 		heatCapValue, heatCapUnit)
+
+	ch <- prometheus.MustNewConstMetric(c.defrostDesc, prometheus.GaugeValue,
+		defrostDemandValue, "demand", defrostDemandUnit)
+
+	ch <- prometheus.MustNewConstMetric(c.defrostDesc, prometheus.GaugeValue,
+		float64(lastDefrost.Unix()), "last", "ts")
 
 	return nil
 }

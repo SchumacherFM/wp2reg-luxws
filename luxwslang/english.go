@@ -7,7 +7,8 @@ var English = &Terminology{
 	ID:   "en",
 	Name: "English",
 
-	timestampFormat: "02.01.06 15:04:05",
+	timestampFormat:      "02.01.06 15:04:05",
+	timestampShortFormat: "02.01.06 15:04",
 
 	NavInformation:  "information",
 	NavTemperatures: "temperatures",
@@ -30,7 +31,8 @@ var English = &Terminology{
 	StatusOperationMode:   "operation mode",
 	StatusPowerOutput:     "actual capacity",  // might be the same as "Heating capacity"
 	StatusHeatingCapacity: "Heating capacity", // might be the same as "actual capacity"
-
-	BoolFalse: "off",
-	BoolTrue:  "on",
+	StatusDefrostDemand:   "Defrost demand",
+	StatusLastDefrost:     "last defrost",
+	BoolFalse:             "off",
+	BoolTrue:              "on",
 }

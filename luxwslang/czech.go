@@ -9,7 +9,8 @@ var Czech = &Terminology{
 	ID:   "cz",
 	Name: "Česky",
 
-	timestampFormat: "02.01.06 15:04:05",
+	timestampFormat:      "02.01.06 15:04:05",
+	timestampShortFormat: "02.01.06 15:04",
 
 	NavInformation:  "Informace",
 	NavTemperatures: "Teploty",
