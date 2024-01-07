@@ -88,15 +88,22 @@ func TestCollectWebSocketParts(t *testing.T) {
 				},
 			},
 			want: `
+# HELP luxws_defrost Defrost demand in % and last defrost time
+# TYPE luxws_defrost gauge
+luxws_defrost{name="demand",unit=""} 0
+luxws_defrost{name="last",unit="ts"} -6.21355968e+10
+# HELP luxws_heat_capacity Heat Capacity
+# TYPE luxws_heat_capacity gauge
+luxws_heat_capacity{unit=""} 0
+# HELP luxws_heat_quantity Heat quantity
+# TYPE luxws_heat_quantity gauge
+luxws_heat_quantity{unit=""} 0
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="",swversion=""} 1
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
 luxws_operational_mode{mode=""} 1
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit=""} 0
 `,
 		},
 		{
@@ -117,15 +124,22 @@ luxws_heat_quantity{unit=""} 0
 				},
 			},
 			want: `
+# HELP luxws_defrost Defrost demand in % and last defrost time
+# TYPE luxws_defrost gauge
+luxws_defrost{name="demand",unit=""} 0
+luxws_defrost{name="last",unit="ts"} -6.21355968e+10
+# HELP luxws_heat_capacity Heat Capacity
+# TYPE luxws_heat_capacity gauge
+luxws_heat_capacity{unit=""} 0
+# HELP luxws_heat_quantity Heat quantity
+# TYPE luxws_heat_quantity gauge
+luxws_heat_quantity{unit="kWh"} 999
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="typeA, typeB",swversion="v1.2.3"} 1
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
 luxws_operational_mode{mode="running"} 1
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit="kWh"} 999
 `,
 		},
 		{
@@ -145,15 +159,22 @@ luxws_heat_quantity{unit="kWh"} 999
 				},
 			},
 			want: `
+# HELP luxws_defrost Defrost demand in % and last defrost time
+# TYPE luxws_defrost gauge
+luxws_defrost{name="demand",unit=""} 0
+luxws_defrost{name="last",unit="ts"} -6.21355968e+10
+# HELP luxws_heat_capacity Heat Capacity
+# TYPE luxws_heat_capacity gauge
+luxws_heat_capacity{unit=""} 0
+# HELP luxws_heat_quantity Heat quantity
+# TYPE luxws_heat_quantity gauge
+luxws_heat_quantity{unit=""} 0
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="l2a",swversion="v1.86.2"} 1
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
 luxws_operational_mode{mode="----"} 1
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit=""} 0
 `,
 			wantQuirks: quirks{
 				missingSuppliedHeat: true,
@@ -552,12 +573,19 @@ func TestCollectAll(t *testing.T) {
 				},
 			},
 			want: `
+# HELP luxws_defrost Defrost demand in % and last defrost time
+# TYPE luxws_defrost gauge
+luxws_defrost{name="demand",unit=""} 0
+luxws_defrost{name="last",unit="ts"} -6.21355968e+10
 # HELP luxws_elapsed_duration_seconds Elapsed time
 # TYPE luxws_elapsed_duration_seconds gauge
 luxws_elapsed_duration_seconds{name=""} 0
 # HELP luxws_energy_input Energy Input
 # TYPE luxws_energy_input counter
 luxws_energy_input{name="",unit=""} 0
+# HELP luxws_heat_capacity Heat Capacity
+# TYPE luxws_heat_capacity gauge
+luxws_heat_capacity{unit=""} 0
 # HELP luxws_heat_quantity Heat quantity
 # TYPE luxws_heat_quantity gauge
 luxws_heat_quantity{unit=""} 0
@@ -621,15 +649,22 @@ luxws_temperature{name="",unit=""} 0
 				},
 			},
 			want: `
+# HELP luxws_defrost Defrost demand in % and last defrost time
+# TYPE luxws_defrost gauge
+luxws_defrost{name="demand",unit=""} 0
+luxws_defrost{name="last",unit="ts"} -6.21355968e+10
 # HELP luxws_elapsed_duration_seconds Elapsed time
 # TYPE luxws_elapsed_duration_seconds gauge
 luxws_elapsed_duration_seconds{name=""} 0
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit=""} 0
 # HELP luxws_energy_input Energy Input
 # TYPE luxws_energy_input counter
 luxws_energy_input{name="",unit=""} 0
+# HELP luxws_heat_capacity Heat Capacity
+# TYPE luxws_heat_capacity gauge
+luxws_heat_capacity{unit=""} 0
+# HELP luxws_heat_quantity Heat quantity
+# TYPE luxws_heat_quantity gauge
+luxws_heat_quantity{unit=""} 0
 # HELP luxws_impulses Impulses via operating hours
 # TYPE luxws_impulses counter
 luxws_impulses{name="",unit=""} 0

@@ -20,7 +20,7 @@ func TestComplete(t *testing.T) {
 				field := v.Field(idx)
 				structField := v.Type().Field(idx)
 
-				if !field.CanInterface() && structField.Name == "timestampFormat" {
+				if !field.CanInterface() && (structField.Name == "timestampFormat" || structField.Name == "timestampShortFormat") {
 					continue
 				}
 

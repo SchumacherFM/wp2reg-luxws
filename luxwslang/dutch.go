@@ -32,7 +32,9 @@ var Dutch = &Terminology{
 	StatusSoftwareVersion: "Softwareversie",
 	StatusOperationMode:   "Bedrijfstoestand",
 	StatusPowerOutput:     "Vermogen",
-
-	BoolFalse: "Uit",
-	BoolTrue:  "Aan",
+	StatusHeatingCapacity: "Heating capacity", // TODO correct translation
+	StatusDefrostDemand:   "Defrost demand",   // TODO correct translation
+	StatusLastDefrost:     "last defrost",     // TODO correct translation
+	BoolFalse:             "Uit",
+	BoolTrue:              "Aan",
 }
