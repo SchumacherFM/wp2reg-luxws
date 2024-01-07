@@ -32,7 +32,9 @@ var Czech = &Terminology{
 	StatusSoftwareVersion: "Softwarová verze",
 	StatusOperationMode:   "Provozní stav",
 	StatusPowerOutput:     "Výkon",
-
-	BoolFalse: "Vypnuto",
-	BoolTrue:  "Zapnuto",
+	StatusHeatingCapacity: "Heating capacity", // TODO correct translation
+	StatusDefrostDemand:   "Defrost demand",   // TODO correct translation
+	StatusLastDefrost:     "last defrost",     // TODO correct translation
+	BoolFalse:             "Vypnuto",
+	BoolTrue:              "Zapnuto",
 }
