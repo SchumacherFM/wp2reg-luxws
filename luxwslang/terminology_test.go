@@ -35,6 +35,8 @@ func TestComplete(t *testing.T) {
 					if val == nil {
 						err = errors.New("nil regexp")
 					}
+				case map[string]float64:
+					// do nothing
 				default:
 					err = fmt.Errorf("unknown type %v", field.Type())
 				}

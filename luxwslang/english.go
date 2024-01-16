@@ -29,6 +29,14 @@ var English = &Terminology{
 	StatusType:            "type of heat pump",
 	StatusSoftwareVersion: "software version",
 	StatusOperationMode:   "operation mode",
+	OperationModeMapping: map[string]float64{
+		// lower case!
+		"off":        OpModeIDOff,
+		"heating":    OpModeIDHeating,
+		"evu":        OpModeIDEVU,
+		"dhw":        OpModeIDDHW,
+		"defrosting": OpModeIDDefrosting,
+	},
 	StatusPowerOutput:     "actual capacity",  // might be the same as "Heating capacity"
 	StatusHeatingCapacity: "Heating capacity", // might be the same as "actual capacity"
 	StatusDefrostDemand:   "Defrost demand",
