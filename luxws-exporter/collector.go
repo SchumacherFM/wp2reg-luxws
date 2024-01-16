@@ -50,6 +50,7 @@ type collector struct {
 	inputDesc             *prometheus.Desc
 	outputDesc            *prometheus.Desc
 	opModeDesc            *prometheus.Desc
+	opModeIDDesc          *prometheus.Desc
 	heatQuantityDesc      *prometheus.Desc
 	heatCapacityDesc      *prometheus.Desc
 	suppliedHeatDesc      *prometheus.Desc
@@ -98,6 +99,7 @@ func newCollector(opts collectorOpts) *collector {
 		outputDesc:            prometheus.NewDesc("luxws_output", "Output values", []string{"name", "unit"}, nil),
 		infoDesc:              prometheus.NewDesc("luxws_info", "Controller information", []string{"swversion", "hptype"}, nil),
 		opModeDesc:            prometheus.NewDesc("luxws_operational_mode", "Operational mode", []string{"mode"}, nil),
+		opModeIDDesc:          prometheus.NewDesc("luxws_operational_mode_id", "Operational mode by ID", []string{"mode"}, nil),
 		heatQuantityDesc:      prometheus.NewDesc("luxws_heat_quantity", "Heat quantity", []string{"unit"}, nil),
 		heatCapacityDesc:      prometheus.NewDesc("luxws_heat_capacity", "Heat Capacity", []string{"unit"}, nil),
 		energyInputDesc:       prometheus.NewDesc("luxws_energy_input", "Energy Input", []string{"name", "unit"}, nil),
@@ -119,6 +121,7 @@ func (c *collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.inputDesc
 	ch <- c.outputDesc
 	ch <- c.opModeDesc
+	ch <- c.opModeIDDesc
 	ch <- c.heatQuantityDesc
 	ch <- c.heatCapacityDesc
 	ch <- c.energyInputDesc
@@ -198,23 +201,19 @@ func (c *collector) collectInfo(
 
 	sort.Strings(hpType)
 
-	ch <- prometheus.MustNewConstMetric(c.infoDesc, prometheus.GaugeValue,
-		1, swVersion, strings.Join(hpType, ", "))
+	opModeID, ok := c.terms.OperationModeMapping[strings.ToLower(opMode)]
+	if !ok && c.log != nil {
+		c.log.Error("opMode not configured in code", zap.String("operational_mode", opMode))
+		opModeID = -1
+	}
 
-	ch <- prometheus.MustNewConstMetric(c.opModeDesc, prometheus.GaugeValue,
-		1, opMode)
-
-	ch <- prometheus.MustNewConstMetric(c.heatQuantityDesc, prometheus.GaugeValue,
-		heatOutputValue, heatOutputUnit)
-
-	ch <- prometheus.MustNewConstMetric(c.heatCapacityDesc, prometheus.GaugeValue,
-		heatCapValue, heatCapUnit)
-
-	ch <- prometheus.MustNewConstMetric(c.defrostDesc, prometheus.GaugeValue,
-		defrostDemandValue, "demand", defrostDemandUnit)
-
-	ch <- prometheus.MustNewConstMetric(c.defrostDesc, prometheus.GaugeValue,
-		float64(lastDefrost.Unix()), "last", "ts")
+	ch <- prometheus.MustNewConstMetric(c.infoDesc, prometheus.GaugeValue, 1, swVersion, strings.Join(hpType, ", "))
+	ch <- prometheus.MustNewConstMetric(c.opModeDesc, prometheus.GaugeValue, 1, opMode)
+	ch <- prometheus.MustNewConstMetric(c.opModeIDDesc, prometheus.GaugeValue, opModeID, opMode)
+	ch <- prometheus.MustNewConstMetric(c.heatQuantityDesc, prometheus.GaugeValue, heatOutputValue, heatOutputUnit)
+	ch <- prometheus.MustNewConstMetric(c.heatCapacityDesc, prometheus.GaugeValue, heatCapValue, heatCapUnit)
+	ch <- prometheus.MustNewConstMetric(c.defrostDesc, prometheus.GaugeValue, defrostDemandValue, "demand", defrostDemandUnit)
+	ch <- prometheus.MustNewConstMetric(c.defrostDesc, prometheus.GaugeValue, float64(lastDefrost.Unix()), "last", "ts")
 
 	return nil
 }

@@ -29,10 +29,18 @@ var German = &Terminology{
 	StatusType:            "Wärmepumpen Typ",
 	StatusSoftwareVersion: "Softwarestand",
 	StatusOperationMode:   "Betriebszustand",
+	OperationModeMapping: map[string]float64{
+		// lower case!
+		"off":    OpModeIDOff,
+		"heizen": OpModeIDHeating,
+		"evu":    OpModeIDEVU,
+		"ww":     OpModeIDDHW,
+		"abt":    OpModeIDDefrosting,
+	},
 	StatusPowerOutput:     "Leistung Ist",
-	StatusHeatingCapacity: "Heating capacity", // TODO correct translation
-	StatusDefrostDemand:   "Defrost demand",   // TODO correct translation
-	StatusLastDefrost:     "last defrost",     // TODO correct translation
+	StatusHeatingCapacity: "Heizleistung Ist", // TODO correct translation
+	StatusDefrostDemand:   "Abtaubedarf",
+	StatusLastDefrost:     "Letzte Abt.", // TODO correct translation
 	BoolFalse:             "Aus",
 	BoolTrue:              "Ein",
 }

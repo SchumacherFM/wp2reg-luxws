@@ -8,6 +8,15 @@ import (
 	"time"
 )
 
+const (
+	OpModeIDNone = iota + 1
+	OpModeIDOff
+	OpModeIDHeating
+	OpModeIDDHW
+	OpModeIDEVU
+	OpModeIDDefrosting
+)
+
 // Terminology describes the names and expressions used by a LuxWS-compatible
 // heat pump controller. Member functions allow for parsing of timestamps,
 // durations and measurements such as temperatures and pressures.
@@ -40,6 +49,7 @@ type Terminology struct {
 	StatusType            string
 	StatusSoftwareVersion string
 	StatusOperationMode   string
+	OperationModeMapping  map[string]float64
 	StatusPowerOutput     string
 	StatusHeatingCapacity string
 	StatusDefrostDemand   string

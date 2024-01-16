@@ -104,6 +104,9 @@ luxws_info{hptype="",swversion=""} 1
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
 luxws_operational_mode{mode=""} 1
+# HELP luxws_operational_mode_id Operational mode by ID
+# TYPE luxws_operational_mode_id gauge
+luxws_operational_mode_id{mode=""} 0
 `,
 		},
 		{
@@ -140,6 +143,9 @@ luxws_info{hptype="typeA, typeB",swversion="v1.2.3"} 1
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
 luxws_operational_mode{mode="running"} 1
+# HELP luxws_operational_mode_id Operational mode by ID
+# TYPE luxws_operational_mode_id gauge
+luxws_operational_mode_id{mode="running"} 0
 `,
 		},
 		{
@@ -175,6 +181,9 @@ luxws_info{hptype="l2a",swversion="v1.86.2"} 1
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
 luxws_operational_mode{mode="----"} 1
+# HELP luxws_operational_mode_id Operational mode by ID
+# TYPE luxws_operational_mode_id gauge
+luxws_operational_mode_id{mode="----"} 0
 `,
 			wantQuirks: quirks{
 				missingSuppliedHeat: true,
@@ -619,6 +628,9 @@ luxws_supplied_heat{name="",unit=""} 0
 # HELP luxws_temperature Sensor temperature
 # TYPE luxws_temperature gauge
 luxws_temperature{name="",unit=""} 0
+# HELP luxws_operational_mode_id Operational mode by ID
+# TYPE luxws_operational_mode_id gauge
+luxws_operational_mode_id{mode=""} 0
 `,
 		},
 		{
@@ -692,6 +704,9 @@ luxws_output{name="",unit=""} 0
 # HELP luxws_temperature Sensor temperature
 # TYPE luxws_temperature gauge
 luxws_temperature{name="",unit=""} 0
+# HELP luxws_operational_mode_id Operational mode by ID
+# TYPE luxws_operational_mode_id gauge
+luxws_operational_mode_id{mode=""} 0
 `,
 		},
 	} {
