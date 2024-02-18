@@ -55,7 +55,8 @@
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "celsius",
+          "unitScale": true
         },
         "overrides": [
           {
@@ -91,10 +92,11 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
@@ -191,7 +193,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -214,10 +217,11 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
@@ -259,7 +263,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -282,10 +287,11 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
@@ -338,7 +344,8 @@
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "celsius",
+          "unitScale": true
         },
         "overrides": [
           {
@@ -374,10 +381,11 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
@@ -471,7 +479,8 @@
               }
             ]
           },
-          "unit": "dateTimeAsLocal"
+          "unit": "dateTimeAsLocal",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -494,10 +503,11 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
@@ -552,7 +562,8 @@
               }
             ]
           },
-          "unit": "dateTimeAsLocal"
+          "unit": "dateTimeAsLocal",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -575,10 +586,11 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
@@ -650,7 +662,8 @@
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "celsius",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -676,7 +689,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "10.2.3",
+      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
@@ -773,7 +786,8 @@
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "celsius",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -789,9 +803,9 @@
           "calcs": [
             "min",
             "max",
-            "lastNotNull",
             "mean",
-            "stdDev"
+            "stdDev",
+            "lastNotNull"
           ],
           "displayMode": "table",
           "placement": "bottom",
@@ -890,9 +904,26 @@
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "celsius",
+          "unitScale": true
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "VD Impulse"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "unit"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 13,
@@ -1034,6 +1065,19 @@
           "legendFormat": "{{name}}",
           "range": true,
           "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "rate(luxws_impulses{name=\"impulse VD1\"}[5m]) *5*60",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "VD Impulse",
+          "range": true,
+          "refId": "J"
         }
       ],
       "title": "Temperatures",
@@ -1089,7 +1133,8 @@
               }
             ]
           },
-          "unit": "bool_on_off"
+          "unit": "bool_on_off",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1261,7 +1306,8 @@
               }
             ]
           },
-          "unit": "bool_on_off"
+          "unit": "bool_on_off",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1442,7 +1488,8 @@
               }
             ]
           },
-          "unit": "bool_on_off"
+          "unit": "bool_on_off",
+          "unitScale": true
         },
         "overrides": [
           {
@@ -1592,7 +1639,8 @@
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "celsius",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1717,7 +1765,8 @@
               }
             ]
           },
-          "unit": "litreh"
+          "unit": "litreh",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1823,7 +1872,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1901,8 +1951,8 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
-            "spanNulls": false,
+            "showPoints": "never",
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -1926,7 +1976,8 @@
               }
             ]
           },
-          "unit": "Δ kWh"
+          "unit": "kwatth",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -2062,7 +2113,8 @@
               }
             ]
           },
-          "unit": "rotrpm"
+          "unit": "rotrpm",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -2183,7 +2235,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -2206,7 +2258,8 @@
               }
             ]
           },
-          "unit": "Δ kWh"
+          "unit": "kwatth",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -2219,8 +2272,12 @@
       "id": 8,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
@@ -2238,7 +2295,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "rate(luxws_energy_input{name=\"total\"}[1h]) *1000",
+          "expr": "rate(luxws_energy_input{name=\"total\"}[15m]) * 15*60",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2254,7 +2311,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(luxws_energy_input{name=\"heating\"}[1h]) *1000",
+          "expr": "rate(luxws_energy_input{name=\"heating\"}[15m]) * 15*60",
           "hide": false,
           "instant": false,
           "legendFormat": "Heating",
@@ -2267,7 +2324,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(luxws_energy_input{name=\"domestic hot water\"}[1h])*1000",
+          "expr": "rate(luxws_energy_input{name=\"domestic hot water\"}[15m]) * 15*60",
           "hide": false,
           "instant": false,
           "legendFormat": "Hot water",
@@ -2335,7 +2392,8 @@
               }
             ]
           },
-          "unit": "pressurebar"
+          "unit": "pressurebar",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -2461,7 +2519,8 @@
               }
             ]
           },
-          "unit": "COP"
+          "unit": "COP",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -2492,7 +2551,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "deriv(luxws_supplied_heat{name=\"total\"}[30m])  /  rate(luxws_energy_input{name=\"total\"}[30m])",
+          "expr": "deriv(luxws_supplied_heat{name=\"total\"}[1h])  /  rate(luxws_energy_input{name=\"total\"}[1h])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2563,7 +2622,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -2681,7 +2741,8 @@
               }
             ]
           },
-          "unit": "kwatt"
+          "unit": "kwatt",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -2782,7 +2843,8 @@
               }
             ]
           },
-          "unit": "m"
+          "unit": "m",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -3004,7 +3066,8 @@
               }
             ]
           },
-          "unit": "h"
+          "unit": "h",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -3116,7 +3179,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -3171,7 +3235,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {
             "axisBorderShow": false,
@@ -3198,14 +3262,14 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "off"
+              "mode": "dashed"
             }
           },
           "decimals": 1,
@@ -3216,14 +3280,11 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "celsius",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -3239,10 +3300,9 @@
           "calcs": [
             "min",
             "max",
-            "mean",
             "lastNotNull"
           ],
-          "displayMode": "table",
+          "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
@@ -3270,7 +3330,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": "10s",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
@@ -3358,7 +3418,7 @@
     ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
@@ -3370,13 +3430,12 @@
       "30m",
       "1h",
       "2h",
-      "1d",
-      "3d"
+      "1d"
     ]
   },
   "timezone": "",
   "title": "Heat Pump LuxWS",
   "uid": "ead41ecf-b956-4254-b74d-40a5f1eb0c62",
-  "version": 85,
+  "version": 93,
   "weekStart": ""
 }
