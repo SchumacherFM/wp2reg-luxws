@@ -1,40 +1,40 @@
-<Navigation id='0x8eb238'>
-    <item id='0x8ce0f0'>
+<Navigation id='0xf3a868'>
+    <item id='0xedf358'>
         <name>information</name>
-        <item id='0x8ce738'>
+        <item id='0xf3b518'>
             <name>temperatures</name>
         </item>
-        <item id='0x8d2bb8'>
+        <item id='0xf3bcf8'>
             <name>inputs</name>
         </item>
-        <item id='0x8d3558'>
+        <item id='0xf3be60'>
             <name>outputs</name>
         </item>
-        <item id='0x8d3590'>
+        <item id='0xf3bcb0'>
             <name>elapsed times</name>
         </item>
-        <item id='0x8d1c68'>
+        <item id='0xf3bef0'>
             <name>operating hours</name>
         </item>
-        <item id='0x8d4ea8'>
+        <item id='0xf3c010'>
             <name>error memory</name>
         </item>
-        <item id='0x8c03e0'>
+        <item id='0xf3c058'>
             <name>switch offs</name>
         </item>
-        <item id='0x8c0418'>
+        <item id='0xf3c0a0'>
             <name>system status</name>
         </item>
-        <item id='0x8e6af8'>
+        <item id='0xf3bdd0'>
             <name>energy monitor</name>
-            <item id='0x8d4e70'>
-                <name>heat quantity</name>
+            <item id='0xf3bfc8'>
+                <name>Heat Quantity</name>
             </item>
-            <item id='0x8d1ca0'>
-                <name>energy input</name>
+            <item id='0xf3bf38'>
+                <name>Power Consumption</name>
             </item>
         </item>
-        <item id='0x8d5d70'>
+        <item id='0xf3be18'>
             <name>BMS</name>
         </item>
     </item>
