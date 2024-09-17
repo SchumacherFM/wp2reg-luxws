@@ -15,8 +15,8 @@ var English = &Terminology{
 	NavElapsedTimes: "elapsed times",
 	NavInputs:       "inputs",
 	NavOutputs:      "outputs",
-	NavHeatQuantity: "heat quantity",
-	NavEnergyInput:  "energy input",
+	NavHeatQuantity: "Heat Quantity",
+	NavEnergyInput:  "Power Consumption",
 	NavErrorMemory:  "error memory",
 	NavSwitchOffs:   "switch offs",
 
@@ -41,6 +41,6 @@ var English = &Terminology{
 	StatusHeatingCapacity: "Heating capacity", // might be the same as "actual capacity"
 	StatusDefrostDemand:   "Defrost demand",
 	StatusLastDefrost:     "last defrost",
-	BoolFalse:             "off",
-	BoolTrue:              "on",
+	BoolFalse:             "Off",
+	BoolTrue:              "On",
 }

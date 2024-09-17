@@ -1,455 +1,459 @@
 <Content>
-    <item id='0x8d2b84'>
+    <item id='0xf3b794'>
         <name>temperatures</name>
-        <item id='0x8ea354'>
+        <item id='0xf3cec4'>
             <name>flow</name>
-            <value>25.3°C</value>
+            <value>23.8°C</value>
         </item>
-        <item id='0x8d62e4'>
+        <item id='0xf3cf9c'>
             <name>return</name>
-            <value>25.4°C</value>
+            <value>23.9°C</value>
         </item>
-        <item id='0x8d632c'>
+        <item id='0xf3cfe4'>
             <name>return target</name>
-            <value>27.2°C</value>
+            <value>24.7°C</value>
         </item>
-        <item id='0x8ea30c'>
+        <item id='0xf3ce7c'>
             <name>hot gas</name>
-            <value>41.7°C</value>
+            <value>27.7°C</value>
         </item>
-        <item id='0x8cb044'>
+        <item id='0xf3d074'>
             <name>outdoor temp.</name>
-            <value>5.3°C</value>
+            <value>14.6°C</value>
         </item>
-        <item id='0x8cb08c'>
+        <item id='0xf3d0bc'>
             <name>outdoor temp. ø</name>
-            <value>4.7°C</value>
+            <value>13.4°C</value>
         </item>
-        <item id='0x8c15a4'>
+        <item id='0xf3d104'>
             <name>DHW</name>
-            <value>49.1°C</value>
+            <value>49.3°C</value>
         </item>
-        <item id='0x8c2fa4'>
+        <item id='0xf3d184'>
             <name>DHW target</name>
-            <value>50.0°C</value>
+            <value>50.5°C</value>
         </item>
-        <item id='0x8f734c'>
+        <item id='0xf3ce34'>
             <name>heat source inlet</name>
-            <value>7.9°C</value>
+            <value>16.8°C</value>
         </item>
-        <item id='0x8d78d4'>
+        <item id='0xf3cf0c'>
             <name>max. flow temp.</name>
             <value>60.0°C</value>
         </item>
-        <item id='0x8cdf44'>
+        <item id='0xf3cc3c'>
             <name>suction compressor</name>
-            <value>37.0°C</value>
+            <value>26.3°C</value>
         </item>
-        <item id='0x8ed384'>
+        <item id='0xf3cd14'>
             <name>overheating</name>
-            <value>28.7 K</value>
+            <value>10.2 K</value>
         </item>
-        <item id='0x8d89bc'>
+        <item id='0xf3cd5c'>
             <name>target overheating</name>
-            <value>8.0 K</value>
+            <value>20.0 K</value>
         </item>
-        <item id='0x8ca58c'>
+        <item id='0xf3d77c'>
             <name>TFL1</name>
-            <value>17.9°C</value>
+            <value>19.9°C</value>
         </item>
-        <item id='0x8ec9c4'>
+        <item id='0xf3d7c4'>
             <name>TFL2</name>
-            <value>20.9°C</value>
+            <value>22.7°C</value>
         </item>
         <name>temperatures</name>
     </item>
-    <item id='0x8d5d3c'>
+    <item id='0xf3b69c'>
         <name>inputs</name>
-        <item id='0x8d870c'>
+        <item id='0xf3e36c'>
             <name>ASD</name>
-            <value>off</value>
+            <value>On</value>
         </item>
-        <item id='0x8dad0c'>
+        <item id='0xf3e504'>
             <name>EVU</name>
-            <value>on</value>
+            <value>On</value>
         </item>
-        <item id='0x8d8634'>
+        <item id='0xf3e294'>
             <name>HD</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8cee84'>
+        <item id='0xf3e54c'>
             <name>MOT</name>
-            <value>on</value>
+            <value>On</value>
         </item>
-        <item id='0x8cef14'>
+        <item id='0xf3e5dc'>
             <name>SWT</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8cefa4'>
+        <item id='0xf3e66c'>
             <name>analog in 21</name>
             <value>0.01 V</value>
         </item>
-        <item id='0x8e5be4'>
+        <item id='0xf3e6b4'>
             <name>analog in 22</name>
             <value>0.01 V</value>
         </item>
-        <item id='0x8d867c'>
+        <item id='0xf3e2dc'>
             <name>HD</name>
-            <value>9.35 bar</value>
+            <value>11.99 bar</value>
         </item>
-        <item id='0x8d86c4'>
+        <item id='0xf3e324'>
             <name>ND</name>
-            <value>9.28 bar</value>
+            <value>11.94 bar</value>
         </item>
-        <item id='0x8e5c2c'>
+        <item id='0xf3e6fc'>
             <name>flow rate</name>
-            <value>--- l/h</value>
+            <value>602 l/h</value>
         </item>
-        <item id='0x8e07c4'>
+        <item id='0xf3e84c'>
             <name>EVU 2</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8e080c'>
+        <item id='0xf3e894'>
             <name>STL immersion heater</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
         <name>inputs</name>
     </item>
-    <item id='0x8e6ac4'>
+    <item id='0xf3b6d4'>
         <name>outputs</name>
-        <item id='0x8d322c'>
+        <item id='0xf3f4f4'>
             <name>AV-defrost. valve</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8d5bec'>
+        <item id='0xf3eb04'>
             <name>BUP - DHW pump</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8d21ec'>
+        <item id='0xf3eb94'>
             <name>HUP</name>
-            <value>on</value>
+            <value>On</value>
         </item>
-        <item id='0x8d5ba4'>
+        <item id='0xf3eabc'>
             <name>VBO</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8d3274'>
+        <item id='0xf3e964'>
             <name>VD1</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8eaca4'>
+        <item id='0xf3ecfc'>
             <name>ZIP</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8eadc4'>
+        <item id='0xf3feb4'>
             <name>ZUP</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8d32bc'>
+        <item id='0xf3e99c'>
             <name>ZWE 1</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8d3304'>
+        <item id='0xf3e9e4'>
             <name>ZWE 2 - SST</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8bf724'>
+        <item id='0xf3feec'>
             <name>ZWE 3</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8bf76c'>
+        <item id='0xf3ff24'>
             <name>SLP</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8d6464'>
+        <item id='0xf40044'>
             <name>FP2</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8d653c'>
+        <item id='0xf4011c'>
             <name>FP3</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
-        <item id='0x8d6584'>
+        <item id='0xf40164'>
             <name>AO 1</name>
             <value>10.00 V</value>
         </item>
-        <item id='0x8cfee4'>
+        <item id='0xf401ac'>
             <name>AO 2</name>
             <value>10.00 V</value>
         </item>
-        <item id='0x8cff2c'>
+        <item id='0xf401f4'>
             <name>AO 21</name>
             <value>0.00 V</value>
         </item>
-        <item id='0x8cff74'>
+        <item id='0xf4023c'>
             <name>AO 22</name>
             <value>0.00 V</value>
         </item>
-        <item id='0x8cde44'>
+        <item id='0xf407e4'>
             <name>HUP</name>
-            <value>40.2 %</value>
+            <value>44.2 %</value>
         </item>
-        <item id='0x8c8cd4'>
+        <item id='0xf4088c'>
             <name>freq. targ.value</name>
             <value>0 RPM</value>
         </item>
-        <item id='0x8c8d6c'>
+        <item id='0xf40924'>
             <name>freq. current</name>
             <value>0 RPM</value>
         </item>
-        <item id='0x8e8894'>
+        <item id='0xf40acc'>
             <name>rotation speed fan</name>
             <value>0 RPM</value>
         </item>
-        <item id='0x8e88dc'>
+        <item id='0xf40b14'>
             <name>EEV heating</name>
             <value>0.0 %</value>
         </item>
-        <item id='0x8e8924'>
+        <item id='0xf40b5c'>
             <name>EEV cooling</name>
             <value>0.0 %</value>
         </item>
         <name>outputs</name>
     </item>
-    <item id='0x8d5dbc'>
+    <item id='0xf3b70c'>
         <name>elapsed times</name>
-        <item id='0x8bb9dc'>
+        <item id='0xf3f30c'>
             <name>HP since</name>
-            <value>00:00:00</value>
+            <value>00:00:01</value>
         </item>
-        <item id='0x8ec664'>
+        <item id='0xf40cc4'>
             <name>ZWE1 since</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8ec69c'>
+        <item id='0xf40cfc'>
             <name>ZWE2 since</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8ec72c'>
+        <item id='0xf40d8c'>
             <name>net-input delay</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8ec764'>
+        <item id='0xf40dc4'>
             <name>SCB time</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8ec794'>
+        <item id='0xf40df4'>
             <name>CP off since</name>
-            <value>00:24:31</value>
+            <value>12:40:06</value>
         </item>
-        <item id='0x8cc1ac'>
+        <item id='0xf40e34'>
             <name>hc add-time</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8cc1e4'>
+        <item id='0xf40e7c'>
             <name>hc less-time</name>
-            <value>00:00:00</value>
+            <value>00:02:17</value>
         </item>
-        <item id='0x8cc22c'>
+        <item id='0xf40ec4'>
             <name>TDI since</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8cc2ac'>
+        <item id='0xf40f44'>
             <name>blockade DHW</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8c499c'>
+        <item id='0xf41034'>
             <name>release ZWE</name>
             <value>01:00:00</value>
         </item>
-        <item id='0x8c4a24'>
+        <item id='0xf410bc'>
             <name>release cooling</name>
-            <value>00:00:00</value>
+            <value>11:59:58</value>
         </item>
         <name>elapsed times</name>
     </item>
-    <item id='0x8e6b44'>
+    <item id='0xf3b744'>
         <name>operating hours</name>
-        <item id='0x8dc804'>
+        <item id='0xf3f834'>
             <name>operating hours VD1</name>
-            <value>5863h</value>
+            <value>7681h</value>
         </item>
-        <item id='0x8d00ec'>
+        <item id='0xf3f87c'>
             <name>impulse VD1</name>
-            <value>4944</value>
+            <value>5300</value>
         </item>
-        <item id='0x8d0134'>
+        <item id='0xf3f8c4'>
             <name>running time Ø VD1</name>
-            <value>01:11</value>
+            <value>01:26</value>
         </item>
-        <item id='0x8e6f1c'>
+        <item id='0xf3f9e4'>
             <name>operating hours ZWE1</name>
             <value>72h</value>
         </item>
-        <item id='0x8e6f64'>
+        <item id='0xf3fa2c'>
             <name>operating hours ZWE2</name>
             <value>3h</value>
         </item>
-        <item id='0x8e6ff4'>
+        <item id='0xf3fabc'>
             <name>operating hours HP</name>
-            <value>5863h</value>
+            <value>7681h</value>
         </item>
-        <item id='0x8e703c'>
+        <item id='0xf3fb04'>
             <name>operat. hours heat.</name>
-            <value>5113h</value>
+            <value>6724h</value>
         </item>
-        <item id='0x8ee9b4'>
+        <item id='0xf3fb4c'>
             <name>operating hours DHW</name>
-            <value>749h</value>
+            <value>956h</value>
         </item>
-        <item id='0x8eea8c'>
+        <item id='0xf3fc24'>
             <name>amount PV</name>
-            <value>0h</value>
+            <value>104h</value>
         </item>
         <name>operating hours</name>
     </item>
-    <item id='0x8d35dc'>
+    <item id='0xf3b48c'>
         <name>error memory</name>
-        <item id='0x8cce9c'>
-            <name>11.09.23 15:30:46</name>
+        <item id='0xf4332c'>
+            <name>01.09.24 15:12:47</name>
             <value>max. outdoor temp. (718)</value>
         </item>
-        <item id='0x8ccf2c'>
-            <name>24.08.23 13:47:07</name>
+        <item id='0xf433bc'>
+            <name>30.08.24 15:02:04</name>
             <value>max. outdoor temp. (718)</value>
         </item>
-        <item id='0x8ccfbc'>
-            <name>23.08.23 13:36:40</name>
+        <item id='0xf4344c'>
+            <name>29.08.24 16:03:24</name>
             <value>max. outdoor temp. (718)</value>
         </item>
-        <item id='0x8edd0c'>
-            <name>22.08.23 12:31:05</name>
+        <item id='0xf434dc'>
+            <name>29.08.24 14:22:33</name>
             <value>max. outdoor temp. (718)</value>
         </item>
-        <item id='0x8edd9c'>
-            <name>21.08.23 12:30:12</name>
+        <item id='0xf4356c'>
+            <name>12.08.24 14:12:13</name>
             <value>max. outdoor temp. (718)</value>
         </item>
         <name>error memory</name>
     </item>
-    <item id='0x8bd5e4'>
+    <item id='0xf3b4c4'>
         <name>switch offs</name>
-        <item id='0x8e0e14'>
-            <name>20.12.23 13:21:20</name>
+        <item id='0xf439bc'>
+            <name>17.09.24 09:06:47</name>
             <value>no requ.</value>
         </item>
-        <item id='0x8e0d94'>
-            <name>20.12.23 10:16:52</name>
+        <item id='0xf4393c'>
+            <name>17.09.24 04:48:11</name>
             <value>no requ.</value>
         </item>
-        <item id='0x8e0d14'>
-            <name>19.12.23 15:39:07</name>
+        <item id='0xf438bc'>
+            <name>16.09.24 10:32:24</name>
             <value>no requ.</value>
         </item>
-        <item id='0x8d693c'>
-            <name>17.12.23 10:03:45</name>
-            <value>flow rate</value>
+        <item id='0xf4383c'>
+            <name>15.09.24 11:03:23</name>
+            <value>no requ.</value>
         </item>
-        <item id='0x8d68bc'>
-            <name>16.12.23 10:05:12</name>
-            <value>flow rate</value>
+        <item id='0xf437bc'>
+            <name>15.09.24 07:41:27</name>
+            <value>no requ.</value>
         </item>
         <name>switch offs</name>
     </item>
-    <item id='0x8d4ef4'>
+    <item id='0xf3b5a4'>
         <name>system status</name>
-        <item id='0x8e106c'>
+        <item id='0xf43d0c'>
             <name>type of heat pump</name>
             <value>LW 8</value>
         </item>
-        <item id='0x8e109c'>
+        <item id='0xf43d3c'>
             <name>type of heat pump</name>
             <value>CMD_6</value>
         </item>
-        <item id='0x8da6fc'>
+        <item id='0xf43e04'>
             <name>software version</name>
-            <value>V3.89.3</value>
+            <value>V3.90.0</value>
         </item>
-        <item id='0x8da744'>
+        <item id='0xf43e4c'>
             <name>Revision</name>
-            <value>10115</value>
+            <value>12065</value>
         </item>
-        <item id='0x8da79c'>
+        <item id='0xf43ea4'>
             <name>HZ/IO</name>
             <value>
-                <![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>9393</span></div><div class='boardInfoLine'><span>  CPU:</span><span>3</span></div>]]></value>
+                <![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>11298</span></div><div class='boardInfoLine'><span>  CPU:</span><span>3</span></div>]]></value>
         </item>
-        <item id='0x843034'>
+        <item id='0xf44074'>
+            <name>inverter</name>
+            <value><![CDATA[<div class='boardInfoLine'><span>  SW Version:</span><span>49</span></div>]]></value>
+        </item>
+        <item id='0xf441a4'>
             <name>ASB</name>
             <value>
-                <![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>9562</span></div><div class='boardInfoLine'><span>  HW Revision:</span><span>5</span></div>]]></value>
+                <![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>11417</span></div><div class='boardInfoLine'><span>  HW Revision:</span><span>5</span></div>]]></value>
         </item>
-        <item id='0x8e357c'>
+        <item id='0xf44254'>
             <name>controller</name>
-            <value><![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>2003</span></div>]]></value>
+            <value><![CDATA[<div class='boardInfoLine'><span>  HW Revision:</span><span>2003</span></div>]]></value>
         </item>
-        <item id='0x8e6d5c'>
-            <name>Inverter SW Version</name>
-            <value>49</value>
-        </item>
-        <item id='0x8e6dd4'>
+        <item id='0xf44474'>
             <name>bivalence level</name>
             <value>1</value>
         </item>
-        <item id='0x8e6e0c'>
+        <item id='0xf444ac'>
             <name>operation mode</name>
             <value></value>
         </item>
-        <item id='0x8e6e4c'>
+        <item id='0xf444ec'>
             <name>Heating capacity</name>
             <value>0.00 kW</value>
         </item>
-        <item id='0x8d43ac'>
+        <item id='0xf44534'>
+            <name>Power Consumption</name>
+            <value>0.00 kW</value>
+        </item>
+        <item id='0xf44734'>
             <name>Defrost demand</name>
             <value>0.0%</value>
         </item>
-        <item id='0x8d43e4'>
+        <item id='0xf4476c'>
             <name>last defrost</name>
-            <value>19.12.23 20:08</value>
+            <value>10.06.24 17:58</value>
         </item>
         <name>system status</name>
     </item>
-    <item id='0x8d609c'>
+    <item id='0xf3b5dc'>
         <name>energy monitor</name>
-        <item id='0x8ed5ec'>
-            <name>heat quantity</name>
-            <item id='0x8dd994'>
+        <item id='0xf4499c'>
+            <name>Heat Quantity</name>
+            <item id='0xf44dac'>
                 <name>heating</name>
-                <value>20074.8 kWh</value>
+                <value>24925.8 kWh</value>
             </item>
-            <item id='0x8e816c'>
+            <item id='0xf44e84'>
                 <name>domestic hot water</name>
-                <value>3657.4 kWh</value>
+                <value>4652.6 kWh</value>
             </item>
-            <item id='0x8dbfdc'>
+            <item id='0xf45164'>
                 <name>total</name>
-                <value>23732.2 kWh</value>
+                <value>29578.4 kWh</value>
             </item>
-            <name>heat quantity</name>
+            <name>Heat Quantity</name>
         </item>
-        <item id='0x8ecf54'>
-            <name>energy input</name>
-            <item id='0x8ddc2c'>
+        <item id='0xf449e4'>
+            <name>Power Consumption</name>
+            <item id='0xf4629c'>
                 <name>heating</name>
-                <value>1112.3 kWh</value>
+                <value>1756.5 kWh</value>
             </item>
-            <item id='0x8c19ec'>
+            <item id='0xf46374'>
                 <name>domestic hot water</name>
-                <value>271.0 kWh</value>
+                <value>505.8 kWh</value>
             </item>
-            <item id='0x8e42ec'>
+            <item id='0xf4660c'>
                 <name>total</name>
-                <value>1383.3 kWh</value>
+                <value>2262.3 kWh</value>
             </item>
-            <name>energy input</name>
+            <name>Power Consumption</name>
         </item>
         <name>energy monitor</name>
     </item>
-    <item id='0x8ce794'>
+    <item id='0xf3c4a4'>
         <name>BMS</name>
-        <item id='0x8c9e14'>
+        <item id='0xf43cc4'>
             <name>type</name>
-            <value>off</value>
+            <value>Off</value>
         </item>
         <name>BMS</name>
     </item>

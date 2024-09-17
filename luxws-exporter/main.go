@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
 	"net/http"
 	"os"
 	"time"
-
-	"go.uber.org/zap/zapcore"
 
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/hansmi/wp2reg-luxws/luxwslang"
@@ -18,7 +17,9 @@ import (
 	promslogflag "github.com/prometheus/common/promslog/flag"
 	"github.com/prometheus/exporter-toolkit/web"
 	webflag "github.com/prometheus/exporter-toolkit/web/kingpinflag"
+	slogzap "github.com/samber/slog-zap/v2"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 var (
@@ -134,44 +135,9 @@ func main() {
 
 	server := &http.Server{}
 
-	if err := web.ListenAndServe(server, webConfig, wraplog{zaplog}); err != nil {
+	logger := slog.New(slogzap.Option{Level: slog.LevelDebug, Logger: zaplog}.NewZapHandler())
+
+	if err := web.ListenAndServe(server, webConfig, logger); err != nil {
 		zaplog.Fatal("ListenAndServe failed", zap.Error(err))
 	}
-}
-
-type wraplog struct {
-	*zap.Logger
-}
-
-func (w wraplog) Log(keyvals ...interface{}) error {
-	keylen := len(keyvals)
-
-	var level string
-	var msg string
-	data := make([]zap.Field, 0, (keylen/2)+1)
-	for i := 0; i < keylen; i += 2 {
-		key := fmt.Sprint(keyvals[i])
-		switch key {
-		case "level":
-			level = keyvals[i+1].(fmt.Stringer).String()
-		case "msg":
-			msg = keyvals[i+1].(string)
-		default:
-			data = append(data, zap.Any(key, keyvals[i+1]))
-		}
-	}
-
-	switch level {
-	case "debug":
-		w.Debug(msg, data...)
-	case "info":
-		w.Info(msg, data...)
-	case "warn":
-		w.Warn(msg, data...)
-	case "error":
-		w.Error(msg, data...)
-	case "fatal":
-		w.Fatal(msg, data...)
-	}
-	return nil
 }
