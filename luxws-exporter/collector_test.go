@@ -2,16 +2,16 @@ package main
 
 import (
 	"context"
+	"encoding/xml"
 	"io"
 	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"strings"
 	"testing"
 	"time"
-
-	"go.uber.org/zap"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -19,6 +19,7 @@ import (
 	"github.com/hansmi/wp2reg-luxws/luxwslang"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
+	"go.uber.org/zap"
 )
 
 func discardAllLogs(t *testing.T) {
@@ -88,7 +89,7 @@ func TestCollectWebSocketParts(t *testing.T) {
 				},
 			},
 			want: `
-# HELP luxws_defrost Defrost demand in % and last defrost time
+# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
@@ -127,7 +128,7 @@ luxws_operational_mode_id{mode=""} 0
 				},
 			},
 			want: `
-# HELP luxws_defrost Defrost demand in % and last defrost time
+# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
@@ -165,7 +166,7 @@ luxws_operational_mode_id{mode="running"} 0
 				},
 			},
 			want: `
-# HELP luxws_defrost Defrost demand in % and last defrost time
+# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
@@ -569,9 +570,10 @@ func TestCollectAll(t *testing.T) {
 			input: &luxwsclient.ContentRoot{
 				Items: luxwsclient.ContentItems{
 					{Name: "elapsed times"},
-					{Name: "error memory"},
-					{Name: "heat quantity"},
 					{Name: "energy input"},
+					{Name: "error memory"},
+					{Name: "Heat Quantity"},
+					{Name: "Power Consumption", Items: luxwsclient.ContentItems{{}, {}}},
 					{Name: "information"},
 					{Name: "inputs"},
 					{Name: "operating hours"},
@@ -582,7 +584,7 @@ func TestCollectAll(t *testing.T) {
 				},
 			},
 			want: `
-# HELP luxws_defrost Defrost demand in % and last defrost time
+# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
@@ -643,7 +645,8 @@ luxws_operational_mode_id{mode=""} 0
 				Items: luxwsclient.ContentItems{
 					{Name: "elapsed times"},
 					{Name: "error memory"},
-					{Name: "heat quantity"},
+					{Name: "Heat Quantity"},
+					{Name: "Power Consumption", Items: luxwsclient.ContentItems{{}, {}}},
 					{Name: "energy input"},
 					{Name: "information"},
 					{Name: "inputs"},
@@ -661,7 +664,7 @@ luxws_operational_mode_id{mode=""} 0
 				},
 			},
 			want: `
-# HELP luxws_defrost Defrost demand in % and last defrost time
+# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
@@ -709,6 +712,58 @@ luxws_temperature{name="",unit=""} 0
 luxws_operational_mode_id{mode=""} 0
 `,
 		},
+		{
+			// Heat pump controllers of type L2A don't report the amount of
+			// supplied heat.
+			//
+			// https://github.com/hansmi/wp2reg-luxws/issues/11
+			name: "Real Decode Content EN",
+			input: func(t *testing.T) *luxwsclient.ContentRoot {
+				// according to the newest firmware update of version V3.90.0 the word
+				// "Power Consumption" appears multiple times.
+				xmlData, err := os.ReadFile("testdata/content_en_power_energy.xml")
+				if err != nil {
+					t.Fatal(err)
+				}
+				var cr luxwsclient.ContentRoot
+				if err := xml.Unmarshal(xmlData, &cr); err != nil {
+					t.Fatal(err)
+				}
+				return &cr
+			}(t),
+			want: `
+# HELP luxws_defrost Defrost demand in %% and last defrost time
+# TYPE luxws_defrost gauge
+luxws_defrost{name="demand",unit="pct"} 0
+luxws_defrost{name="last",unit="ts"} 1.71804228e+09
+# HELP luxws_energy_input Energy Input
+# TYPE luxws_energy_input counter
+luxws_energy_input{name="domestic hot water",unit="kWh"} 517.5
+luxws_energy_input{name="heating",unit="kWh"} 1768
+luxws_energy_input{name="total",unit="kWh"} 2285.5
+# HELP luxws_heat_capacity Heat Capacity
+# TYPE luxws_heat_capacity gauge
+luxws_heat_capacity{unit="kW"} 0
+# HELP luxws_heat_quantity Heat quantity
+# TYPE luxws_heat_quantity gauge
+luxws_heat_quantity{unit=""} 0
+# HELP luxws_info Controller information
+# TYPE luxws_info gauge
+luxws_info{hptype="LW 8",swversion=""} 1
+# HELP luxws_operational_mode Operational mode
+# TYPE luxws_operational_mode gauge
+luxws_operational_mode{mode=""} 1
+# HELP luxws_operational_mode_id Operational mode by ID
+# TYPE luxws_operational_mode_id gauge
+luxws_operational_mode_id{mode=""} 0
+# HELP luxws_supplied_heat Supplied heat
+# TYPE luxws_supplied_heat gauge
+luxws_supplied_heat{name="domestic hot water",unit="kWh"} 4703.6
+luxws_supplied_heat{name="heating",unit="kWh"} 25003.9
+luxws_supplied_heat{name="total",unit="kWh"} 29707.5
+`,
+			wantErr: luxwsclient.ErrContentItemNotFound, // because only subset of the XML in the test provided
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			c := newCollector(collectorOpts{
@@ -737,7 +792,7 @@ func TestCollectHTTP(t *testing.T) {
 	t.Cleanup(server.Close)
 
 	c := newCollector(collectorOpts{
-		terms: luxwslang.German,
+		terms: luxwslang.English,
 		loc:   time.UTC,
 	})
 

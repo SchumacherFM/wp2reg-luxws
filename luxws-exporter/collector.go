@@ -20,15 +20,6 @@ import (
 	"golang.org/x/sync/semaphore"
 )
 
-func findContentItem(r *luxwsclient.ContentRoot, name string) (*luxwsclient.ContentItem, error) {
-	found := r.FindByName(name)
-	if found == nil {
-		return nil, fmt.Errorf("item with name %q not found", name)
-	}
-
-	return found, nil
-}
-
 type contentCollectFunc func(chan<- prometheus.Metric, *luxwsclient.ContentRoot, *quirks) error
 
 type collector struct {
@@ -108,7 +99,7 @@ func newCollector(opts collectorOpts) *collector {
 		switchOffDesc:         prometheus.NewDesc("luxws_latest_switchoff", "Latest switch-off", []string{"reason"}, nil),
 		nodeTimeDesc:          prometheus.NewDesc("luxws_node_time_seconds", "System time in seconds since epoch (1970)", nil, nil),
 		impulsesDesc:          prometheus.NewDesc("luxws_impulses", "Impulses via operating hours", []string{"name", "unit"}, nil),
-		defrostDesc:           prometheus.NewDesc("luxws_defrost", "Defrost demand in % and last defrost time", []string{"name", "unit"}, nil),
+		defrostDesc:           prometheus.NewDesc("luxws_defrost", "Defrost demand in %% and last defrost time", []string{"name", "unit"}, nil), // yes two %% because of fmt.Sp....
 	}
 }
 
@@ -157,7 +148,7 @@ func (c *collector) collectInfo(
 	var hpType []string
 	var lastDefrost time.Time
 
-	group, err := findContentItem(content, c.terms.NavSystemStatus)
+	group, err := content.FindByName(luxwsclient.CmpName(c.terms.NavSystemStatus))
 	if err != nil {
 		return err
 	}
@@ -218,22 +209,33 @@ func (c *collector) collectInfo(
 	return nil
 }
 
+type collectOptions struct {
+	optionalIsAllowed func(s string) bool
+	ItemCompareFn     func(groupName string) luxwsclient.CompareFn
+}
+
 func (c *collector) collectMeasurements(
 	ch chan<- prometheus.Metric,
 	desc *prometheus.Desc,
 	content *luxwsclient.ContentRoot,
 	groupName string,
 	vt prometheus.ValueType, // gauge or counter or ...
-	optionalIsAllowed func(s string) bool,
+	opts collectOptions,
 ) error {
-	group, err := findContentItem(content, groupName)
+	// groupName == Power Consumption
+	cmp := luxwsclient.CmpName(groupName)
+	if opts.ItemCompareFn != nil {
+		cmp = opts.ItemCompareFn(groupName)
+	}
+
+	group, err := content.FindByName(cmp)
 	if err != nil {
 		return err
 	}
 
 	var found bool
 	group.EachNonNil(func(item *luxwsclient.ContentItem) {
-		if optionalIsAllowed != nil && !optionalIsAllowed(item.Name) {
+		if opts.optionalIsAllowed != nil && !opts.optionalIsAllowed(item.Name) {
 			return
 		}
 
@@ -243,8 +245,7 @@ func (c *collector) collectMeasurements(
 			return
 		}
 
-		ch <- prometheus.MustNewConstMetric(desc, vt,
-			value, normalizeSpace(item.Name), unit)
+		ch <- prometheus.MustNewConstMetric(desc, vt, value, normalizeSpace(item.Name), unit)
 
 		found = true
 	})
@@ -264,7 +265,7 @@ func (c *collector) collectDurations(
 	groupName string,
 	ignoreFn func(string) bool,
 ) error {
-	group, err := findContentItem(content, groupName)
+	group, err := content.FindByName(luxwsclient.CmpName(groupName))
 	if err != nil {
 		return err
 	}
@@ -296,7 +297,7 @@ func (c *collector) collectDurations(
 }
 
 func (c *collector) collectTimetable(ch chan<- prometheus.Metric, desc *prometheus.Desc, content *luxwsclient.ContentRoot, groupName string) error {
-	group, err := findContentItem(content, groupName)
+	group, err := content.FindByName(luxwsclient.CmpName(groupName))
 	if err != nil {
 		return err
 	}
@@ -335,7 +336,7 @@ func (c *collector) collectTimetable(ch chan<- prometheus.Metric, desc *promethe
 }
 
 func (c *collector) collectTemperatures(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.temperatureDesc, content, c.terms.NavTemperatures, prometheus.GaugeValue, nil)
+	return c.collectMeasurements(ch, c.temperatureDesc, content, c.terms.NavTemperatures, prometheus.GaugeValue, collectOptions{})
 }
 
 func (c *collector) collectOperatingDuration(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
@@ -347,15 +348,15 @@ func (c *collector) collectElapsedTime(ch chan<- prometheus.Metric, content *lux
 }
 
 func (c *collector) collectInputs(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.inputDesc, content, c.terms.NavInputs, prometheus.GaugeValue, nil)
+	return c.collectMeasurements(ch, c.inputDesc, content, c.terms.NavInputs, prometheus.GaugeValue, collectOptions{})
 }
 
 func (c *collector) collectOutputs(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.outputDesc, content, c.terms.NavOutputs, prometheus.GaugeValue, nil)
+	return c.collectMeasurements(ch, c.outputDesc, content, c.terms.NavOutputs, prometheus.GaugeValue, collectOptions{})
 }
 
 func (c *collector) collectImpulses(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.impulsesDesc, content, c.terms.NavOpHours, prometheus.CounterValue, c.terms.HoursImpulsesFn)
+	return c.collectMeasurements(ch, c.impulsesDesc, content, c.terms.NavOpHours, prometheus.CounterValue, collectOptions{optionalIsAllowed: c.terms.HoursImpulsesFn})
 }
 
 func (c *collector) collectSuppliedHeat(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, q *quirks) error {
@@ -363,11 +364,15 @@ func (c *collector) collectSuppliedHeat(ch chan<- prometheus.Metric, content *lu
 		return nil
 	}
 	// not a counter because during defrost the heat amount goes down
-	return c.collectMeasurements(ch, c.suppliedHeatDesc, content, c.terms.NavHeatQuantity, prometheus.GaugeValue, nil)
+	return c.collectMeasurements(ch, c.suppliedHeatDesc, content, c.terms.NavHeatQuantity, prometheus.GaugeValue, collectOptions{})
 }
 
 func (c *collector) collectEnergyInput(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {
-	return c.collectMeasurements(ch, c.energyInputDesc, content, c.terms.NavEnergyInput, prometheus.CounterValue, nil)
+	return c.collectMeasurements(ch, c.energyInputDesc, content, c.terms.NavEnergyInput, prometheus.CounterValue, collectOptions{
+		ItemCompareFn: func(groupName string) luxwsclient.CompareFn {
+			return luxwsclient.CmpNameAndItems(groupName)
+		},
+	})
 }
 
 func (c *collector) collectLatestError(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {

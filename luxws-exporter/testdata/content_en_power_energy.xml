@@ -1,0 +1,64 @@
+<Content>
+    <item id='0x440a97a4'>
+        <name>system status</name>
+        <item id='0x440b6114'>
+            <name>type of heat pump</name>
+            <value>LW 8</value>
+        </item>
+        <item id='0x440b68f4'>
+            <name>Heating capacity</name>
+            <value>0.00 kW</value>
+        </item>
+        <item id='0x440b693c'>
+            <name>Power Consumption</name>
+            <value>0.00 kW</value>
+        </item>
+        <item id='0x440b6b3c'>
+            <name>Defrost demand</name>
+            <value>0.0%</value>
+        </item>
+        <item id='0x440b6b74'>
+            <name>last defrost</name>
+            <value>10.06.24 17:58</value>
+        </item>
+        <name>system status</name>
+    </item>
+    <item id='0x440b1f24'>
+        <name>energy monitor</name>
+        <item id='0x440b60dc'>
+            <name>Heat Quantity</name>
+            <item id='0x4408b35c'>
+                <name>heating</name>
+                <value>25003.9 kWh</value>
+            </item>
+            <item id='0x4408b434'>
+                <name>domestic hot water</name>
+                <value>4703.6 kWh</value>
+            </item>
+            <item id='0x4408a06c'>
+                <name>total</name>
+                <value>29707.5 kWh</value>
+            </item>
+            <name>Heat Quantity</name>
+        </item>
+        <item id='0x440b6ddc'>
+            <name>Power Consumption</name>
+            <item id='0x4407d494'>
+                <name>heating</name>
+                <value>1768.0 kWh</value>
+            </item>
+            <item id='0x4407d56c'>
+                <name>domestic hot water</name>
+                <value>517.5 kWh</value>
+            </item>
+            <item id='0x4407d84c'>
+                <name>total</name>
+                <value>2285.5 kWh</value>
+            </item>
+            <name>Power Consumption</name>
+        </item>
+        <name>energy monitor</name>
+    </item>
+
+    <name>information</name>
+</Content>

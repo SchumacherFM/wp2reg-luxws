@@ -2,6 +2,7 @@ package luxwsclient
 
 import (
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -25,10 +26,16 @@ type ContentRoot struct {
 	Items   ContentItems `xml:"item"`
 }
 
+var ErrContentItemNotFound = errors.New("content item not found")
+
 // FindByName iterates through all items and finds the first with a given name.
 // Returns nil if none is found.
-func (r *ContentRoot) FindByName(name string) *ContentItem {
-	return r.Items.findContentItemByName(name)
+func (r *ContentRoot) FindByName(cmpFn CompareFn) (*ContentItem, error) {
+	itm := r.Items.findContentItemByName(cmpFn)
+	if itm == nil {
+		return nil, ErrContentItemNotFound
+	}
+	return itm, nil
 }
 
 // ContentItem is an individual entry on a content page.
@@ -61,16 +68,29 @@ func (ci *ContentItem) EachNonNil(cb func(*ContentItem)) {
 	}
 }
 
-func (items ContentItems) findContentItemByName(name string) *ContentItem {
+type CompareFn func(*ContentItem) bool
+
+func CmpName(name string) CompareFn {
+	return func(itm *ContentItem) bool {
+		return name == itm.Name
+	}
+}
+
+func CmpNameAndItems(name string) CompareFn {
+	return func(itm *ContentItem) bool {
+		return name == itm.Name && len(itm.Items) > 0
+	}
+}
+
+func (items ContentItems) findContentItemByName(cmpFn CompareFn) *ContentItem {
 	for _, i := range items {
-		if i.Name == name {
+		if cmpFn(i) {
 			return i
 		}
-		if found := i.Items.findContentItemByName(name); found != nil {
-			return found
+		if i2 := i.Items.findContentItemByName(cmpFn); i2 != nil {
+			return i2
 		}
 	}
-
 	return nil
 }
 

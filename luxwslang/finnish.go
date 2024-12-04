@@ -18,6 +18,7 @@ var Finnish = &Terminology{
 	NavInputs:       "Tilat sisäänmeno",
 	NavOutputs:      "Tilat ulostulo",
 	NavHeatQuantity: "Kalorimetri",
+	NavEnergyInput:  "Power Consumption", // TODO
 	NavErrorMemory:  "Häiriöloki",
 	NavSwitchOffs:   "Pysähtymistieto",
 
