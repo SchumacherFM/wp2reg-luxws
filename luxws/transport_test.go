@@ -134,7 +134,8 @@ func TestCloseByFinalizer(t *testing.T) {
 	closedCh := fc.closed
 	fc.mu.Unlock()
 
-	newTransport(fc, nil)
+	nt := newTransport(fc, nil)
+	nt.Close()
 
 	done := false
 

@@ -5,18 +5,12 @@ import (
 	"errors"
 	"net"
 	"net/url"
-	"runtime"
 	"sync"
 	"time"
 
 	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
 )
-
-// ErrClosed is the error returned by an I/O call on a network connection that
-// has already been closed, or that is closed by another goroutine before the
-// I/O is completed.
-var ErrClosed = net.ErrClosed
 
 // ErrNotRunning is the error returned when the websocket receiver goroutine is
 // no longer running and no specific error is available.
@@ -83,10 +77,6 @@ func newTransport(ws websocketConn, opts []Option) *Transport {
 	// Launch asynchronous receiver to keep processing incoming messages (e.g.
 	// ping).
 	go t.receiver()
-
-	runtime.SetFinalizer(wrapper, func(w *Transport) {
-		w.Close()
-	})
 
 	return wrapper
 }
