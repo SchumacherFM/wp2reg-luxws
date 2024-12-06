@@ -88,17 +88,10 @@ func TestCollectWebSocketParts(t *testing.T) {
 					},
 				},
 			},
-			want: `
-# HELP luxws_defrost Defrost demand in %% and last defrost time
+			want: `# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
-# HELP luxws_heat_capacity Heat Capacity
-# TYPE luxws_heat_capacity gauge
-luxws_heat_capacity{unit=""} 0
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit=""} 0
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="",swversion=""} 1
@@ -108,6 +101,12 @@ luxws_operational_mode{mode=""} 1
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
 luxws_operational_mode_id{mode=""} 0
+# HELP luxws_ss_energy_input System Status / Power Consumption
+# TYPE luxws_ss_energy_input gauge
+luxws_ss_energy_input{unit=""} 0
+# HELP luxws_ss_heat_capacity System Status / Heating Capacity
+# TYPE luxws_ss_heat_capacity gauge
+luxws_ss_heat_capacity{unit=""} 0
 `,
 		},
 		{
@@ -127,17 +126,10 @@ luxws_operational_mode_id{mode=""} 0
 					},
 				},
 			},
-			want: `
-# HELP luxws_defrost Defrost demand in %% and last defrost time
+			want: `# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
-# HELP luxws_heat_capacity Heat Capacity
-# TYPE luxws_heat_capacity gauge
-luxws_heat_capacity{unit=""} 0
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit="kWh"} 999
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="typeA, typeB",swversion="v1.2.3"} 1
@@ -147,6 +139,12 @@ luxws_operational_mode{mode="running"} 1
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
 luxws_operational_mode_id{mode="running"} 0
+# HELP luxws_ss_energy_input System Status / Power Consumption
+# TYPE luxws_ss_energy_input gauge
+luxws_ss_energy_input{unit="kWh"} 999
+# HELP luxws_ss_heat_capacity System Status / Heating Capacity
+# TYPE luxws_ss_heat_capacity gauge
+luxws_ss_heat_capacity{unit=""} 0
 `,
 		},
 		{
@@ -165,17 +163,10 @@ luxws_operational_mode_id{mode="running"} 0
 					},
 				},
 			},
-			want: `
-# HELP luxws_defrost Defrost demand in %% and last defrost time
+			want: `# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
-# HELP luxws_heat_capacity Heat Capacity
-# TYPE luxws_heat_capacity gauge
-luxws_heat_capacity{unit=""} 0
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit=""} 0
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="l2a",swversion="v1.86.2"} 1
@@ -185,6 +176,12 @@ luxws_operational_mode{mode="----"} 1
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
 luxws_operational_mode_id{mode="----"} 0
+# HELP luxws_ss_energy_input System Status / Power Consumption
+# TYPE luxws_ss_energy_input gauge
+luxws_ss_energy_input{unit=""} 0
+# HELP luxws_ss_heat_capacity System Status / Heating Capacity
+# TYPE luxws_ss_heat_capacity gauge
+luxws_ss_heat_capacity{unit=""} 0
 `,
 			wantQuirks: quirks{
 				missingSuppliedHeat: true,
@@ -388,10 +385,12 @@ luxws_output{name="rot",unit="rpm"} 200
 					},
 				},
 			},
-			want: `
-# HELP luxws_supplied_heat Supplied heat
+			want: `# HELP luxws_supplied_heat Supplied heat / Heat Quantity / Energy Monitor
 # TYPE luxws_supplied_heat gauge
 luxws_supplied_heat{name="",unit=""} 0
+# HELP luxws_supplied_heat_cntr Supplied heat 2 / Heat Quantity / Energy Monitor
+# TYPE luxws_supplied_heat_cntr counter
+luxws_supplied_heat_cntr{name="",unit=""} 0
 `,
 		},
 		{
@@ -408,11 +407,14 @@ luxws_supplied_heat{name="",unit=""} 0
 					},
 				},
 			},
-			want: `
-# HELP luxws_supplied_heat Supplied heat
+			want: `# HELP luxws_supplied_heat Supplied heat / Heat Quantity / Energy Monitor
 # TYPE luxws_supplied_heat gauge
 luxws_supplied_heat{name="ice",unit="kW"} 100
 luxws_supplied_heat{name="water",unit="kW"} 200
+# HELP luxws_supplied_heat_cntr Supplied heat 2 / Heat Quantity / Energy Monitor
+# TYPE luxws_supplied_heat_cntr counter
+luxws_supplied_heat_cntr{name="ice",unit="kW"} 100
+luxws_supplied_heat_cntr{name="water",unit="kW"} 200
 `,
 		},
 		{
@@ -430,11 +432,10 @@ luxws_supplied_heat{name="water",unit="kW"} 200
 					},
 				},
 			},
-			want: `
-# HELP luxws_energy_input Energy Input
+			want: `# HELP luxws_energy_input Energy Input / Power Consumption / Energy Monitor
 # TYPE luxws_energy_input counter
-luxws_energy_input{name="heating",unit="kWh"} 738.2
 luxws_energy_input{name="domestic hot water",unit="kWh"} 238.2
+luxws_energy_input{name="heating",unit="kWh"} 738.2
 luxws_energy_input{name="total",unit="kWh"} 976.4
 `,
 		},
@@ -583,23 +584,16 @@ func TestCollectAll(t *testing.T) {
 					{Name: "temperatures"},
 				},
 			},
-			want: `
-# HELP luxws_defrost Defrost demand in %% and last defrost time
+			want: `# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
 # HELP luxws_elapsed_duration_seconds Elapsed time
 # TYPE luxws_elapsed_duration_seconds gauge
 luxws_elapsed_duration_seconds{name=""} 0
-# HELP luxws_energy_input Energy Input
+# HELP luxws_energy_input Energy Input / Power Consumption / Energy Monitor
 # TYPE luxws_energy_input counter
 luxws_energy_input{name="",unit=""} 0
-# HELP luxws_heat_capacity Heat Capacity
-# TYPE luxws_heat_capacity gauge
-luxws_heat_capacity{unit=""} 0
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit=""} 0
 # HELP luxws_impulses Impulses via operating hours
 # TYPE luxws_impulses counter
 luxws_impulses{name="",unit=""} 0
@@ -621,18 +615,27 @@ luxws_operating_duration_seconds{name=""} 0
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
 luxws_operational_mode{mode=""} 1
-# HELP luxws_output Output values
-# TYPE luxws_output gauge
-luxws_output{name="",unit=""} 0
-# HELP luxws_supplied_heat Supplied heat
-# TYPE luxws_supplied_heat gauge
-luxws_supplied_heat{name="",unit=""} 0
-# HELP luxws_temperature Sensor temperature
-# TYPE luxws_temperature gauge
-luxws_temperature{name="",unit=""} 0
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
 luxws_operational_mode_id{mode=""} 0
+# HELP luxws_output Output values
+# TYPE luxws_output gauge
+luxws_output{name="",unit=""} 0
+# HELP luxws_ss_energy_input System Status / Power Consumption
+# TYPE luxws_ss_energy_input gauge
+luxws_ss_energy_input{unit=""} 0
+# HELP luxws_ss_heat_capacity System Status / Heating Capacity
+# TYPE luxws_ss_heat_capacity gauge
+luxws_ss_heat_capacity{unit=""} 0
+# HELP luxws_supplied_heat Supplied heat / Heat Quantity / Energy Monitor
+# TYPE luxws_supplied_heat gauge
+luxws_supplied_heat{name="",unit=""} 0
+# HELP luxws_supplied_heat_cntr Supplied heat 2 / Heat Quantity / Energy Monitor
+# TYPE luxws_supplied_heat_cntr counter
+luxws_supplied_heat_cntr{name="",unit=""} 0
+# HELP luxws_temperature Sensor temperature
+# TYPE luxws_temperature gauge
+luxws_temperature{name="",unit=""} 0
 `,
 		},
 		{
@@ -663,23 +666,16 @@ luxws_operational_mode_id{mode=""} 0
 					{Name: "temperatures"},
 				},
 			},
-			want: `
-# HELP luxws_defrost Defrost demand in %% and last defrost time
+			want: `# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit=""} 0
 luxws_defrost{name="last",unit="ts"} -6.21355968e+10
 # HELP luxws_elapsed_duration_seconds Elapsed time
 # TYPE luxws_elapsed_duration_seconds gauge
 luxws_elapsed_duration_seconds{name=""} 0
-# HELP luxws_energy_input Energy Input
+# HELP luxws_energy_input Energy Input / Power Consumption / Energy Monitor
 # TYPE luxws_energy_input counter
 luxws_energy_input{name="",unit=""} 0
-# HELP luxws_heat_capacity Heat Capacity
-# TYPE luxws_heat_capacity gauge
-luxws_heat_capacity{unit=""} 0
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit=""} 0
 # HELP luxws_impulses Impulses via operating hours
 # TYPE luxws_impulses counter
 luxws_impulses{name="",unit=""} 0
@@ -701,15 +697,21 @@ luxws_operating_duration_seconds{name=""} 0
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
 luxws_operational_mode{mode=""} 1
-# HELP luxws_output Output values
-# TYPE luxws_output gauge
-luxws_output{name="",unit=""} 0
-# HELP luxws_temperature Sensor temperature
-# TYPE luxws_temperature gauge
-luxws_temperature{name="",unit=""} 0
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
 luxws_operational_mode_id{mode=""} 0
+# HELP luxws_output Output values
+# TYPE luxws_output gauge
+luxws_output{name="",unit=""} 0
+# HELP luxws_ss_energy_input System Status / Power Consumption
+# TYPE luxws_ss_energy_input gauge
+luxws_ss_energy_input{unit=""} 0
+# HELP luxws_ss_heat_capacity System Status / Heating Capacity
+# TYPE luxws_ss_heat_capacity gauge
+luxws_ss_heat_capacity{unit=""} 0
+# HELP luxws_temperature Sensor temperature
+# TYPE luxws_temperature gauge
+luxws_temperature{name="",unit=""} 0
 `,
 		},
 		{
@@ -717,7 +719,7 @@ luxws_operational_mode_id{mode=""} 0
 			// supplied heat.
 			//
 			// https://github.com/hansmi/wp2reg-luxws/issues/11
-			name: "Real Decode Content EN",
+			name: "Real Decode Content EN Energy Monitor",
 			input: func(t *testing.T) *luxwsclient.ContentRoot {
 				// according to the newest firmware update of version V3.90.0 the word
 				// "Power Consumption" appears multiple times.
@@ -731,22 +733,15 @@ luxws_operational_mode_id{mode=""} 0
 				}
 				return &cr
 			}(t),
-			want: `
-# HELP luxws_defrost Defrost demand in %% and last defrost time
+			want: `# HELP luxws_defrost Defrost demand in %% and last defrost time
 # TYPE luxws_defrost gauge
 luxws_defrost{name="demand",unit="pct"} 0
 luxws_defrost{name="last",unit="ts"} 1.71804228e+09
-# HELP luxws_energy_input Energy Input
+# HELP luxws_energy_input Energy Input / Power Consumption / Energy Monitor
 # TYPE luxws_energy_input counter
 luxws_energy_input{name="domestic hot water",unit="kWh"} 517.5
 luxws_energy_input{name="heating",unit="kWh"} 1768
 luxws_energy_input{name="total",unit="kWh"} 2285.5
-# HELP luxws_heat_capacity Heat Capacity
-# TYPE luxws_heat_capacity gauge
-luxws_heat_capacity{unit="kW"} 0
-# HELP luxws_heat_quantity Heat quantity
-# TYPE luxws_heat_quantity gauge
-luxws_heat_quantity{unit=""} 0
 # HELP luxws_info Controller information
 # TYPE luxws_info gauge
 luxws_info{hptype="LW 8",swversion=""} 1
@@ -756,13 +751,164 @@ luxws_operational_mode{mode=""} 1
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
 luxws_operational_mode_id{mode=""} 0
-# HELP luxws_supplied_heat Supplied heat
+# HELP luxws_ss_energy_input System Status / Power Consumption
+# TYPE luxws_ss_energy_input gauge
+luxws_ss_energy_input{unit="kW"} 0
+# HELP luxws_ss_heat_capacity System Status / Heating Capacity
+# TYPE luxws_ss_heat_capacity gauge
+luxws_ss_heat_capacity{unit="kW"} 0
+# HELP luxws_supplied_heat Supplied heat / Heat Quantity / Energy Monitor
 # TYPE luxws_supplied_heat gauge
 luxws_supplied_heat{name="domestic hot water",unit="kWh"} 4703.6
 luxws_supplied_heat{name="heating",unit="kWh"} 25003.9
 luxws_supplied_heat{name="total",unit="kWh"} 29707.5
+# HELP luxws_supplied_heat_cntr Supplied heat 2 / Heat Quantity / Energy Monitor
+# TYPE luxws_supplied_heat_cntr counter
+luxws_supplied_heat_cntr{name="domestic hot water",unit="kWh"} 4703.6
+luxws_supplied_heat_cntr{name="heating",unit="kWh"} 25003.9
+luxws_supplied_heat_cntr{name="total",unit="kWh"} 29707.5
 `,
 			wantErr: luxwsclient.ErrContentItemNotFound, // because only subset of the XML in the test provided
+		},
+		{
+			name: "Real Decode Content EN All data",
+			input: func(t *testing.T) *luxwsclient.ContentRoot {
+				// according to the newest firmware update of version V3.90.0 the word
+				// "Power Consumption" appears multiple times.
+				xmlData, err := os.ReadFile("../luxwsclient/testdata/content_en.xml")
+				if err != nil {
+					t.Fatal(err)
+				}
+				var cr luxwsclient.ContentRoot
+				if err := xml.Unmarshal(xmlData, &cr); err != nil {
+					t.Fatal(err)
+				}
+				return &cr
+			}(t),
+			want: `# HELP luxws_defrost Defrost demand in %% and last defrost time
+# TYPE luxws_defrost gauge
+luxws_defrost{name="demand",unit="pct"} 36.4
+luxws_defrost{name="last",unit="ts"} 1.73340612e+09
+# HELP luxws_elapsed_duration_seconds Elapsed time
+# TYPE luxws_elapsed_duration_seconds gauge
+luxws_elapsed_duration_seconds{name="CP off since"} 0
+luxws_elapsed_duration_seconds{name="HP since"} 76879
+luxws_elapsed_duration_seconds{name="SCB time"} 0
+luxws_elapsed_duration_seconds{name="TDI since"} 0
+luxws_elapsed_duration_seconds{name="ZWE1 since"} 0
+luxws_elapsed_duration_seconds{name="ZWE2 since"} 0
+luxws_elapsed_duration_seconds{name="blockade DHW"} 0
+luxws_elapsed_duration_seconds{name="hc add-time"} 0
+luxws_elapsed_duration_seconds{name="hc less-time"} 0
+luxws_elapsed_duration_seconds{name="net-input delay"} 0
+luxws_elapsed_duration_seconds{name="release ZWE"} 3600
+luxws_elapsed_duration_seconds{name="release cooling"} 0
+# HELP luxws_energy_input Energy Input / Power Consumption / Energy Monitor
+# TYPE luxws_energy_input counter
+luxws_energy_input{name="domestic hot water",unit="kWh"} 598.7
+luxws_energy_input{name="heating",unit="kWh"} 2177.7
+luxws_energy_input{name="total",unit="kWh"} 2776.4
+# HELP luxws_impulses Impulses via operating hours
+# TYPE luxws_impulses counter
+luxws_impulses{name="impulse VD1",unit=""} 5414
+# HELP luxws_info Controller information
+# TYPE luxws_info gauge
+luxws_info{hptype="CMD_6, LW 8",swversion="V3.90.0"} 1
+# HELP luxws_input Input values
+# TYPE luxws_input gauge
+luxws_input{name="ASD",unit="bool"} 1
+luxws_input{name="EVU",unit="bool"} 1
+luxws_input{name="EVU 2",unit="bool"} 0
+luxws_input{name="HD",unit="bar"} 17.61
+luxws_input{name="HD",unit="bool"} 0
+luxws_input{name="MOT",unit="bool"} 1
+luxws_input{name="ND",unit="bar"} 6.53
+luxws_input{name="STL immersion heater",unit="bool"} 0
+luxws_input{name="SWT",unit="bool"} 0
+luxws_input{name="analog in 21",unit="V"} 0.01
+luxws_input{name="analog in 22",unit="V"} 0.01
+luxws_input{name="flow rate",unit="l/h"} 612
+# HELP luxws_latest_error Latest error
+# TYPE luxws_latest_error gauge
+luxws_latest_error{reason="max. outdoor temp. (718)"} 1.725203567e+09
+# HELP luxws_latest_switchoff Latest switch-off
+# TYPE luxws_latest_switchoff gauge
+luxws_latest_switchoff{reason="no requ."} 1.733311438e+09
+# HELP luxws_operating_duration_seconds Operating time
+# TYPE luxws_operating_duration_seconds gauge
+luxws_operating_duration_seconds{name="amount PV"} 619200
+luxws_operating_duration_seconds{name="operat. hours heat."} 2.68056e+07
+luxws_operating_duration_seconds{name="operating hours DHW"} 3.7044e+06
+luxws_operating_duration_seconds{name="operating hours HP"} 3.05172e+07
+luxws_operating_duration_seconds{name="operating hours VD1"} 3.05172e+07
+luxws_operating_duration_seconds{name="operating hours ZWE1"} 259200
+luxws_operating_duration_seconds{name="operating hours ZWE2"} 10800
+luxws_operating_duration_seconds{name="running time Ø VD1"} 5580
+# HELP luxws_operational_mode Operational mode
+# TYPE luxws_operational_mode gauge
+luxws_operational_mode{mode="heating"} 1
+# HELP luxws_operational_mode_id Operational mode by ID
+# TYPE luxws_operational_mode_id gauge
+luxws_operational_mode_id{mode="heating"} 3
+# HELP luxws_output Output values
+# TYPE luxws_output gauge
+luxws_output{name="AO 1",unit="V"} 10
+luxws_output{name="AO 2",unit="V"} 10
+luxws_output{name="AO 21",unit="V"} 0
+luxws_output{name="AO 22",unit="V"} 0
+luxws_output{name="AV-defrost. valve",unit="bool"} 0
+luxws_output{name="BUP - DHW pump",unit="bool"} 0
+luxws_output{name="EEV cooling",unit="pct"} 100
+luxws_output{name="EEV heating",unit="pct"} 22
+luxws_output{name="FP2",unit="bool"} 0
+luxws_output{name="FP3",unit="bool"} 0
+luxws_output{name="HUP",unit="bool"} 1
+luxws_output{name="HUP",unit="pct"} 39.5
+luxws_output{name="SLP",unit="bool"} 0
+luxws_output{name="VBO",unit="bool"} 1
+luxws_output{name="VD1",unit="bool"} 1
+luxws_output{name="ZIP",unit="bool"} 0
+luxws_output{name="ZUP",unit="bool"} 1
+luxws_output{name="ZWE 1",unit="bool"} 0
+luxws_output{name="ZWE 2 - SST",unit="bool"} 0
+luxws_output{name="ZWE 3",unit="bool"} 0
+luxws_output{name="freq. current",unit="rpm"} 1806
+luxws_output{name="freq. targ.value",unit="rpm"} 1800
+luxws_output{name="rotation speed fan",unit="rpm"} 489
+# HELP luxws_ss_energy_input System Status / Power Consumption
+# TYPE luxws_ss_energy_input gauge
+luxws_ss_energy_input{unit="kW"} 0.56
+# HELP luxws_ss_heat_capacity System Status / Heating Capacity
+# TYPE luxws_ss_heat_capacity gauge
+luxws_ss_heat_capacity{unit="kW"} 2.72
+# HELP luxws_supplied_heat Supplied heat / Heat Quantity / Energy Monitor
+# TYPE luxws_supplied_heat gauge
+luxws_supplied_heat{name="domestic hot water",unit="kWh"} 5015
+luxws_supplied_heat{name="heating",unit="kWh"} 27232.1
+luxws_supplied_heat{name="total",unit="kWh"} 32247.1
+# HELP luxws_supplied_heat_cntr Supplied heat 2 / Heat Quantity / Energy Monitor
+# TYPE luxws_supplied_heat_cntr counter
+luxws_supplied_heat_cntr{name="domestic hot water",unit="kWh"} 5015
+luxws_supplied_heat_cntr{name="heating",unit="kWh"} 27232.1
+luxws_supplied_heat_cntr{name="total",unit="kWh"} 32247.1
+# HELP luxws_temperature Sensor temperature
+# TYPE luxws_temperature gauge
+luxws_temperature{name="DHW",unit="degC"} 51.9
+luxws_temperature{name="DHW target",unit="degC"} 50
+luxws_temperature{name="TFL1",unit="degC"} 22.6
+luxws_temperature{name="TFL2",unit="degC"} 29.2
+luxws_temperature{name="flow",unit="degC"} 30.2
+luxws_temperature{name="heat source inlet",unit="degC"} 4.5
+luxws_temperature{name="hot gas",unit="degC"} 57.5
+luxws_temperature{name="max. flow temp.",unit="degC"} 60
+luxws_temperature{name="outdoor temp.",unit="degC"} 3.1
+luxws_temperature{name="outdoor temp. ø",unit="degC"} 2.6
+luxws_temperature{name="overheating",unit="K"} 8
+luxws_temperature{name="return",unit="degC"} 27.2
+luxws_temperature{name="return target",unit="degC"} 26.7
+luxws_temperature{name="suction compressor",unit="degC"} 6.3
+luxws_temperature{name="target overheating",unit="K"} 8
+`,
 		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {

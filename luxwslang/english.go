@@ -37,10 +37,10 @@ var English = &Terminology{
 		"dhw":        OpModeIDDHW,
 		"defrosting": OpModeIDDefrosting,
 	},
-	StatusPowerOutput:     "actual capacity",  // might be the same as "Heating capacity"
-	StatusHeatingCapacity: "Heating capacity", // might be the same as "actual capacity"
-	StatusDefrostDemand:   "Defrost demand",
-	StatusLastDefrost:     "last defrost",
-	BoolFalse:             "Off",
-	BoolTrue:              "On",
+	StatusPowerConsumption: "Power Consumption", // fields under "System Status"
+	StatusHeatingCapacity:  "Heating capacity",  // fields under "System Status"
+	StatusDefrostDemand:    "Defrost demand",
+	StatusLastDefrost:      "last defrost",
+	BoolFalse:              "Off",
+	BoolTrue:               "On",
 }

@@ -23,34 +23,36 @@ import (
 type contentCollectFunc func(chan<- prometheus.Metric, *luxwsclient.ContentRoot, *quirks) error
 
 type collector struct {
-	log                   *zap.Logger
-	httpDo                func(req *http.Request) (*http.Response, error)
-	sem                   *semaphore.Weighted
-	timeout               time.Duration
-	address               string
-	password              string
-	clientOpts            []luxwsclient.Option
-	httpAddress           string
-	loc                   *time.Location
-	terms                 *luxwslang.Terminology
-	upDesc                *prometheus.Desc
-	infoDesc              *prometheus.Desc
-	temperatureDesc       *prometheus.Desc
-	operatingDurationDesc *prometheus.Desc
-	elapsedDurationDesc   *prometheus.Desc
-	inputDesc             *prometheus.Desc
-	outputDesc            *prometheus.Desc
-	opModeDesc            *prometheus.Desc
-	opModeIDDesc          *prometheus.Desc
-	heatQuantityDesc      *prometheus.Desc
-	heatCapacityDesc      *prometheus.Desc
-	suppliedHeatDesc      *prometheus.Desc
-	energyInputDesc       *prometheus.Desc
-	latestErrorDesc       *prometheus.Desc
-	switchOffDesc         *prometheus.Desc
-	nodeTimeDesc          *prometheus.Desc
-	impulsesDesc          *prometheus.Desc
-	defrostDesc           *prometheus.Desc
+	log                        *zap.Logger
+	httpDo                     func(req *http.Request) (*http.Response, error)
+	sem                        *semaphore.Weighted
+	timeout                    time.Duration
+	address                    string
+	password                   string
+	clientOpts                 []luxwsclient.Option
+	httpAddress                string
+	loc                        *time.Location
+	terms                      *luxwslang.Terminology
+	upDesc                     *prometheus.Desc
+	infoDesc                   *prometheus.Desc
+	temperatureDesc            *prometheus.Desc
+	operatingDurationDesc      *prometheus.Desc
+	elapsedDurationDesc        *prometheus.Desc
+	inputDesc                  *prometheus.Desc
+	outputDesc                 *prometheus.Desc
+	opModeDesc                 *prometheus.Desc
+	opModeIDDesc               *prometheus.Desc
+	ssPowerConsumptionDesc     *prometheus.Desc // under System Status=ss
+	ssHeatingCapacityDesc      *prometheus.Desc // under System Status=ss
+	suppliedHeatDesc           *prometheus.Desc // total values as Gauge because values will go down during defrost
+	suppliedHeatCntrDesc       *prometheus.Desc // total values as Counter without lower values than previous val.
+	energyInputDesc            *prometheus.Desc // total values / counter
+	latestErrorDesc            *prometheus.Desc
+	switchOffDesc              *prometheus.Desc
+	nodeTimeDesc               *prometheus.Desc
+	impulsesDesc               *prometheus.Desc
+	defrostDesc                *prometheus.Desc
+	nonDecreasingCounterValues map[string]float64 // just in case
 }
 
 type collectorOpts struct {
@@ -72,34 +74,36 @@ func newCollector(opts collectorOpts) *collector {
 	}
 
 	return &collector{
-		log:                   opts.log,
-		httpDo:                cleanhttp.DefaultClient().Do,
-		sem:                   semaphore.NewWeighted(opts.maxConcurrent),
-		timeout:               opts.timeout,
-		address:               opts.address,
-		password:              opts.password,
-		clientOpts:            clientOpts,
-		httpAddress:           opts.httpAddress,
-		loc:                   opts.loc,
-		terms:                 opts.terms,
-		upDesc:                prometheus.NewDesc("luxws_up", "Whether scrape was successful", []string{"status"}, nil),
-		temperatureDesc:       prometheus.NewDesc("luxws_temperature", "Sensor temperature", []string{"name", "unit"}, nil),
-		operatingDurationDesc: prometheus.NewDesc("luxws_operating_duration_seconds", "Operating time", []string{"name"}, nil),
-		elapsedDurationDesc:   prometheus.NewDesc("luxws_elapsed_duration_seconds", "Elapsed time", []string{"name"}, nil),
-		inputDesc:             prometheus.NewDesc("luxws_input", "Input values", []string{"name", "unit"}, nil),
-		outputDesc:            prometheus.NewDesc("luxws_output", "Output values", []string{"name", "unit"}, nil),
-		infoDesc:              prometheus.NewDesc("luxws_info", "Controller information", []string{"swversion", "hptype"}, nil),
-		opModeDesc:            prometheus.NewDesc("luxws_operational_mode", "Operational mode", []string{"mode"}, nil),
-		opModeIDDesc:          prometheus.NewDesc("luxws_operational_mode_id", "Operational mode by ID", []string{"mode"}, nil),
-		heatQuantityDesc:      prometheus.NewDesc("luxws_heat_quantity", "Heat quantity", []string{"unit"}, nil),
-		heatCapacityDesc:      prometheus.NewDesc("luxws_heat_capacity", "Heat Capacity", []string{"unit"}, nil),
-		energyInputDesc:       prometheus.NewDesc("luxws_energy_input", "Energy Input", []string{"name", "unit"}, nil),
-		suppliedHeatDesc:      prometheus.NewDesc("luxws_supplied_heat", "Supplied heat", []string{"name", "unit"}, nil),
-		latestErrorDesc:       prometheus.NewDesc("luxws_latest_error", "Latest error", []string{"reason"}, nil),
-		switchOffDesc:         prometheus.NewDesc("luxws_latest_switchoff", "Latest switch-off", []string{"reason"}, nil),
-		nodeTimeDesc:          prometheus.NewDesc("luxws_node_time_seconds", "System time in seconds since epoch (1970)", nil, nil),
-		impulsesDesc:          prometheus.NewDesc("luxws_impulses", "Impulses via operating hours", []string{"name", "unit"}, nil),
-		defrostDesc:           prometheus.NewDesc("luxws_defrost", "Defrost demand in %% and last defrost time", []string{"name", "unit"}, nil), // yes two %% because of fmt.Sp....
+		log:                        opts.log,
+		httpDo:                     cleanhttp.DefaultClient().Do,
+		sem:                        semaphore.NewWeighted(opts.maxConcurrent),
+		timeout:                    opts.timeout,
+		address:                    opts.address,
+		password:                   opts.password,
+		clientOpts:                 clientOpts,
+		httpAddress:                opts.httpAddress,
+		loc:                        opts.loc,
+		terms:                      opts.terms,
+		upDesc:                     prometheus.NewDesc("luxws_up", "Whether scrape was successful", []string{"status"}, nil),
+		temperatureDesc:            prometheus.NewDesc("luxws_temperature", "Sensor temperature", []string{"name", "unit"}, nil),
+		operatingDurationDesc:      prometheus.NewDesc("luxws_operating_duration_seconds", "Operating time", []string{"name"}, nil),
+		elapsedDurationDesc:        prometheus.NewDesc("luxws_elapsed_duration_seconds", "Elapsed time", []string{"name"}, nil),
+		inputDesc:                  prometheus.NewDesc("luxws_input", "Input values", []string{"name", "unit"}, nil),
+		outputDesc:                 prometheus.NewDesc("luxws_output", "Output values", []string{"name", "unit"}, nil),
+		infoDesc:                   prometheus.NewDesc("luxws_info", "Controller information", []string{"swversion", "hptype"}, nil),
+		opModeDesc:                 prometheus.NewDesc("luxws_operational_mode", "Operational mode", []string{"mode"}, nil),
+		opModeIDDesc:               prometheus.NewDesc("luxws_operational_mode_id", "Operational mode by ID", []string{"mode"}, nil),
+		ssPowerConsumptionDesc:     prometheus.NewDesc("luxws_ss_energy_input", "System Status / Power Consumption", []string{"unit"}, nil),
+		ssHeatingCapacityDesc:      prometheus.NewDesc("luxws_ss_heat_capacity", "System Status / Heating Capacity", []string{"unit"}, nil),
+		energyInputDesc:            prometheus.NewDesc("luxws_energy_input", "Energy Input / Power Consumption / Energy Monitor", []string{"name", "unit"}, nil),      // counter
+		suppliedHeatDesc:           prometheus.NewDesc("luxws_supplied_heat", "Supplied heat / Heat Quantity / Energy Monitor", []string{"name", "unit"}, nil),        // counter
+		suppliedHeatCntrDesc:       prometheus.NewDesc("luxws_supplied_heat_cntr", "Supplied heat 2 / Heat Quantity / Energy Monitor", []string{"name", "unit"}, nil), // counter
+		latestErrorDesc:            prometheus.NewDesc("luxws_latest_error", "Latest error", []string{"reason"}, nil),
+		switchOffDesc:              prometheus.NewDesc("luxws_latest_switchoff", "Latest switch-off", []string{"reason"}, nil),
+		nodeTimeDesc:               prometheus.NewDesc("luxws_node_time_seconds", "System time in seconds since epoch (1970)", nil, nil),
+		impulsesDesc:               prometheus.NewDesc("luxws_impulses", "Impulses via operating hours", []string{"name", "unit"}, nil),
+		defrostDesc:                prometheus.NewDesc("luxws_defrost", "Defrost demand in %% and last defrost time", []string{"name", "unit"}, nil), // yes two %% because of fmt.Sp....
+		nonDecreasingCounterValues: map[string]float64{},
 	}
 }
 
@@ -113,10 +117,11 @@ func (c *collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.outputDesc
 	ch <- c.opModeDesc
 	ch <- c.opModeIDDesc
-	ch <- c.heatQuantityDesc
-	ch <- c.heatCapacityDesc
+	ch <- c.ssPowerConsumptionDesc
+	ch <- c.ssHeatingCapacityDesc
 	ch <- c.energyInputDesc
 	ch <- c.suppliedHeatDesc
+	ch <- c.suppliedHeatCntrDesc
 	ch <- c.latestErrorDesc
 	ch <- c.switchOffDesc
 	ch <- c.nodeTimeDesc
@@ -144,7 +149,7 @@ func (c *collector) collectInfo(
 	q *quirks,
 ) error {
 	var swVersion, opMode, heatOutputUnit, heatCapUnit, defrostDemandUnit string
-	var heatOutputValue, heatCapValue, defrostDemandValue float64
+	var powerConsumptionValue, heatCapacityValue, defrostDemandValue float64
 	var hpType []string
 	var lastDefrost time.Time
 
@@ -171,12 +176,12 @@ func (c *collector) collectInfo(
 				opMode = "off"
 			}
 		case c.terms.StatusHeatingCapacity:
-			if heatCapValue, heatCapUnit, err = c.parseValue(*item.Value); err != nil {
+			if heatCapacityValue, heatCapUnit, err = c.parseValue(*item.Value); err != nil {
 				c.log.Error("StatusHeatingCapacity parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
 			}
-		case c.terms.StatusPowerOutput:
-			if heatOutputValue, heatOutputUnit, err = c.parseValue(*item.Value); err != nil {
-				c.log.Error("StatusPowerOutput parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
+		case c.terms.StatusPowerConsumption:
+			if powerConsumptionValue, heatOutputUnit, err = c.parseValue(*item.Value); err != nil {
+				c.log.Error("StatusPowerConsumption parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
 			}
 		case c.terms.StatusDefrostDemand:
 			if defrostDemandValue, defrostDemandUnit, err = c.parseValue(*item.Value); err != nil {
@@ -201,8 +206,8 @@ func (c *collector) collectInfo(
 	ch <- prometheus.MustNewConstMetric(c.infoDesc, prometheus.GaugeValue, 1, swVersion, strings.Join(hpType, ", "))
 	ch <- prometheus.MustNewConstMetric(c.opModeDesc, prometheus.GaugeValue, 1, opMode)
 	ch <- prometheus.MustNewConstMetric(c.opModeIDDesc, prometheus.GaugeValue, opModeID, opMode)
-	ch <- prometheus.MustNewConstMetric(c.heatQuantityDesc, prometheus.GaugeValue, heatOutputValue, heatOutputUnit)
-	ch <- prometheus.MustNewConstMetric(c.heatCapacityDesc, prometheus.GaugeValue, heatCapValue, heatCapUnit)
+	ch <- prometheus.MustNewConstMetric(c.ssPowerConsumptionDesc, prometheus.GaugeValue, powerConsumptionValue, heatOutputUnit)
+	ch <- prometheus.MustNewConstMetric(c.ssHeatingCapacityDesc, prometheus.GaugeValue, heatCapacityValue, heatCapUnit)
 	ch <- prometheus.MustNewConstMetric(c.defrostDesc, prometheus.GaugeValue, defrostDemandValue, "demand", defrostDemandUnit)
 	ch <- prometheus.MustNewConstMetric(c.defrostDesc, prometheus.GaugeValue, float64(lastDefrost.Unix()), "last", "ts")
 
@@ -245,14 +250,30 @@ func (c *collector) collectMeasurements(
 			return
 		}
 
-		ch <- prometheus.MustNewConstMetric(desc, vt, value, normalizeSpace(item.Name), unit)
+		counterMapKey := fmt.Sprintf("%s_%s_%s", groupName, item.Name, vt.ToDTO().String())
+
+		switch vt {
+		case prometheus.GaugeValue:
+			ch <- prometheus.MustNewConstMetric(desc, vt, value, normalizeSpace(item.Name), unit)
+
+		case prometheus.CounterValue:
+			if prevVal := c.nonDecreasingCounterValues[counterMapKey]; prevVal <= value {
+				ch <- prometheus.MustNewConstMetric(desc, vt, value, normalizeSpace(item.Name), unit)
+				c.nonDecreasingCounterValues[counterMapKey] = value
+			} else if c.log != nil {
+				// skip decreasing counter value
+				c.log.Warn("skipping decreasing counter value",
+					zap.Float64("value_prev", prevVal),
+					zap.Float64("value_new", value),
+					zap.String("map_key", counterMapKey))
+			}
+		}
 
 		found = true
 	})
 
 	if !found {
-		ch <- prometheus.MustNewConstMetric(desc, vt,
-			0, "", "")
+		ch <- prometheus.MustNewConstMetric(desc, vt, 0, "", "")
 	}
 
 	return nil
@@ -363,8 +384,11 @@ func (c *collector) collectSuppliedHeat(ch chan<- prometheus.Metric, content *lu
 	if q.missingSuppliedHeat {
 		return nil
 	}
-	// not a counter because during defrost the heat amount goes down
-	return c.collectMeasurements(ch, c.suppliedHeatDesc, content, c.terms.NavHeatQuantity, prometheus.GaugeValue, collectOptions{})
+
+	return errors.Join(
+		c.collectMeasurements(ch, c.suppliedHeatDesc, content, c.terms.NavHeatQuantity, prometheus.GaugeValue, collectOptions{}),
+		c.collectMeasurements(ch, c.suppliedHeatCntrDesc, content, c.terms.NavHeatQuantity, prometheus.CounterValue, collectOptions{}),
+	)
 }
 
 func (c *collector) collectEnergyInput(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot, _ *quirks) error {

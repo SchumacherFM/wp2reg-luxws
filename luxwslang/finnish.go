@@ -40,10 +40,10 @@ var Finnish = &Terminology{
 		"dhw":        OpModeIDDHW,
 		"defrosting": OpModeIDDefrosting,
 	},
-	StatusPowerOutput:     "Kapasiteetti",
-	StatusHeatingCapacity: "Heating capacity", // might be the same as "actual capacity" // TODO use finnish names
-	StatusDefrostDemand:   "Defrost demand",   // TODO use finnish names
-	StatusLastDefrost:     "last defrost",     // TODO use finnish names
+	StatusPowerConsumption: "Kapasiteetti",
+	StatusHeatingCapacity:  "Heating capacity", // might be the same as "actual capacity" // TODO use finnish names
+	StatusDefrostDemand:    "Defrost demand",   // TODO use finnish names
+	StatusLastDefrost:      "last defrost",     // TODO use finnish names
 
 	BoolFalse: "Pois",
 	BoolTrue:  "On",

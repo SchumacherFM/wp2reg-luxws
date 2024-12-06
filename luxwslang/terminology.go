@@ -45,15 +45,15 @@ type Terminology struct {
 	NavOpHours      string
 	HoursImpulsesFn func(string) bool
 
-	NavSystemStatus       string
-	StatusType            string
-	StatusSoftwareVersion string
-	StatusOperationMode   string
-	OperationModeMapping  map[string]float64
-	StatusPowerOutput     string
-	StatusHeatingCapacity string
-	StatusDefrostDemand   string
-	StatusLastDefrost     string
+	NavSystemStatus        string
+	StatusType             string
+	StatusSoftwareVersion  string
+	StatusOperationMode    string
+	OperationModeMapping   map[string]float64
+	StatusPowerConsumption string
+	StatusHeatingCapacity  string
+	StatusDefrostDemand    string
+	StatusLastDefrost      string
 
 	BoolFalse string
 	BoolTrue  string
