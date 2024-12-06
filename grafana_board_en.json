@@ -197,7 +197,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 3,
         "w": 4,
         "x": 16,
         "y": 0
@@ -249,7 +249,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-RdYlGr"
+            "mode": "palette-classic"
           },
           "decimals": 2,
           "mappings": [],
@@ -307,7 +307,149 @@
           "refId": "A"
         }
       ],
-      "title": "Coefficient of Performance (COP)",
+      "title": "COP (Coefficient of Performance) 30m",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "2": {
+                  "color": "dark-green",
+                  "index": 1,
+                  "text": "Off"
+                },
+                "3": {
+                  "color": "semi-dark-orange",
+                  "index": 0,
+                  "text": "Heating"
+                },
+                "4": {
+                  "color": "blue",
+                  "index": 2,
+                  "text": "DHW"
+                },
+                "5": {
+                  "color": "red",
+                  "index": 3,
+                  "text": "EVU Block"
+                },
+                "6": {
+                  "color": "light-blue",
+                  "index": 4,
+                  "text": "Defrosting"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "COP"
+            },
+            "properties": [
+              {
+                "id": "unit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 3
+      },
+      "id": 30,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.0+security-01",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "luxws_ss_energy_input{unit=\"kW\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Power Consumption",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "luxws_ss_heat_capacity{unit=\"kW\"} ",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Heat Capacity",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "luxws_ss_heat_capacity{unit=\"kW\"} / luxws_ss_energy_input{unit=\"kW\"}",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "COP",
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "Live kW",
       "type": "stat"
     },
     {
@@ -571,7 +713,7 @@
         "x": 12,
         "y": 16
       },
-      "id": 26,
+      "id": 28,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -851,6 +993,368 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "fillOpacity": 80,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 2,
+          "fieldMinMax": false,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "time: ddd DD.MM.YY"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SE10K"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "hidden"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SE17K"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "hidden"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SExxK Total"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "hidden"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 34
+      },
+      "id": 26,
+      "interval": "1d",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "sum"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showValue": "always",
+        "stacking": "normal",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "Time",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.3.0+security-01",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum( increase(luxws_energy_input{name=\"heating\"}[1d] offset -1d ) )  ",
+          "hide": false,
+          "legendFormat": "Heating",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum( increase(luxws_energy_input{name=\"domestic hot water\"}[1d] offset -1d ) )  ",
+          "hide": false,
+          "legendFormat": "DHW",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum( increase(luxws_energy_input{name=\"total\"}[1d] offset -1d ) )",
+          "hide": false,
+          "legendFormat": "Total",
+          "range": true,
+          "refId": "se10exp"
+        }
+      ],
+      "timeFrom": "7d",
+      "timeShift": "0d+1d",
+      "title": "Energy Input last 7 days",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "fillOpacity": 80,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 2,
+          "fieldMinMax": false,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "time: ddd DD.MM.YY"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SE10K"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "hidden"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SE17K"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "hidden"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SExxK Total"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "hidden"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 45
+      },
+      "id": 29,
+      "interval": "1d",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "sum"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showValue": "always",
+        "stacking": "normal",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "Time",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.3.0+security-01",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum( rate(luxws_supplied_heat_cntr{name=\"heating\"}[1d] offset -1d ) )  *1000",
+          "hide": false,
+          "legendFormat": "Heating",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum( rate(luxws_supplied_heat_cntr{name=\"domestic hot water\"}[1d] offset -1d )  )  ",
+          "hide": false,
+          "legendFormat": "DHW",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum( rate(   luxws_supplied_heat_cntr{name=\"total\"}[1d] offset -1d )  ) *1000",
+          "hide": false,
+          "legendFormat": "Total",
+          "range": true,
+          "refId": "supHeatCntrTotal"
+        }
+      ],
+      "timeFrom": "7d",
+      "timeShift": "0d+1d",
+      "title": "Supplied Heat last 7 days",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "FLOW: The flow temperature in degrees celsius. The flow temperature refers to the temperature of the water in the supply (flow) pipe in a heating system or separate part of a heating system.\n\nRETURN: The return temperature in degrees celsius. The return temperature is the temperature of the water in the pipe system after heat has been released into the building. The difference between inlet temperature and return temperature of the water occurs during transport through the heating system.",
       "fieldConfig": {
         "defaults": {
@@ -895,8 +1399,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -928,7 +1431,7 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 56
       },
       "id": 12,
       "options": {
@@ -1125,8 +1628,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1142,7 +1644,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 47
+        "y": 69
       },
       "id": 16,
       "options": {
@@ -1298,8 +1800,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1315,7 +1816,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 47
+        "y": 69
       },
       "id": 13,
       "options": {
@@ -1484,8 +1985,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1543,7 +2043,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 57
+        "y": 79
       },
       "id": 9,
       "options": {
@@ -1632,8 +2132,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1649,7 +2148,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 57
+        "y": 79
       },
       "id": 15,
       "options": {
@@ -1759,8 +2258,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1793,7 +2291,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 65
+        "y": 87
       },
       "id": 5,
       "options": {
@@ -1902,8 +2400,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1919,7 +2416,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 65
+        "y": 87
       },
       "id": 2,
       "options": {
@@ -2047,8 +2544,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2064,7 +2560,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 73
+        "y": 95
       },
       "id": 7,
       "options": {
@@ -2133,7 +2629,7 @@
           "refId": "C"
         }
       ],
-      "title": "Supplied Heat",
+      "title": "Supplied Heat (Gauge) 15m",
       "type": "timeseries"
     },
     {
@@ -2141,7 +2637,6 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2170,8 +2665,8 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
-            "spanNulls": false,
+            "showPoints": "never",
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -2180,13 +2675,13 @@
               "mode": "off"
             }
           },
+          "decimals": 1,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2194,7 +2689,7 @@
               }
             ]
           },
-          "unit": "pressurebar"
+          "unit": "kwatth"
         },
         "overrides": []
       },
@@ -2202,16 +2697,14 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 73
+        "y": 95
       },
-      "id": 6,
+      "id": 31,
       "options": {
         "legend": {
           "calcs": [
-            "min",
             "max",
             "mean",
-            "stdDev",
             "lastNotNull"
           ],
           "displayMode": "table",
@@ -2232,12 +2725,15 @@
             "uid": "PBFA97CFB590B2093"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "luxws_input{name=\"HD\", unit=\"bar\"}",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(luxws_supplied_heat_cntr{name=\"total\"}[15m]) * 15*60",
           "fullMetaSearch": false,
+          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "Hochdruck HD",
+          "interval": "",
+          "legendFormat": "Total",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -2247,20 +2743,30 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "luxws_input{name=\"ND\", unit=\"bar\"}",
-          "fullMetaSearch": false,
+          "editorMode": "code",
+          "expr": "rate(luxws_supplied_heat_cntr{name=\"heating\"}[15m]) * 15*60",
           "hide": false,
-          "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "Niederdruck ND",
+          "legendFormat": "Heating",
           "range": true,
-          "refId": "B",
-          "useBackend": false
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(luxws_supplied_heat_cntr{name=\"domestic hot water\"}[15m]) * 15*60",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Hot Water",
+          "range": true,
+          "refId": "C"
         }
       ],
-      "title": "Druck BAR",
+      "title": "Supplied Heat (Counter) 15m",
       "type": "timeseries"
     },
     {
@@ -2314,8 +2820,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2331,7 +2836,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 81
+        "y": 103
       },
       "id": 8,
       "options": {
@@ -2449,8 +2954,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2458,7 +2962,7 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "pressurebar"
         },
         "overrides": []
       },
@@ -2466,13 +2970,19 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 81
+        "y": 103
       },
-      "id": 3,
+      "id": 6,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "stdDev",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
@@ -2491,11 +3001,11 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "luxws_output{name=\"EEV heating\"}",
+          "expr": "luxws_input{name=\"HD\", unit=\"bar\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "EEV Heating",
+          "legendFormat": "Hochdruck HD",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -2507,18 +3017,18 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "luxws_output{name=\"EEV cooling\"}",
+          "expr": "luxws_input{name=\"ND\", unit=\"bar\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "EEV Cooling",
+          "legendFormat": "Niederdruck ND",
           "range": true,
           "refId": "B",
           "useBackend": false
         }
       ],
-      "title": "EEV Elektronisches Expansionsventil",
+      "title": "Druck BAR",
       "type": "timeseries"
     },
     {
@@ -2572,8 +3082,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2589,7 +3098,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 89
+        "y": 111
       },
       "id": 18,
       "options": {
@@ -2677,8 +3186,127 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 111
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0+security-01",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "luxws_output{name=\"EEV heating\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "EEV Heating",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "luxws_output{name=\"EEV cooling\"}",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "EEV Cooling",
+          "range": true,
+          "refId": "B",
+          "useBackend": false
+        }
+      ],
+      "title": "EEV Elektronisches Expansionsventil",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2691,18 +3319,21 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 89
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 119
       },
       "id": 19,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
           "maxHeight": 600,
@@ -2719,13 +3350,47 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "luxws_heat_capacity",
+          "expr": "deriv(luxws_ss_energy_input[30m])",
           "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "Power Consumption",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "deriv(luxws_ss_heat_capacity[30m])",
+          "fullMetaSearch": false,
+          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "Heat Capacity",
           "range": true,
-          "refId": "A",
+          "refId": "B",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "deriv(luxws_ss_heat_capacity[30m]) / deriv(luxws_ss_energy_input[30m])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "Live COP",
+          "range": true,
+          "refId": "C",
           "useBackend": false
         }
       ],
@@ -2781,8 +3446,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2798,7 +3462,7 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 97
+        "y": 129
       },
       "id": 20,
       "options": {
@@ -3006,8 +3670,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3023,7 +3686,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 110
+        "y": 142
       },
       "id": 21,
       "options": {
@@ -3120,8 +3783,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3137,7 +3799,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 110
+        "y": 142
       },
       "id": 22,
       "options": {
@@ -3228,8 +3890,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -3241,7 +3902,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 118
+        "y": 150
       },
       "id": 23,
       "options": {
@@ -3251,7 +3912,7 @@
             "max",
             "lastNotNull"
           ],
-          "displayMode": "list",
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
@@ -3359,7 +4020,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
@@ -3378,6 +4039,6 @@
   "timezone": "",
   "title": "Heat Pump LuxWS",
   "uid": "ead41ecf-b956-4254-b74d-40a5f1eb0c62",
-  "version": 101,
+  "version": 120,
   "weekStart": ""
 }
