@@ -155,7 +155,7 @@ func (c *collector) collectInfo(
 
 	group, err := content.FindByName(luxwsclient.CmpName(c.terms.NavSystemStatus))
 	if err != nil {
-		return err
+		return fmt.Errorf("collectInfo.content.FindByName NavSystemStatus failed: %w", err)
 	}
 
 	group.EachNonNil(func(item *luxwsclient.ContentItem) {
@@ -235,7 +235,7 @@ func (c *collector) collectMeasurements(
 
 	group, err := content.FindByName(cmp)
 	if err != nil {
-		return err
+		return fmt.Errorf("collectMeasurements.content.FindByName %q failed: %w", groupName, err)
 	}
 
 	var found bool
@@ -288,7 +288,7 @@ func (c *collector) collectDurations(
 ) error {
 	group, err := content.FindByName(luxwsclient.CmpName(groupName))
 	if err != nil {
-		return err
+		return fmt.Errorf("collectDurations.content.FindByName %q failed: %w", groupName, err)
 	}
 
 	var found bool
@@ -320,7 +320,7 @@ func (c *collector) collectDurations(
 func (c *collector) collectTimetable(ch chan<- prometheus.Metric, desc *prometheus.Desc, content *luxwsclient.ContentRoot, groupName string) error {
 	group, err := content.FindByName(luxwsclient.CmpName(groupName))
 	if err != nil {
-		return err
+		return fmt.Errorf("collectTimetable.content.FindByName %q failed: %w", groupName, err)
 	}
 
 	latest := map[string]time.Time{}
