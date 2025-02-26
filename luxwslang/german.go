@@ -37,10 +37,10 @@ var German = &Terminology{
 		"ww":     OpModeIDDHW,
 		"abt":    OpModeIDDefrosting,
 	},
-	StatusPowerConsumption: "Leistung Ist",
-	StatusHeatingCapacity:  "Heizleistung Ist", // TODO correct translation
+	StatusPowerConsumption: "Eingesetzte Energie",
+	StatusHeatingCapacity:  "Heizleistung Ist",
 	StatusDefrostDemand:    "Abtaubedarf",
-	StatusLastDefrost:      "Letzte Abt.", // TODO correct translation
+	StatusLastDefrost:      "Letzte Abt.",
 	BoolFalse:              "Aus",
 	BoolTrue:               "Ein",
 }
