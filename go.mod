@@ -1,19 +1,19 @@
 module github.com/hansmi/wp2reg-luxws
 
-go 1.23
+go 1.24
 
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/google/go-cmp v0.6.0
 	github.com/gorilla/websocket v1.5.3
 	github.com/hashicorp/go-cleanhttp v0.5.2
-	github.com/prometheus/client_golang v1.20.5
-	github.com/prometheus/common v0.60.1
-	github.com/prometheus/exporter-toolkit v0.13.1
-	github.com/samber/slog-zap/v2 v2.6.0
+	github.com/prometheus/client_golang v1.21.1
+	github.com/prometheus/common v0.62.0
+	github.com/prometheus/exporter-toolkit v0.14.0
+	github.com/samber/slog-zap/v2 v2.6.2
 	go.uber.org/multierr v1.11.0
 	go.uber.org/zap v1.27.0
-	golang.org/x/sync v0.10.0
+	golang.org/x/sync v0.12.0
 )
 
 require (
@@ -22,7 +22,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
-	github.com/klauspost/compress v1.17.11 // indirect
+	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/mdlayher/socket v0.5.1 // indirect
 	github.com/mdlayher/vsock v1.2.1 // indirect
@@ -30,14 +30,14 @@ require (
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
-	github.com/samber/lo v1.47.0 // indirect
-	github.com/samber/slog-common v0.17.1 // indirect
+	github.com/samber/lo v1.49.1 // indirect
+	github.com/samber/slog-common v0.18.1 // indirect
 	github.com/xhit/go-str2duration/v2 v2.1.0 // indirect
-	golang.org/x/crypto v0.29.0 // indirect
-	golang.org/x/net v0.31.0 // indirect
-	golang.org/x/oauth2 v0.24.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
-	golang.org/x/text v0.20.0 // indirect
-	google.golang.org/protobuf v1.35.2 // indirect
+	golang.org/x/crypto v0.36.0 // indirect
+	golang.org/x/net v0.37.0 // indirect
+	golang.org/x/oauth2 v0.28.0 // indirect
+	golang.org/x/sys v0.31.0 // indirect
+	golang.org/x/text v0.23.0 // indirect
+	google.golang.org/protobuf v1.36.5 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
