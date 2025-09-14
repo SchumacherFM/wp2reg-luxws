@@ -14,7 +14,6 @@ import (
 	"github.com/hansmi/wp2reg-luxws/luxwslang"
 	"github.com/hashicorp/go-cleanhttp"
 	"github.com/prometheus/client_golang/prometheus"
-	"go.uber.org/multierr"
 	"go.uber.org/zap"
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/sync/semaphore"
@@ -407,8 +406,7 @@ func (c *collector) collectLatestSwitchOff(ch chan<- prometheus.Metric, content 
 	return c.collectTimetable(ch, c.switchOffDesc, content, c.terms.NavSwitchOffs)
 }
 
-func (c *collector) collectAll(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot) error {
-	var err error
+func (c *collector) collectAll(ch chan<- prometheus.Metric, content *luxwsclient.ContentRoot) (err error) {
 	var q quirks
 
 	for _, fn := range []contentCollectFunc{
@@ -424,7 +422,7 @@ func (c *collector) collectAll(ch chan<- prometheus.Metric, content *luxwsclient
 		c.collectLatestSwitchOff,
 		c.collectImpulses,
 	} {
-		multierr.AppendInto(&err, fn(ch, content, &q))
+		err = errors.Join(err, fn(ch, content, &q))
 	}
 
 	return err
