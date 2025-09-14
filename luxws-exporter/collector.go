@@ -172,9 +172,6 @@ func (c *collector) collectInfo(
 			swVersion = normalizeSpace(*item.Value)
 		case c.terms.StatusOperationMode:
 			opMode = normalizeSpace(*item.Value)
-			if opMode == "" {
-				opMode = "off"
-			}
 		case c.terms.StatusHeatingCapacity:
 			if heatCapacityValue, heatCapUnit, err = c.parseValue(*item.Value); err != nil {
 				c.log.Error("StatusHeatingCapacity parseValue failed", zap.Error(err), zap.Stringp("value", item.Value))
@@ -194,12 +191,15 @@ func (c *collector) collectInfo(
 
 		}
 	})
+	if strings.TrimSpace(opMode) == "" {
+		opMode = c.terms.OperationModeDefault // off
+	}
 
 	sort.Strings(hpType)
 
 	opModeID, ok := c.terms.OperationModeMapping[strings.ToLower(opMode)]
 	if !ok && c.log != nil {
-		c.log.Error("opMode not configured in code", zap.String("operational_mode", opMode))
+		c.log.Error("opMode not configured in code luxwslang", zap.String("operational_mode", opMode))
 		opModeID = -1
 	}
 

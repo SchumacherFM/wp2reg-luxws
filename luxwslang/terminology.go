@@ -49,6 +49,7 @@ type Terminology struct {
 	StatusType             string
 	StatusSoftwareVersion  string
 	StatusOperationMode    string
+	OperationModeDefault   string
 	OperationModeMapping   map[string]float64
 	StatusPowerConsumption string
 	StatusHeatingCapacity  string

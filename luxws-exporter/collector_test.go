@@ -97,10 +97,10 @@ luxws_defrost{name="last",unit="ts"} -6.21355968e+10
 luxws_info{hptype="",swversion=""} 1
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
-luxws_operational_mode{mode=""} 1
+luxws_operational_mode{mode="off"} 1
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
-luxws_operational_mode_id{mode=""} 0
+luxws_operational_mode_id{mode="off"} 2
 # HELP luxws_ss_energy_input System Status / Power Consumption
 # TYPE luxws_ss_energy_input gauge
 luxws_ss_energy_input{unit=""} 0
@@ -120,7 +120,7 @@ luxws_ss_heat_capacity{unit=""} 0
 							{Name: "Wärmepumpen Typ", Value: luxwsclient.String("typeA")},
 							{Name: "Softwarestand", Value: luxwsclient.String("v1.2.3")},
 							{Name: "Betriebszustand", Value: luxwsclient.String("running")},
-							{Name: "Leistung Ist", Value: luxwsclient.String("999 kWh")},
+							{Name: "Eingesetzte Energie", Value: luxwsclient.String("999 kWh")},
 							{Name: "Wärmepumpen Typ", Value: luxwsclient.String("typeB")},
 						},
 					},
@@ -614,10 +614,10 @@ luxws_latest_switchoff{reason=""} 0
 luxws_operating_duration_seconds{name=""} 0
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
-luxws_operational_mode{mode=""} 1
+luxws_operational_mode{mode="off"} 1
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
-luxws_operational_mode_id{mode=""} 0
+luxws_operational_mode_id{mode="off"} 2
 # HELP luxws_output Output values
 # TYPE luxws_output gauge
 luxws_output{name="",unit=""} 0
@@ -696,10 +696,10 @@ luxws_latest_switchoff{reason=""} 0
 luxws_operating_duration_seconds{name=""} 0
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
-luxws_operational_mode{mode=""} 1
+luxws_operational_mode{mode="off"} 1
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
-luxws_operational_mode_id{mode=""} 0
+luxws_operational_mode_id{mode="off"} 2
 # HELP luxws_output Output values
 # TYPE luxws_output gauge
 luxws_output{name="",unit=""} 0
@@ -747,10 +747,10 @@ luxws_energy_input{name="total",unit="kWh"} 2285.5
 luxws_info{hptype="LW 8",swversion=""} 1
 # HELP luxws_operational_mode Operational mode
 # TYPE luxws_operational_mode gauge
-luxws_operational_mode{mode=""} 1
+luxws_operational_mode{mode="off"} 1
 # HELP luxws_operational_mode_id Operational mode by ID
 # TYPE luxws_operational_mode_id gauge
-luxws_operational_mode_id{mode=""} 0
+luxws_operational_mode_id{mode="off"} 2
 # HELP luxws_ss_energy_input System Status / Power Consumption
 # TYPE luxws_ss_energy_input gauge
 luxws_ss_energy_input{unit="kW"} 0

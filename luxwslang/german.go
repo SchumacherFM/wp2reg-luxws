@@ -29,8 +29,10 @@ var German = &Terminology{
 	StatusType:            "Wärmepumpen Typ",
 	StatusSoftwareVersion: "Softwarestand",
 	StatusOperationMode:   "Betriebszustand",
+	OperationModeDefault:  "off",
 	OperationModeMapping: map[string]float64{
 		// lower case!
+		"":       OpModeIDOff,
 		"off":    OpModeIDOff,
 		"heizen": OpModeIDHeating,
 		"evu":    OpModeIDEVU,

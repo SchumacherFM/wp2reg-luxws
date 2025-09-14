@@ -21,12 +21,20 @@ var Dutch = &Terminology{
 	NavEnergyInput:  "energy input", // todo Cyrill
 	NavErrorMemory:  "Storingsbuffer",
 	NavSwitchOffs:   "Afschakelingen",
-
-	NavOpHours: "Bedrijfsuren",
+	NavOpHours:      "Bedrijfsuren",
 	HoursImpulsesFn: func(s string) bool {
 		return strings.HasPrefix(s, "impulse") || strings.HasPrefix(s, "Impulse")
 	},
-
+	OperationModeDefault: "off",
+	OperationModeMapping: map[string]float64{
+		// lower case!
+		"":           OpModeIDOff,
+		"off":        OpModeIDOff,
+		"heating":    OpModeIDHeating,
+		"evu":        OpModeIDEVU,
+		"dhw":        OpModeIDDHW,
+		"defrosting": OpModeIDDefrosting,
+	},
 	NavSystemStatus:        "Installatiestatus",
 	StatusType:             "Warmtepomp Type",
 	StatusSoftwareVersion:  "Softwareversie",

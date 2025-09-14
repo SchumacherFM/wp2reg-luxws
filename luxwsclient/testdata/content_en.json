@@ -1,0 +1,605 @@
+{
+  "type": "Content",
+  "items": [
+    {
+      "name": "temperatures",
+      "items": [
+        {
+          "name": "flow",
+          "value": "23.7°C",
+          "id": "0x1625c94"
+        },
+        {
+          "name": "return",
+          "value": "23.8°C",
+          "id": "0x1625d6c"
+        },
+        {
+          "name": "return target",
+          "value": "23.5°C",
+          "id": "0x1625db4"
+        },
+        {
+          "name": "hot gas",
+          "value": "25.4°C",
+          "id": "0x1625c4c"
+        },
+        {
+          "name": "outdoor temp.",
+          "value": "20.1°C",
+          "id": "0x1625e44"
+        },
+        {
+          "name": "outdoor temp. ø",
+          "value": "19.9°C",
+          "id": "0x1625e8c"
+        },
+        {
+          "name": "DHW",
+          "value": "44.8°C",
+          "id": "0x1625ed4"
+        },
+        {
+          "name": "DHW target",
+          "value": "50.0°C",
+          "id": "0x1625f54"
+        },
+        {
+          "name": "heat source inlet",
+          "value": "19.3°C",
+          "id": "0x1625c04"
+        },
+        {
+          "name": "max. flow temp.",
+          "value": "60.0°C",
+          "id": "0x1625cdc"
+        },
+        {
+          "name": "suction compressor",
+          "value": "24.3°C",
+          "id": "0x1625a0c"
+        },
+        {
+          "name": "overheating",
+          "value": "5.4 K",
+          "id": "0x1625ae4"
+        },
+        {
+          "name": "target overheating",
+          "value": "20.0 K",
+          "id": "0x1625b2c"
+        },
+        {
+          "name": "TFL1",
+          "value": "21.6°C",
+          "id": "0x162655c"
+        },
+        {
+          "name": "TFL2",
+          "value": "23.1°C",
+          "id": "0x16265a4"
+        }
+      ],
+      "name": "temperatures",
+      "id": "0x1620fb4"
+    },
+    {
+      "name": "inputs",
+      "items": [
+        {
+          "name": "ASD",
+          "value": "On",
+          "id": "0x16280cc"
+        },
+        {
+          "name": "EVU",
+          "value": "On",
+          "id": "0x1628244"
+        },
+        {
+          "name": "HD",
+          "value": "Off",
+          "id": "0x1627ff4"
+        },
+        {
+          "name": "MOT",
+          "value": "On",
+          "id": "0x162828c"
+        },
+        {
+          "name": "SWT",
+          "value": "Off",
+          "id": "0x162831c"
+        },
+        {
+          "name": "analog in 21",
+          "value": "0.01 V",
+          "id": "0x16283ac"
+        },
+        {
+          "name": "analog in 22",
+          "value": "0.01 V",
+          "id": "0x16283f4"
+        },
+        {
+          "name": "HD",
+          "value": "13.03 bar",
+          "id": "0x162803c"
+        },
+        {
+          "name": "ND",
+          "value": "12.99 bar",
+          "id": "0x1628084"
+        },
+        {
+          "name": "flow rate",
+          "value": "607 l/h",
+          "id": "0x162843c"
+        },
+        {
+          "name": "EVU 2",
+          "value": "Off",
+          "id": "0x162859c"
+        },
+        {
+          "name": "STL immersion heater",
+          "value": "Off",
+          "id": "0x16285e4"
+        }
+      ],
+      "name": "inputs",
+      "id": "0x1620fec"
+    },
+    {
+      "name": "outputs",
+      "items": [
+        {
+          "name": "AV-defrost. valve",
+          "value": "Off",
+          "id": "0x1629a44"
+        },
+        {
+          "name": "BUP - DHW pump",
+          "value": "Off",
+          "id": "0x1629c3c"
+        },
+        {
+          "name": "HUP",
+          "value": "On",
+          "id": "0x1629ccc"
+        },
+        {
+          "name": "VBO",
+          "value": "Off",
+          "id": "0x1629bf4"
+        },
+        {
+          "name": "VD1",
+          "value": "Off",
+          "id": "0x1629a8c"
+        },
+        {
+          "name": "ZIP",
+          "value": "Off",
+          "id": "0x1629e34"
+        },
+        {
+          "name": "ZUP",
+          "value": "Off",
+          "id": "0x1629f54"
+        },
+        {
+          "name": "ZWE 1",
+          "value": "Off",
+          "id": "0x1629ad4"
+        },
+        {
+          "name": "ZWE 2 - SST",
+          "value": "Off",
+          "id": "0x1629b1c"
+        },
+        {
+          "name": "ZWE 3",
+          "value": "Off",
+          "id": "0x1629f9c"
+        },
+        {
+          "name": "SLP",
+          "value": "Off",
+          "id": "0x1629fe4"
+        },
+        {
+          "name": "FP2",
+          "value": "Off",
+          "id": "0x162a104"
+        },
+        {
+          "name": "FP3",
+          "value": "Off",
+          "id": "0x162a1dc"
+        },
+        {
+          "name": "AO 1",
+          "value": "10.00 V",
+          "id": "0x162a224"
+        },
+        {
+          "name": "AO 2",
+          "value": "10.00 V",
+          "id": "0x162a26c"
+        },
+        {
+          "name": "AO 21",
+          "value": "0.00 V",
+          "id": "0x162a2b4"
+        },
+        {
+          "name": "AO 22",
+          "value": "0.00 V",
+          "id": "0x162a2fc"
+        },
+        {
+          "name": "HUP",
+          "value": "42.6 %",
+          "id": "0x162a5ac"
+        },
+        {
+          "name": "freq. targ.value",
+          "value": "0 RPM",
+          "id": "0x162a904"
+        },
+        {
+          "name": "freq. current",
+          "value": "0 RPM",
+          "id": "0x162a99c"
+        },
+        {
+          "name": "rotation speed fan",
+          "value": "0 RPM",
+          "id": "0x162ab44"
+        },
+        {
+          "name": "EEV heating",
+          "value": "0.0 %",
+          "id": "0x162ab8c"
+        },
+        {
+          "name": "EEV cooling",
+          "value": "0.0 %",
+          "id": "0x162abd4"
+        }
+      ],
+      "name": "outputs",
+      "id": "0x1621024"
+    },
+    {
+      "name": "elapsed times",
+      "items": [
+        {
+          "name": "HP since",
+          "value": "00:00:00",
+          "id": "0x162c644"
+        },
+        {
+          "name": "ZWE1 since",
+          "value": "00:00:00",
+          "id": "0x162c68c"
+        },
+        {
+          "name": "ZWE2 since",
+          "value": "00:00:00",
+          "id": "0x162c6d4"
+        },
+        {
+          "name": "net-input delay",
+          "value": "00:00:00",
+          "id": "0x162c764"
+        },
+        {
+          "name": "SCB time",
+          "value": "00:00:00",
+          "id": "0x162c79c"
+        },
+        {
+          "name": "CP off since",
+          "value": "19:36:58",
+          "id": "0x162c7d4"
+        },
+        {
+          "name": "hc add-time",
+          "value": "00:00:00",
+          "id": "0x162c81c"
+        },
+        {
+          "name": "hc less-time",
+          "value": "25:29:40",
+          "id": "0x162c864"
+        },
+        {
+          "name": "TDI since",
+          "value": "00:00:00",
+          "id": "0x162c8ac"
+        },
+        {
+          "name": "blockade DHW",
+          "value": "00:00:00",
+          "id": "0x162c92c"
+        },
+        {
+          "name": "release ZWE",
+          "value": "01:00:00",
+          "id": "0x162ca2c"
+        },
+        {
+          "name": "release cooling",
+          "value": "10:51:48",
+          "id": "0x162cabc"
+        },
+        {
+          "name": "shutdown VD",
+          "value": "00:00:00",
+          "id": "0x162caf4"
+        }
+      ],
+      "name": "elapsed times",
+      "id": "0x162105c"
+    },
+    {
+      "name": "operating hours",
+      "items": [
+        {
+          "name": "operating hours VD1",
+          "value": "11172h",
+          "id": "0x162dcd4"
+        },
+        {
+          "name": "impulse VD1",
+          "value": "5644",
+          "id": "0x162dd1c"
+        },
+        {
+          "name": "running time Ø VD1",
+          "value": "01:58",
+          "id": "0x162dd64"
+        },
+        {
+          "name": "operating hours ZWE1",
+          "value": "72h",
+          "id": "0x162de84"
+        },
+        {
+          "name": "operating hours ZWE2",
+          "value": "3h",
+          "id": "0x162decc"
+        },
+        {
+          "name": "operating hours HP",
+          "value": "11172h",
+          "id": "0x162df5c"
+        },
+        {
+          "name": "operat. hours heat.",
+          "value": "9931h",
+          "id": "0x162dfa4"
+        },
+        {
+          "name": "operating hours DHW",
+          "value": "1240h",
+          "id": "0x162dfec"
+        },
+        {
+          "name": "amount PV",
+          "value": "270h",
+          "id": "0x162e0c4"
+        }
+      ],
+      "name": "operating hours",
+      "id": "0x1621094"
+    },
+    {
+      "name": "error memory",
+      "items": [
+        {
+          "name": "02.07.25 13:28:41",
+          "value": "max. outdoor temp. (718)",
+          "id": "0x162edd4"
+        },
+        {
+          "name": "30.06.25 15:34:03",
+          "value": "max. outdoor temp. (718)",
+          "id": "0x162ee64"
+        },
+        {
+          "name": "29.06.25 13:58:14",
+          "value": "max. outdoor temp. (718)",
+          "id": "0x162eef4"
+        },
+        {
+          "name": "01.09.24 15:12:47",
+          "value": "max. outdoor temp. (718)",
+          "id": "0x162ef84"
+        },
+        {
+          "name": "30.08.24 15:02:04",
+          "value": "max. outdoor temp. (718)",
+          "id": "0x162f014"
+        }
+      ],
+      "name": "error memory",
+      "id": "0x1624fdc"
+    },
+    {
+      "name": "switch offs",
+      "items": [
+        {
+          "name": "06.08.25 13:53:10",
+          "value": "no requ.",
+          "id": "0x162fad4"
+        },
+        {
+          "name": "04.08.25 20:52:24",
+          "value": "no requ.",
+          "id": "0x162fa54"
+        },
+        {
+          "name": "04.08.25 08:56:46",
+          "value": "no requ.",
+          "id": "0x162f9d4"
+        },
+        {
+          "name": "04.08.25 04:08:25",
+          "value": "no requ.",
+          "id": "0x162f954"
+        },
+        {
+          "name": "02.08.25 12:09:04",
+          "value": "no requ.",
+          "id": "0x162f8d4"
+        }
+      ],
+      "name": "switch offs",
+      "id": "0x161f20c"
+    },
+    {
+      "name": "system status",
+      "items": [
+        {
+          "name": "type of heat pump",
+          "value": "LW 8",
+          "id": "0x16303d4"
+        },
+        {
+          "name": "type of heat pump",
+          "value": "CMD_6",
+          "id": "0x163040c"
+        },
+        {
+          "name": "software version",
+          "value": "V3.91.1",
+          "id": "0x16304e4"
+        },
+        {
+          "name": "Revision",
+          "value": "9b575ff7",
+          "id": "0x163052c"
+        },
+        {
+          "name": "HZ/IO",
+          "value": "<div class='boardInfoLine'><span>  Revision:</span><span>ab86d97b</span></div><div class='boardInfoLine'><span>  CPU:</span><span>3</span></div>",
+          "id": "0x1630584"
+        },
+        {
+          "name": "inverter",
+          "value": "<div class='boardInfoLine'><span>  SW Version:</span><span>49</span></div>",
+          "id": "0x163076c"
+        },
+        {
+          "name": "ASB",
+          "value": "<div class='boardInfoLine'><span>  Revision:</span><span>ab86d97b</span></div><div class='boardInfoLine'><span>  HW Revision:</span><span>5</span></div>",
+          "id": "0x16308cc"
+        },
+        {
+          "name": "controller",
+          "value": "<div class='boardInfoLine'><span>  HW Revision:</span><span>2003</span></div>",
+          "id": "0x1630a8c"
+        },
+        {
+          "name": "bivalence level",
+          "value": "1",
+          "id": "0x1630bb4"
+        },
+        {
+          "name": "operation mode",
+          "value": "",
+          "id": "0x1630bec"
+        },
+        {
+          "name": "Heating capacity",
+          "value": "0.00 kW",
+          "id": "0x1630c34"
+        },
+        {
+          "name": "Power Consumption",
+          "value": "0.00 kW",
+          "id": "0x1630c7c"
+        },
+        {
+          "name": "Defrost demand",
+          "value": "0.0%",
+          "id": "0x1630e5c"
+        },
+        {
+          "name": "last defrost",
+          "value": "19.04.25 07:09",
+          "id": "0x1630e94"
+        }
+      ],
+      "name": "system status",
+      "id": "0x161f244"
+    },
+    {
+      "name": "energy monitor",
+      "items": [
+        {
+          "name": "Heat Quantity",
+          "items": [
+            {
+              "name": "heating",
+              "value": "34635.7 kWh",
+              "id": "0x1632574"
+            },
+            {
+              "name": "domestic hot water",
+              "value": "6054.0 kWh",
+              "id": "0x163271c"
+            },
+            {
+              "name": "total",
+              "value": "40689.7 kWh",
+              "id": "0x1632954"
+            }
+          ],
+          "name": "Heat Quantity",
+          "id": "0x16320ec"
+        },
+        {
+          "name": "Power Consumption",
+          "items": [
+            {
+              "name": "heating",
+              "value": "3736.9 kWh",
+              "id": "0x1634204"
+            },
+            {
+              "name": "domestic hot water",
+              "value": "867.4 kWh",
+              "id": "0x16343ac"
+            },
+            {
+              "name": "total",
+              "value": "4604.3 kWh",
+              "id": "0x16345e4"
+            }
+          ],
+          "name": "Power Consumption",
+          "id": "0x1632134"
+        }
+      ],
+      "name": "energy monitor",
+      "id": "0x16251b4"
+    },
+    {
+      "name": "BMS",
+      "items": [
+        {
+          "name": "type",
+          "value": "Off",
+          "id": "0x1635cf4"
+        }
+      ],
+      "name": "BMS",
+      "id": "0x16251ec"
+    }
+  ],
+  "name": "information"
+}

@@ -1,0 +1,86 @@
+{
+  "type": "Navigation",
+  "items": [
+    {
+      "items": [
+        {
+          "items": [],
+          "id": "0x1614958",
+          "name": "temperatures",
+          "readOnly": false
+        },
+        {
+          "items": [],
+          "id": "0x16161c0",
+          "name": "inputs",
+          "readOnly": false
+        },
+        {
+          "items": [],
+          "id": "0x16166b8",
+          "name": "outputs",
+          "readOnly": false
+        },
+        {
+          "items": [],
+          "id": "0x1616178",
+          "name": "elapsed times",
+          "readOnly": false
+        },
+        {
+          "items": [],
+          "id": "0x1616738",
+          "name": "operating hours",
+          "readOnly": false
+        },
+        {
+          "items": [],
+          "id": "0x1615460",
+          "name": "error memory",
+          "readOnly": false
+        },
+        {
+          "items": [],
+          "id": "0x1615ad0",
+          "name": "switch offs",
+          "readOnly": false
+        },
+        {
+          "items": [],
+          "id": "0x1616ee8",
+          "name": "system status",
+          "readOnly": false
+        },
+        {
+          "items": [
+            {
+              "items": [],
+              "id": "0x1615fa0",
+              "name": "Heat Quantity",
+              "readOnly": false
+            },
+            {
+              "items": [],
+              "id": "0x1616568",
+              "name": "Power Consumption",
+              "readOnly": false
+            }
+          ],
+          "id": "0x1616298",
+          "name": "energy monitor",
+          "readOnly": false
+        },
+        {
+          "items": [],
+          "id": "0x16162e0",
+          "name": "BMS",
+          "readOnly": false
+        }
+      ],
+      "id": "0x1614dc8",
+      "name": "information",
+      "readOnly": false
+    }
+  ],
+  "id": "0x1619f20"
+}

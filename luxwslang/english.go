@@ -29,8 +29,10 @@ var English = &Terminology{
 	StatusType:            "type of heat pump",
 	StatusSoftwareVersion: "software version",
 	StatusOperationMode:   "operation mode",
+	OperationModeDefault:  "off",
 	OperationModeMapping: map[string]float64{
 		// lower case!
+		"":           OpModeIDOff,
 		"off":        OpModeIDOff,
 		"heating":    OpModeIDHeating,
 		"evu":        OpModeIDEVU,

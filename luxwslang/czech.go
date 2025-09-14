@@ -21,11 +21,19 @@ var Czech = &Terminology{
 	NavEnergyInput:  "energy input", // todo Cyrill
 	NavErrorMemory:  "Chybová paměť",
 	NavSwitchOffs:   "Odepnutí",
-
-	NavOpHours: "Provozní hodiny",
-
+	NavOpHours:      "Provozní hodiny",
 	HoursImpulsesFn: func(s string) bool {
 		return strings.HasPrefix(s, "počet startů") || strings.HasPrefix(s, "Počet startů")
+	},
+	OperationModeDefault: "off",
+	OperationModeMapping: map[string]float64{
+		// lower case!
+		"":           OpModeIDOff,
+		"off":        OpModeIDOff,
+		"heating":    OpModeIDHeating,
+		"evu":        OpModeIDEVU,
+		"dhw":        OpModeIDDHW,
+		"defrosting": OpModeIDDefrosting,
 	},
 	NavSystemStatus:        "Status zařízení",
 	StatusType:             "Typ TČ",

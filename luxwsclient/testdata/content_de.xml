@@ -1,453 +1,460 @@
 <Content>
-    <item id='0x93a964'>
+    <item id='0x157c624'>
         <name>Temperaturen</name>
-        <item id='0x931aa4'>
+        <item id='0x1630b94'>
             <name>Vorlauf</name>
-            <value>20.1°C</value>
+            <value>28.0°C</value>
         </item>
-        <item id='0x92deb4'>
+        <item id='0x164bafc'>
             <name>Rücklauf</name>
-            <value>20.1°C</value>
+            <value>28.3°C</value>
         </item>
-        <item id='0x8e8ee4'>
+        <item id='0x164bb44'>
             <name>Rückl.-Soll</name>
-            <value>27.4°C</value>
+            <value>26.0°C</value>
         </item>
-        <item id='0x8edf04'>
+        <item id='0x1630b4c'>
             <name>Heissgas</name>
-            <value>16.1°C</value>
+            <value>38.1°C</value>
         </item>
-        <item id='0x93190c'>
+        <item id='0x164bbd4'>
             <name>Außentemperatur</name>
-            <value>4.4°C</value>
+            <value>11.2°C</value>
         </item>
-        <item id='0x8e8b04'>
+        <item id='0x164bc1c'>
             <name>Mitteltemperatur</name>
-            <value>-2.4°C</value>
+            <value>11.1°C</value>
         </item>
-        <item id='0x93ab54'>
+        <item id='0x164bc64'>
             <name>Warmwasser-Ist</name>
-            <value>56.5°C</value>
+            <value>44.5°C</value>
         </item>
-        <item id='0x935f9c'>
+        <item id='0x16454cc'>
             <name>Warmwasser-Soll</name>
-            <value>51.0°C</value>
+            <value>50.0°C</value>
         </item>
-        <item id='0x8eb67c'>
+        <item id='0x1630b04'>
             <name>Wärmequelle-Ein</name>
-            <value>3.9°C</value>
+            <value>8.0°C</value>
         </item>
-        <item id='0x9321b4'>
+        <item id='0x1630bdc'>
             <name>Vorlauf max.</name>
             <value>60.0°C</value>
         </item>
-        <item id='0x923574'>
+        <item id='0xa4abcc'>
             <name>Ansaug VD</name>
-            <value>15.1°C</value>
+            <value>31.4°C</value>
         </item>
-        <item id='0x9341f4'>
+        <item id='0x164a6bc'>
             <name>Überhitzung</name>
-            <value>11.7 K</value>
+            <value>21.2 K</value>
         </item>
-        <item id='0x933354'>
+        <item id='0x164a704'>
             <name>Überhitzung Soll</name>
             <value>8.0 K</value>
         </item>
-        <item id='0x92b44c'>
+        <item id='0x15efa84'>
             <name>TFL1</name>
-            <value>10.5°C</value>
+            <value>23.3°C</value>
         </item>
-        <item id='0x93a5f4'>
+        <item id='0x15efacc'>
             <name>TFL2</name>
-            <value>14.9°C</value>
+            <value>28.8°C</value>
         </item>
         <name>Temperaturen</name>
     </item>
-    <item id='0x93af1c'>
+    <item id='0xa48604'>
         <name>Eingänge</name>
-        <item id='0x931534'>
+        <item id='0x164b89c'>
             <name>ASD</name>
-            <value>Aus</value>
+            <value>Ein</value>
         </item>
-        <item id='0x8add54'>
+        <item id='0x164c1cc'>
             <name>EVU</name>
             <value>Ein</value>
         </item>
-        <item id='0x934514'>
+        <item id='0x164b7c4'>
             <name>HD</name>
             <value>Aus</value>
         </item>
-        <item id='0x939234'>
+        <item id='0x164c214'>
             <name>MOT</name>
             <value>Ein</value>
         </item>
-        <item id='0x9392c4'>
+        <item id='0x164c2a4'>
             <name>SWT</name>
             <value>Aus</value>
         </item>
-        <item id='0x93ce64'>
+        <item id='0x164c334'>
             <name>AIn 21</name>
             <value>0.01 V</value>
         </item>
-        <item id='0x93ce9c'>
+        <item id='0x164c37c'>
             <name>AIn 22</name>
             <value>0.01 V</value>
         </item>
-        <item id='0x8abe84'>
+        <item id='0x164b80c'>
             <name>HD</name>
-            <value>7.91 bar</value>
+            <value>13.03 bar</value>
         </item>
-        <item id='0x8ad98c'>
+        <item id='0x164b854'>
             <name>ND</name>
-            <value>7.86 bar</value>
+            <value>9.87 bar</value>
         </item>
-        <item id='0x93cee4'>
+        <item id='0x164c3c4'>
             <name>Durchfluss</name>
-            <value>--- l/h</value>
+            <value>597 l/h</value>
         </item>
-        <item id='0x8aa304'>
+        <item id='0x164c514'>
             <name>EVU 2</name>
             <value>Aus</value>
         </item>
-        <item id='0x8aa34c'>
+        <item id='0x164c55c'>
             <name>STB E-Stab</name>
             <value>Aus</value>
         </item>
         <name>Eingänge</name>
     </item>
-    <item id='0x9354a4'>
+    <item id='0x1630c4c'>
         <name>Ausgänge</name>
-        <item id='0x939e7c'>
+        <item id='0x164bfdc'>
             <name>AV-Abtauventil</name>
             <value>Aus</value>
         </item>
-        <item id='0x8aa7ac'>
+        <item id='0x164c9f4'>
             <name>BUP</name>
             <value>Aus</value>
         </item>
-        <item id='0x8aa83c'>
+        <item id='0x164ca84'>
             <name>HUP</name>
             <value>Ein</value>
         </item>
-        <item id='0x8aa764'>
+        <item id='0x164c9ac'>
             <name>Ventil.-BOSUP</name>
             <value>Aus</value>
         </item>
-        <item id='0x939ec4'>
+        <item id='0x164c024'>
             <name>Verdichter 1</name>
             <value>Aus</value>
         </item>
-        <item id='0x9313f4'>
+        <item id='0x164cbec'>
             <name>ZIP</name>
             <value>Aus</value>
         </item>
-        <item id='0x93cd14'>
+        <item id='0x164cd0c'>
             <name>ZUP</name>
-            <value>Ein</value>
+            <value>Aus</value>
         </item>
-        <item id='0x93a244'>
+        <item id='0x164c06c'>
             <name>ZWE 1</name>
             <value>Aus</value>
         </item>
-        <item id='0x93a28c'>
+        <item id='0x164c0b4'>
             <name>ZWE 2 - SST</name>
             <value>Aus</value>
         </item>
-        <item id='0x93cd4c'>
+        <item id='0x164cd54'>
             <name>ZWE 3</name>
             <value>Aus</value>
         </item>
-        <item id='0x93cd94'>
+        <item id='0x164cd9c'>
             <name>SLP</name>
             <value>Aus</value>
         </item>
-        <item id='0x8a9f5c'>
+        <item id='0x164cebc'>
             <name>FUP 2</name>
             <value>Aus</value>
         </item>
-        <item id='0x8ade54'>
+        <item id='0x164cf94'>
             <name>FUP 3</name>
             <value>Aus</value>
         </item>
-        <item id='0x8ade9c'>
+        <item id='0x164cfdc'>
             <name>AO 1</name>
             <value>10.00 V</value>
         </item>
-        <item id='0x8adee4'>
+        <item id='0x164d024'>
             <name>AO 2</name>
             <value>10.00 V</value>
         </item>
-        <item id='0x8adab4'>
+        <item id='0x164d06c'>
             <name>AO 21</name>
             <value>0.00 V</value>
         </item>
-        <item id='0x8adafc'>
+        <item id='0x164d0b4'>
             <name>AO 22</name>
             <value>0.00 V</value>
         </item>
-        <item id='0x939854'>
+        <item id='0x164e384'>
             <name>HUP</name>
-            <value>100.0 %</value>
+            <value>45.4 %</value>
         </item>
-        <item id='0x8ae32c'>
+        <item id='0x164e42c'>
             <name>Freq. Sollwert</name>
             <value>0 RPM</value>
         </item>
-        <item id='0x939d5c'>
+        <item id='0x164e4c4'>
             <name>Freq. aktuell</name>
             <value>0 RPM</value>
         </item>
-        <item id='0x93ad64'>
+        <item id='0x164e66c'>
             <name>Ventilatordrehzahl</name>
             <value>0 RPM</value>
         </item>
-        <item id='0x93adac'>
+        <item id='0x164e6b4'>
             <name>EEV Heizen</name>
             <value>0.0 %</value>
         </item>
-        <item id='0x93adf4'>
+        <item id='0x164e6fc'>
             <name>EEV Kühlen</name>
             <value>0.0 %</value>
         </item>
         <name>Ausgänge</name>
     </item>
-    <item id='0x92d654'>
+    <item id='0x1550b8c'>
         <name>Ablaufzeiten</name>
-        <item id='0x9368cc'>
+        <item id='0x164e84c'>
             <name>WP Seit</name>
-            <value>00:00:00</value>
+            <value>00:00:01</value>
         </item>
-        <item id='0x93a8d4'>
+        <item id='0x164e894'>
             <name>ZWE1 seit</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8aa404'>
+        <item id='0x164e8dc'>
             <name>ZWE2 seit</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8aa4b4'>
+        <item id='0x164e96c'>
             <name>Netzeinschaltv.</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8aa4ec'>
+        <item id='0x164be1c'>
             <name>SSP-Zeit</name>
-            <value>00:00:00</value>
+            <value>00:00:21</value>
         </item>
-        <item id='0x8aa51c'>
+        <item id='0x164e9a4'>
             <name>VD-Stand</name>
-            <value>03:40:10</value>
+            <value>00:04:40</value>
         </item>
-        <item id='0x8aae84'>
+        <item id='0x164e9e4'>
             <name>HRM-Zeit</name>
-            <value>03:09:18</value>
-        </item>
-        <item id='0x8aaecc'>
-            <name>HRW-Zeit</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8aaf14'>
+        <item id='0x164ea2c'>
+            <name>HRW-Zeit</name>
+            <value>00:11:24</value>
+        </item>
+        <item id='0x164ea74'>
             <name>TDI seit</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x8aaf94'>
+        <item id='0x164eaf4'>
             <name>Sperre WW</name>
             <value>00:00:00</value>
         </item>
-        <item id='0x937cfc'>
+        <item id='0x164ebe4'>
             <name>Freig. ZWE</name>
-            <value>00:00:00</value>
+            <value>01:00:00</value>
         </item>
-        <item id='0x937d84'>
+        <item id='0x164ec6c'>
             <name>Freigabe Kühlung</name>
-            <value>00:00:00</value>
+            <value>11:59:59</value>
+        </item>
+        <item id='0x164eca4'>
+            <name>Abschaltung VD</name>
         </item>
         <name>Ablaufzeiten</name>
     </item>
-    <item id='0x92100c'>
+    <item id='0x15fe91c'>
         <name>Betriebsstunden</name>
-        <item id='0x8acf1c'>
+        <item id='0x164d8c4'>
             <name>Betriebstund. VD1</name>
-            <value>6245h</value>
+            <value>10435h</value>
         </item>
-        <item id='0x8a8d5c'>
+        <item id='0x164d90c'>
             <name>Impulse Verdichter 1</name>
-            <value>5024</value>
+            <value>5481</value>
         </item>
-        <item id='0x8a8da4'>
+        <item id='0x164d954'>
             <name>Laufzeit Ø VD1</name>
-            <value>01:14</value>
+            <value>01:54</value>
         </item>
-        <item id='0x8a8ec4'>
+        <item id='0x164da74'>
             <name>Betriebstunden ZWE1</name>
             <value>72h</value>
         </item>
-        <item id='0x8aa8a4'>
+        <item id='0x164dabc'>
             <name>Betriebstunden ZWE2</name>
             <value>3h</value>
         </item>
-        <item id='0x8aa934'>
+        <item id='0x164db4c'>
             <name>Betriebstunden WP</name>
-            <value>6245h</value>
+            <value>10435h</value>
         </item>
-        <item id='0x8aa97c'>
+        <item id='0x164db94'>
             <name>Betriebstunden Heiz.</name>
-            <value>5473h</value>
+            <value>9309h</value>
         </item>
-        <item id='0x8aa9c4'>
+        <item id='0x164dbdc'>
             <name>Betriebstunden WW</name>
-            <value>771h</value>
+            <value>1125h</value>
         </item>
-        <item id='0x9272fc'>
+        <item id='0x164dcb4'>
             <name>Anteil PV</name>
-            <value>0h</value>
+            <value>230h</value>
         </item>
         <name>Betriebsstunden</name>
     </item>
-    <item id='0x92edb4'>
+    <item id='0x15fe954'>
         <name>Fehlerspeicher</name>
-        <item id='0x933d7c'>
-            <name>12.01.24 11:00:03</name>
-            <value>LIN-Verbindung unterbrochen (761)</value>
+        <item id='0x1650f04'>
+            <name>01.09.24 15:12:47</name>
+            <value>Max. Aussentemp. (718)</value>
         </item>
-        <item id='0x938e24'>
-            <name>12.01.24 08:14:47</name>
-            <value>LIN-Verbindung unterbrochen (761)</value>
+        <item id='0x1650f94'>
+            <name>30.08.24 15:02:04</name>
+            <value>Max. Aussentemp. (718)</value>
         </item>
-        <item id='0x938eb4'>
-            <name>12.01.24 07:09:46</name>
-            <value>LIN-Verbindung unterbrochen (761)</value>
+        <item id='0x1651024'>
+            <name>29.08.24 16:03:24</name>
+            <value>Max. Aussentemp. (718)</value>
         </item>
-        <item id='0x938f44'>
-            <name>11.01.24 21:58:28</name>
-            <value>LIN-Verbindung unterbrochen (761)</value>
+        <item id='0x16510b4'>
+            <name>29.08.24 14:22:33</name>
+            <value>Max. Aussentemp. (718)</value>
         </item>
-        <item id='0x8aa574'>
-            <name>11.09.23 15:30:46</name>
+        <item id='0x1651144'>
+            <name>12.08.24 14:12:13</name>
             <value>Max. Aussentemp. (718)</value>
         </item>
         <name>Fehlerspeicher</name>
     </item>
-    <item id='0x92d8ec'>
+    <item id='0xa4afac'>
         <name>Abschaltungen</name>
-        <item id='0x937afc'>
-            <name>11.01.24 21:26:03</name>
-            <value>Durchfluss</value>
+        <item id='0x1651574'>
+            <name>09.03.25 09:04:12</name>
+            <value>keine Anf.</value>
         </item>
-        <item id='0x937a7c'>
-            <name>11.01.24 21:19:16</name>
-            <value>Durchfluss</value>
+        <item id='0x16514f4'>
+            <name>08.03.25 11:25:21</name>
+            <value>keine Anf.</value>
         </item>
-        <item id='0x8aad34'>
-            <name>11.01.24 21:12:29</name>
-            <value>Durchfluss</value>
+        <item id='0x1651474'>
+            <name>08.03.25 09:22:52</name>
+            <value>keine Anf.</value>
         </item>
-        <item id='0x8aacb4'>
-            <name>11.01.24 21:05:42</name>
-            <value>Durchfluss</value>
+        <item id='0x16513f4'>
+            <name>07.03.25 09:26:21</name>
+            <value>keine Anf.</value>
         </item>
-        <item id='0x8aac34'>
-            <name>11.01.24 20:58:55</name>
-            <value>Durchfluss</value>
+        <item id='0x1651374'>
+            <name>06.03.25 20:47:53</name>
+            <value>keine Anf.</value>
         </item>
         <name>Abschaltungen</name>
     </item>
-    <item id='0x921e6c'>
+    <item id='0xa4afe4'>
         <name>Anlagenstatus</name>
-        <item id='0x8a7fdc'>
+        <item id='0x16518c4'>
             <name>Wärmepumpen Typ</name>
             <value>LW 8</value>
         </item>
-        <item id='0x8a800c'>
+        <item id='0x16518f4'>
             <name>Wärmepumpen Typ</name>
             <value>CMD_6</value>
         </item>
-        <item id='0x8a80c4'>
+        <item id='0x16519bc'>
             <name>Softwarestand</name>
-            <value>V3.89.0</value>
+            <value>V3.90.4</value>
         </item>
-        <item id='0x934ec4'>
+        <item id='0x1651a04'>
             <name>Revision</name>
-            <value>9724</value>
+            <value>12639</value>
         </item>
-        <item id='0x934f1c'>
+        <item id='0x1651a5c'>
             <name>HZ/IO</name>
             <value>
-                <![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>9393</span></div><div class='boardInfoLine'><span>  CPU:</span><span>3</span></div>]]></value>
+                <![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>11298</span></div><div class='boardInfoLine'><span>  CPU:</span><span>3</span></div>]]></value>
         </item>
-        <item id='0x934fa4'>
+        <item id='0x1651c2c'>
             <name>ASB</name>
             <value>
-                <![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>9562</span></div><div class='boardInfoLine'><span>  HW Revision:</span><span>5</span></div>]]></value>
+                <![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>11417</span></div><div class='boardInfoLine'><span>  HW Revision:</span><span>5</span></div>]]></value>
         </item>
-        <item id='0x8ab6ec'>
+        <item id='0x1651e0c'>
+            <name>Inverter</name>
+            <value><![CDATA[<div class='boardInfoLine'><span>  SW Version:</span><span>49</span></div>]]></value>
+        </item>
+        <item id='0x1651f04'>
             <name>Bedienteil</name>
-            <value><![CDATA[<div class='boardInfoLine'><span>  Revision:</span><span>2003</span></div>]]></value>
+            <value><![CDATA[<div class='boardInfoLine'><span>  HW Revision:</span><span>2003</span></div>]]></value>
         </item>
-        <item id='0x8ab804'>
-            <name>Inverter SW Version</name>
-            <value>49</value>
-        </item>
-        <item id='0x8ab87c'>
+        <item id='0x1652024'>
             <name>Bivalenz Stufe</name>
             <value>1</value>
         </item>
-        <item id='0x8ab8b4'>
+        <item id='0x165205c'>
             <name>Betriebszustand</name>
-            <value>Heizen</value>
+            <value></value>
         </item>
-        <item id='0x8ad2d4'>
+        <item id='0x165209c'>
             <name>Heizleistung Ist</name>
             <value>0.00 kW</value>
         </item>
-        <item id='0x8ad48c'>
+        <item id='0x16520e4'>
+            <name>Leistungsaufnahme</name>
+            <value>0.00 kW</value>
+        </item>
+        <item id='0x1652294'>
             <name>Abtaubedarf</name>
             <value>0.0%</value>
         </item>
-        <item id='0x8ad4c4'>
+        <item id='0x16522cc'>
             <name>Letzte Abt.</name>
-            <value>11.01.24 12:46</value>
+            <value>09.03.25 06:44</value>
         </item>
         <name>Anlagenstatus</name>
     </item>
-    <item id='0x8aabe4'>
+    <item id='0x164ba14'>
         <name>Energiemonitor</name>
-        <item id='0x8ab37c'>
+        <item id='0x165253c'>
             <name>Wärmemenge</name>
-            <item id='0x8a4694'>
+            <item id='0x165294c'>
                 <name>Heizung</name>
-                <value>21231.7 kWh</value>
+                <value>32639.8 kWh</value>
             </item>
-            <item id='0x8a35b4'>
+            <item id='0x1652a24'>
                 <name>Warmwasser</name>
-                <value>3760.4 kWh</value>
+                <value>5481.1 kWh</value>
             </item>
-            <item id='0x8a33f4'>
+            <item id='0x1652d04'>
                 <name>Gesamt</name>
-                <value>24992.1 kWh</value>
+                <value>38120.9 kWh</value>
             </item>
             <name>Wärmemenge</name>
         </item>
-        <item id='0x8ab3f4'>
-            <name>Eingesetzte Energie</name>
-            <item id='0x8a34f4'>
+        <item id='0x1652584'>
+            <name>Leistungsaufnahme</name>
+            <item id='0x16540d4'>
                 <name>Heizung</name>
-                <value>1353.1 kWh</value>
+                <value>3384.0 kWh</value>
             </item>
-            <item id='0x8a4594'>
+            <item id='0x1654174'>
                 <name>Warmwasser</name>
-                <value>301.0 kWh</value>
+                <value>733.6 kWh</value>
             </item>
-            <item id='0x8a4f4c'>
+            <item id='0x1654454'>
                 <name>Gesamt</name>
-                <value>1654.1 kWh</value>
+                <value>4117.6 kWh</value>
             </item>
-            <name>Eingesetzte Energie</name>
+            <name>Leistungsaufnahme</name>
         </item>
         <name>Energiemonitor</name>
     </item>
-    <item id='0x8acb0c'>
+    <item id='0x164ba4c'>
         <name>GLT</name>
-        <item id='0x8a30b4'>
+        <item id='0x16531bc'>
             <name>Art</name>
             <value>Aus</value>
         </item>

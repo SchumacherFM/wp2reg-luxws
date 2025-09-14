@@ -2,6 +2,7 @@ package luxwsclient
 
 import (
 	"context"
+	"encoding/json"
 	"encoding/xml"
 
 	"go.uber.org/zap"
@@ -71,6 +72,11 @@ func (c *Client) Close() error {
 // Login sends a "LOGIN" command. The navigation structure is returned.
 func (c *Client) Login(ctx context.Context, password string) (result *NavRoot, err error) {
 	return result, c.t.RoundTrip(ctx, "LOGIN;"+password, func(payload []byte) error {
+		if json.Valid(payload) {
+			result, err = NewNavRootJSON(payload, "navigation")
+			return err
+		}
+
 		result, err = NewNavRoot(payload, "navigation")
 		return err
 	})
@@ -79,7 +85,12 @@ func (c *Client) Login(ctx context.Context, password string) (result *NavRoot, e
 // Get sends a "GET" command. The page content is returned.
 func (c *Client) Get(ctx context.Context, id string) (result *ContentRoot, err error) {
 	return result, c.t.RoundTrip(ctx, "GET;"+id, func(payload []byte) error {
-		result, err = NewContentRoot(payload, "content")
+		if json.Valid(payload) {
+			result, err = NewContentRootJSON(payload, "content")
+			return err
+		}
+
+		result, err = NewContentRootXML(payload, "content")
 		return err
 	})
 }

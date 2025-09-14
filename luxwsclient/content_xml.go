@@ -1,6 +1,7 @@
 package luxwsclient
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -9,7 +10,7 @@ import (
 	"github.com/hansmi/wp2reg-luxws/luxws"
 )
 
-func NewContentRoot(rawXML []byte, wantLocalName string) (*ContentRoot, error) {
+func NewContentRootXML(rawXML []byte, wantLocalName string) (*ContentRoot, error) {
 	var cr ContentRoot
 	if err := xmlUnmarshal(rawXML, &cr); err != nil {
 		return nil, fmt.Errorf("failed to decode ContentRoot: %w", err)
@@ -20,10 +21,55 @@ func NewContentRoot(rawXML []byte, wantLocalName string) (*ContentRoot, error) {
 	return nil, luxws.ErrIgnore
 }
 
+func ptrTo[T comparable](x T) *T {
+	var empty T
+	if empty == x {
+		return nil
+	}
+	return &x
+}
+
+func NewContentRootJSON(rawJSON []byte, wantLocalName string) (*ContentRoot, error) {
+	var cr ContentJSON
+	if err := json.Unmarshal(rawJSON, &cr); err != nil {
+		return nil, fmt.Errorf("failed to decode ContentRoot: %w", err)
+	}
+	if strings.ToLower(cr.Type) == wantLocalName {
+		var nr ContentRoot
+		nr.XMLName.Local = cr.Type
+
+		nr.Items = make(ContentItems, len(cr.Items))
+		for i, item := range cr.Items {
+			nr.Items[i] = &ContentItem{
+				ID:   item.Id,
+				Name: item.Name,
+			}
+			nr.Items[i].Items = make(ContentItems, len(item.Items))
+			for j, item2 := range item.Items {
+				nr.Items[i].Items[j] = &ContentItem{
+					ID:    item2.Id,
+					Name:  item2.Name,
+					Value: ptrTo(item2.Value),
+				}
+				nr.Items[i].Items[j].Items = make(ContentItems, len(item2.Items))
+				for k, item3 := range item2.Items {
+					nr.Items[i].Items[j].Items[k] = &ContentItem{
+						ID:    item3.Id,
+						Name:  item3.Name,
+						Value: ptrTo(item3.Value),
+					}
+				}
+			}
+		}
+		return &nr, nil
+	}
+	return nil, luxws.ErrIgnore
+}
+
 // ContentRoot contains all items returned by a GET request to a LuxWS server.
 type ContentRoot struct {
 	XMLName xml.Name
-	Items   ContentItems `xml:"item"`
+	Items   ContentItems `xml:"item" json:"items"`
 }
 
 var ErrContentItemNotFound = errors.New("content item not found")

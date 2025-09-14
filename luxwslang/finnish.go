@@ -31,9 +31,11 @@ var Finnish = &Terminology{
 	StatusType:            "Lämpöpumpun tyyppi",
 	StatusSoftwareVersion: "Ohjelmaversio",
 	StatusOperationMode:   "Toimintatila",
+	OperationModeDefault:  "off",
 	OperationModeMapping: map[string]float64{
 		// TODO use finnish names
 		// lower case!
+		"":           OpModeIDOff,
 		"off":        OpModeIDOff,
 		"heating":    OpModeIDHeating,
 		"evu":        OpModeIDEVU,
