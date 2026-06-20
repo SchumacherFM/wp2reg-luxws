@@ -38,6 +38,8 @@ var English = &Terminology{
 		"evu":        OpModeIDEVU,
 		"dhw":        OpModeIDDHW,
 		"defrosting": OpModeIDDefrosting,
+		"cooling":    OpModeIDCooling,
+		"cool":       OpModeIDCooling,
 	},
 	StatusPowerConsumption: "Power Consumption", // fields under "System Status"
 	StatusHeatingCapacity:  "Heating capacity",  // fields under "System Status"

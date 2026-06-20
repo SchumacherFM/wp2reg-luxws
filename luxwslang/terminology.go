@@ -15,6 +15,7 @@ const (
 	OpModeIDDHW
 	OpModeIDEVU
 	OpModeIDDefrosting
+	OpModeIDCooling
 )
 
 // Terminology describes the names and expressions used by a LuxWS-compatible
